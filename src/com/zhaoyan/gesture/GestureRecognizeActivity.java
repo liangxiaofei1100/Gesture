@@ -3,6 +3,9 @@ package com.zhaoyan.gesture;
 import java.io.File;
 import java.util.ArrayList;
 
+import com.zhaoyan.gesture.sos.MessageSender;
+import com.zhaoyan.gesture.util.CopyFile;
+
 import android.app.Activity;
 import android.gesture.Gesture;
 import android.gesture.GestureLibraries;
@@ -13,6 +16,7 @@ import android.gesture.Prediction;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.MotionEvent;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 public class GestureRecognizeActivity extends Activity implements
@@ -24,8 +28,11 @@ public class GestureRecognizeActivity extends Activity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.gestures_main);
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
 		final String path = new File(Environment.getExternalStorageDirectory(),
 				"gestures").getAbsolutePath();
+		CopyFile.copyFile(this, path, null);
 		mLibrary = GestureLibraries.fromFile(path);
 		mLibrary.load();
 
@@ -66,6 +73,9 @@ public class GestureRecognizeActivity extends Activity implements
 						this,
 						"匹配成功，手势：" + prediction.name + "，匹配度："
 								+ prediction.score, Toast.LENGTH_SHORT).show();
+				if ("求救".equals(prediction.name)) {
+					MessageSender.sendMessage(this);
+				}
 			} else {
 				Toast.makeText(
 						this,
