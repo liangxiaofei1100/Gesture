@@ -14,14 +14,30 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name="com.zhaoyan.gesture.GestureRecognizeActivity"
+            android:icon="@drawable/ic_gesturebuilder"
+            android:label="@string/gesture_recognize" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.zhaoyan.gesture.GestureBuilderActivity"
+            android:icon="@drawable/ic_gesturebuilder"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="CreateGestureActivity"
+            android:label="@string/label_create_gesture" />
     </application>
 
 </manifest>
