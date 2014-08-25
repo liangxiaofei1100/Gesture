@@ -18,6 +18,7 @@ package com.zhaoyan.gesture.music;
 
 import android.app.Activity;
 import android.content.ComponentName;
+import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -54,6 +55,12 @@ public class MusicBrowserActivity extends Activity
             mToken = MusicUtils.bindToService(this, autoshuffle);
         }
         MusicUtils.addActivity(this);
+        
+        Intent intent = new Intent();
+        intent.setAction(MediaPlaybackService.PLAY_ACTION);
+        sendBroadcast(intent);
+        
+        moveTaskToBack(false);
     }
 
     @Override

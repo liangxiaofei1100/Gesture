@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
 
+import com.zhaoyan.gesture.music.MediaPlaybackService;
 import com.zhaoyan.gesture.music.MusicBrowserActivity;
 import com.zhaoyan.gesture.sos.MessageSender;
 import com.zhaoyan.gesture.util.CopyFile;
@@ -139,9 +140,15 @@ public class GestureRecognizeActivity extends Activity implements
 				intent.setClass(this, MusicBrowserActivity.class);
 				startActivity(intent);
 			} else if ("上一首".equals(prediction.name)) {
-				mMusicPlayerService.previous();
+//				mMusicPlayerService.previous();
+				Intent intent = new Intent();
+		        intent.setAction(MediaPlaybackService.PREVIOUS_ACTION);
+		        sendBroadcast(intent);
 			} else if ("下一首".equals(prediction.name)) {
-				mMusicPlayerService.next();
+//				mMusicPlayerService.next();
+				Intent intent = new Intent();
+		        intent.setAction(MediaPlaybackService.NEXT_ACTION);
+		        sendBroadcast(intent);
 			}
 		} else {
 			Toast.makeText(this, "无匹配手势", Toast.LENGTH_SHORT).show();

@@ -98,6 +98,7 @@ public class MediaPlaybackService extends Service {
     public static final String PAUSE_ACTION = "com.zhaoyan.gesture.music.musicservicecommand.pause";
     public static final String PREVIOUS_ACTION = "com.zhaoyan.gesture.music.musicservicecommand.previous";
     public static final String NEXT_ACTION = "com.zhaoyan.gesture.music.musicservicecommand.next";
+    public static final String PLAY_ACTION = "com.zhaoyan.gesture.music.musicservicecommand.play";
 
     private static final int TRACK_ENDED = 1;
     private static final int RELEASE_WAKELOCK = 2;
@@ -256,6 +257,7 @@ public class MediaPlaybackService extends Service {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             String cmd = intent.getStringExtra("command");
+            Log.d(LOGTAG, "mIntentReceiver.onReceive " + action + " / " + cmd);
             MusicUtils.debugLog("mIntentReceiver.onReceive " + action + " / " + cmd);
             if (CMDNEXT.equals(cmd) || NEXT_ACTION.equals(action)) {
                 next(true);
@@ -271,7 +273,7 @@ public class MediaPlaybackService extends Service {
             } else if (CMDPAUSE.equals(cmd) || PAUSE_ACTION.equals(action)) {
                 pause();
                 mPausedByTransientLossOfFocus = false;
-            } else if (CMDPLAY.equals(cmd)) {
+            } else if (CMDPLAY.equals(cmd) || PLAY_ACTION.equals(action)) {
                 play();
             } else if (CMDSTOP.equals(cmd)) {
                 pause();
@@ -334,6 +336,7 @@ public class MediaPlaybackService extends Service {
         commandFilter.addAction(PAUSE_ACTION);
         commandFilter.addAction(NEXT_ACTION);
         commandFilter.addAction(PREVIOUS_ACTION);
+        commandFilter.addAction(PLAY_ACTION);
         registerReceiver(mIntentReceiver, commandFilter);
         
         PowerManager pm = (PowerManager)getSystemService(Context.POWER_SERVICE);
