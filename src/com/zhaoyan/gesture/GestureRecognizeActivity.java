@@ -143,19 +143,18 @@ public class GestureRecognizeActivity extends Activity implements
 	}
 	
 	// open flash light
-	@SuppressLint("NewApi")
 	protected void openFlashlight() {
 		Toast.makeText(
 				this, "手电筒开启", Toast.LENGTH_SHORT).show();
 		try {
 			mCamera = Camera.open();
 			int textureId = 0;
-			mCamera.setPreviewTexture(new SurfaceTexture(textureId));
-			mCamera.startPreview();
-
 			mParameters = mCamera.getParameters();
 			mParameters.setFlashMode(Parameters.FLASH_MODE_TORCH);
 			mCamera.setParameters(mParameters);
+			
+			mCamera.setPreviewTexture(new SurfaceTexture(textureId));
+			mCamera.startPreview();
 			mIsFlashOn = true;
 		} catch (Exception e) {
 			Log.e(TAG, "ERROR:" + e.toString());

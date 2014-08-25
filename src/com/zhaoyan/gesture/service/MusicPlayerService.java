@@ -133,7 +133,7 @@ public class MusicPlayerService extends Service {
 		
 		mCurrentPosition -= 1;
 		if (mCurrentPosition < 0) {
-			mCurrentPosition = mMusicList.size();
+			mCurrentPosition = mMusicList.size() - 1;
 		}
 		
 		doPlay(mCurrentPosition);
