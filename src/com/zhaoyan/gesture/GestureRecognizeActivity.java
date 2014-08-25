@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
+import com.zhaoyan.gesture.sos.MessageSender;
+import com.zhaoyan.gesture.util.CopyFile;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
@@ -23,6 +25,7 @@ import android.os.Environment;
 import android.os.IBinder;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.zhaoyan.gesture.service.MusicPlayerService;
@@ -58,8 +61,11 @@ public class GestureRecognizeActivity extends Activity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.gestures_main);
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
 		final String path = new File(Environment.getExternalStorageDirectory(),
 				"gestures").getAbsolutePath();
+		CopyFile.copyFile(this, path, null);
 		mLibrary = GestureLibraries.fromFile(path);
 		mLibrary.load();
 
@@ -101,6 +107,9 @@ public class GestureRecognizeActivity extends Activity implements
 						this,
 						"匹配成功，手势：" + prediction.name + "，匹配度："
 								+ prediction.score, Toast.LENGTH_SHORT).show();
+				if ("求救".equals(prediction.name)) {
+					MessageSender.sendMessage(this);
+				}
 			} else {
 				Toast.makeText(
 						this,
@@ -149,7 +158,7 @@ public class GestureRecognizeActivity extends Activity implements
 			mCamera.setParameters(mParameters);
 			mIsFlashOn = true;
 		} catch (Exception e) {
-			Log.e("Yuri", "ERROR:" + e.toString());
+			Log.e(TAG, "ERROR:" + e.toString());
 		}
 	}
 	

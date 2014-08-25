@@ -222,9 +222,11 @@ public class MusicPlayerService extends Service {
 					} while (cursor.moveToNext());
 					cursor.close();
 					Log.d(TAG, "Load Music finish");
-					for (MediaInfo mediaInfo : mMusicList) {
-						Log.d(TAG, "" + mediaInfo.getTitle());
-					}
+					//test
+//					for (MediaInfo mediaInfo : mMusicList) {
+//						Log.d(TAG, "" + mediaInfo.getTitle());
+//					}
+					//test
 					isLoadFinish = true;
 				}
 			}
