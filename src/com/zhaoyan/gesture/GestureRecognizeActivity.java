@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
+
+import com.zhaoyan.gesture.music.MusicBrowserActivity;
 import com.zhaoyan.gesture.sos.MessageSender;
 import com.zhaoyan.gesture.util.CopyFile;
 import android.app.Activity;
@@ -123,15 +125,19 @@ public class GestureRecognizeActivity extends Activity implements
 					openFlashlight();
 				}
 			} else if ("音乐".equals(prediction.name)) {
-				boolean isPlaying = mMusicPlayerService.isPlaying();
-				if (mIsMusicOn && isPlaying) {
-					mMusicPlayerService.pause();
-				} else if (mIsMusicOn && !isPlaying) {
-					mMusicPlayerService.start();
-				} else {
-					mMusicPlayerService.startMusic();
-					mIsMusicOn = true;
-				}
+//				boolean isPlaying = mMusicPlayerService.isPlaying();
+//				if (mIsMusicOn && isPlaying) {
+//					mMusicPlayerService.pause();
+//				} else if (mIsMusicOn && !isPlaying) {
+//					mMusicPlayerService.start();
+//				} else {
+//					mMusicPlayerService.startMusic();
+//					mIsMusicOn = true;
+//				}
+				
+				Intent intent = new Intent();
+				intent.setClass(this, MusicBrowserActivity.class);
+				startActivity(intent);
 			} else if ("上一首".equals(prediction.name)) {
 				mMusicPlayerService.previous();
 			} else if ("下一首".equals(prediction.name)) {
