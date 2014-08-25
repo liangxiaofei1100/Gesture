@@ -7,6 +7,11 @@
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="19" />
+    
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -38,6 +43,9 @@
         <activity
             android:name="CreateGestureActivity"
             android:label="@string/label_create_gesture" />
+        <service 
+            android:name="com.zhaoyan.gesture.service.MusicPlayerService"
+            ></service>
     </application>
 
 </manifest>
