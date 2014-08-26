@@ -24,6 +24,7 @@ import java.util.Random;
 import java.util.Vector;
 
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.appwidget.AppWidgetManager;
@@ -39,12 +40,14 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
+import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.media.AudioManager.OnAudioFocusChangeListener;
 import android.media.MediaPlayer;
 import android.media.RemoteControlClient;
 import android.media.audiofx.AudioEffect;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -54,6 +57,8 @@ import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -93,6 +98,7 @@ public class MediaPlaybackService extends Service {
     public static final String CMDPLAY = "play";
     public static final String CMDPREVIOUS = "previous";
     public static final String CMDNEXT = "next";
+    public static final String CMDNOTIF = "buttonId";
 
     public static final String TOGGLEPAUSE_ACTION = "com.zhaoyan.gesture.music.musicservicecommand.togglepause";
     public static final String PAUSE_ACTION = "com.zhaoyan.gesture.music.musicservicecommand.pause";
@@ -157,6 +163,16 @@ public class MediaPlaybackService extends Service {
     
     // interval after which we stop the service when idle
     private static final int IDLE_DELAY = 60000;
+    
+    private Notification mNotification;
+    private  NotificationManager mManager;
+    
+    //async album art to get current song's album and replace it on nitificaiton
+    private AlbumArtWorker mAsyncAlbumArtWorker = null;
+    //for album art backup for notification when skip changed
+    private Bitmap mAlbumArt = null;
+    
+    private long mPreAudioId = -1;
 
     private RemoteControlClient mRemoteControlClient;
 
@@ -277,6 +293,9 @@ public class MediaPlaybackService extends Service {
                 play();
             } else if (CMDSTOP.equals(cmd)) {
                 pause();
+                if (intent.getIntExtra(CMDNOTIF, 0) == 3) {
+                    stopForeground(true);
+                }
                 mPausedByTransientLossOfFocus = false;
                 seek(0);
             } else if (MediaAppWidgetProvider.CMDAPPWIDGETUPDATE.equals(cmd)) {
@@ -305,13 +324,17 @@ public class MediaPlaybackService extends Service {
         ComponentName rec = new ComponentName(getPackageName(),
                 MediaButtonIntentReceiver.class.getName());
         mAudioManager.registerMediaButtonEventReceiver(rec);
-        // TODO update to new constructor
-//        mRemoteControlClient = new RemoteControlClient(rec);
+        
+        //add by yuri add mediabutton contronal
+//        Intent mediaButtonIntent = new Intent(Intent.ACTION_MEDIA_BUTTON);
+//        mediaButtonIntent.setComponent(rec);
+//        PendingIntent mediaPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0,
+//                mediaButtonIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//        mRemoteControlClient = new RemoteControlClient(mediaPendingIntent);
 //        mAudioManager.registerRemoteControlClient(mRemoteControlClient);
 //
 //        int flags = RemoteControlClient.FLAG_KEY_MEDIA_PREVIOUS
-//                | RemoteControlClient.FLAG_KEY_MEDIA_NEXT
-//                | RemoteControlClient.FLAG_KEY_MEDIA_PLAY
+//                | RemoteControlClient.FLAG_KEY_MEDIA_NEXT | RemoteControlClient.FLAG_KEY_MEDIA_PLAY
 //                | RemoteControlClient.FLAG_KEY_MEDIA_PAUSE
 //                | RemoteControlClient.FLAG_KEY_MEDIA_PLAY_PAUSE
 //                | RemoteControlClient.FLAG_KEY_MEDIA_STOP;
@@ -347,6 +370,9 @@ public class MediaPlaybackService extends Service {
         // system will relaunch it. Make sure it gets stopped again in that case.
         Message msg = mDelayedStopHandler.obtainMessage();
         mDelayedStopHandler.sendMessageDelayed(msg, IDLE_DELAY);
+        
+        mManager = (NotificationManager) getApplicationContext().getSystemService(
+				Context.NOTIFICATION_SERVICE);
     }
 
     @Override
@@ -364,7 +390,7 @@ public class MediaPlaybackService extends Service {
         mPlayer = null;
 
         mAudioManager.abandonAudioFocus(mAudioFocusListener);
-        //mAudioManager.unregisterRemoteControlClient(mRemoteControlClient);
+//        mAudioManager.unregisterRemoteControlClient(mRemoteControlClient);
         
         // make sure there aren't any other messages coming
         mDelayedStopHandler.removeCallbacksAndMessages(null);
@@ -381,6 +407,12 @@ public class MediaPlaybackService extends Service {
             mUnmountReceiver = null;
         }
         mWakeLock.release();
+        mManager.cancelAll();
+        
+        if (mAsyncAlbumArtWorker != null) {
+			mAsyncAlbumArtWorker.cancel(true);
+		}
+        
         super.onDestroy();
     }
     
@@ -628,7 +660,6 @@ public class MediaPlaybackService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         mServiceStartId = startId;
         mDelayedStopHandler.removeCallbacksAndMessages(null);
-
         if (intent != null) {
             String action = intent.getAction();
             String cmd = intent.getStringExtra("command");
@@ -1122,40 +1153,49 @@ public class MediaPlaybackService extends Service {
             mMediaplayerHandler.removeMessages(FADEDOWN);
             mMediaplayerHandler.sendEmptyMessage(FADEUP);
 
-            RemoteViews views = new RemoteViews(getPackageName(), R.layout.statusbar);
-            views.setImageViewResource(R.id.icon, R.drawable.stat_notify_musicplayer);
-            if (getAudioId() < 0) {
-                // streaming
-                views.setTextViewText(R.id.trackname, getPath());
-                views.setTextViewText(R.id.artistalbum, null);
-            } else {
-                String artist = getArtistName();
-                views.setTextViewText(R.id.trackname, getTrackName());
-                if (artist == null || artist.equals(MediaStore.UNKNOWN_STRING)) {
-                    artist = getString(R.string.unknown_artist_name);
-                }
-                String album = getAlbumName();
-                if (album == null || album.equals(MediaStore.UNKNOWN_STRING)) {
-                    album = getString(R.string.unknown_album_name);
-                }
-                
-                views.setTextViewText(R.id.artistalbum,
-                        getString(R.string.notification_artist_album, artist, album)
-                        );
-            }
-            
-            Notification status = new Notification();
-            status.contentView = views;
-            status.flags |= Notification.FLAG_ONGOING_EVENT;
-            status.icon = R.drawable.stat_notify_musicplayer;
-            status.contentIntent = PendingIntent.getActivity(this, 0,
-                    new Intent("com.zhaoyan.gesture.music.PLAYBACK_VIEWER")
-                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), 0);
-            startForeground(PLAYBACKSERVICE_STATUS, status);
+            //modify by yuri 
+            //use new notification
+//            RemoteViews views = new RemoteViews(getPackageName(), R.layout.statusbar);
+//            views.setImageViewResource(R.id.icon, R.drawable.stat_notify_musicplayer);
+//            if (getAudioId() < 0) {
+//                // streaming
+//                views.setTextViewText(R.id.trackname, getPath());
+//                views.setTextViewText(R.id.artistalbum, null);
+//            } else {
+//                String artist = getArtistName();
+//                views.setTextViewText(R.id.trackname, getTrackName());
+//                if (artist == null || artist.equals(MediaStore.UNKNOWN_STRING)) {
+//                    artist = getString(R.string.unknown_artist_name);
+//                }
+//                String album = getAlbumName();
+//                if (album == null || album.equals(MediaStore.UNKNOWN_STRING)) {
+//                    album = getString(R.string.unknown_album_name);
+//                }
+//                
+//                views.setTextViewText(R.id.artistalbum,
+//                        getString(R.string.notification_artist_album, artist, album)
+//                        );
+//            }
+//            
+//            Notification status = new Notification();
+//            status.contentView = views;
+//            status.flags |= Notification.FLAG_ONGOING_EVENT;
+//            status.icon = R.drawable.stat_notify_musicplayer;
+//            status.contentIntent = PendingIntent.getActivity(this, 0,
+//                    new Intent("com.zhaoyan.gesture.music.PLAYBACK_VIEWER")
+//                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), 0);
+//            startForeground(PLAYBACKSERVICE_STATUS, status);
+            updateNotification(this, null);
             if (!mIsSupposedToBePlaying) {
                 mIsSupposedToBePlaying = true;
                 notifyChange(PLAYSTATE_CHANGED);
             }
+            
+            //start AlbumArtWorker to get album art for notification
+            if (mPreAudioId != getAudioId()) {
+            	mAsyncAlbumArtWorker = new AlbumArtWorker();
+                mAsyncAlbumArtWorker.execute(Long.valueOf(getAlbumId()));
+			}
 
         } else if (mPlayListLen <= 0) {
             // This is mostly so that if you press 'play' on a bluetooth headset
@@ -1163,6 +1203,57 @@ public class MediaPlaybackService extends Service {
             // something.
             setShuffleMode(SHUFFLE_AUTO);
         }
+        
+        //reset Pre audio id
+        mPreAudioId = -1;
+    }
+    
+    private void updateNotification(Context context, Bitmap bitmap) {
+        RemoteViews views = new RemoteViews(getPackageName(), R.layout.statusbar);
+   
+        if (bitmap != null) {
+            views.setViewVisibility(R.id.status_bar_icon, View.GONE);
+            views.setViewVisibility(R.id.status_bar_album_art, View.VISIBLE);
+            views.setImageViewBitmap(R.id.status_bar_album_art, bitmap);
+            mAlbumArt = bitmap;
+        } else {
+            views.setViewVisibility(R.id.status_bar_icon, View.VISIBLE);
+            views.setViewVisibility(R.id.status_bar_album_art, View.GONE);
+        }
+        
+        Intent intent;
+        PendingIntent pIntent;
+        
+        intent = new Intent("com.zhaoyan.gesture.music.PLAYBACK_VIEWER");
+        intent.putExtra("collaspe_statusbar", true);
+        pIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        views.setOnClickPendingIntent(R.id.status_bar_ll, pIntent);
+        
+        intent = new Intent(PREVIOUS_ACTION);
+        intent.setClass(context, MediaPlaybackService.class);
+        pIntent = PendingIntent.getService(context, 0, intent, 0);
+        views.setOnClickPendingIntent(R.id.status_bar_prev, pIntent);
+        
+        intent = new Intent(TOGGLEPAUSE_ACTION);
+        intent.setClass(context, MediaPlaybackService.class);
+        pIntent = PendingIntent.getService(context, 0, intent, 0);
+        views.setOnClickPendingIntent(R.id.status_bar_play, pIntent);
+        
+        intent = new Intent(NEXT_ACTION);
+        intent.setClass(context, MediaPlaybackService.class);
+        pIntent = PendingIntent.getService(context, 0, intent, 0);
+        views.setOnClickPendingIntent(R.id.status_bar_next, pIntent);
+        
+        views.setImageViewResource(R.id.status_bar_play, android.R.drawable.ic_media_pause);
+        views.setTextViewText(R.id.status_bar_track_name, getTrackName());
+        views.setTextViewText(R.id.status_bar_artist_name, getArtistName());
+
+        mNotification = new Notification.Builder(this).getNotification();
+        mNotification.contentView = views;
+        mNotification.flags = Notification.FLAG_ONGOING_EVENT;
+        mNotification.icon = R.drawable.stat_notify_musicplayer;
+        mNotification.contentIntent = PendingIntent.getService(context, 0, intent, 0);
+        startForeground(PLAYBACKSERVICE_STATUS, mNotification);
     }
     
     private void stop(boolean remove_status_icon) {
@@ -1362,10 +1453,21 @@ public class MediaPlaybackService extends Service {
     }
     
     private void gotoIdleState() {
+    	//clear album art 
+    	mAlbumArt = null;
+    	
         mDelayedStopHandler.removeCallbacksAndMessages(null);
         Message msg = mDelayedStopHandler.obtainMessage();
         mDelayedStopHandler.sendMessageDelayed(msg, IDLE_DELAY);
         stopForeground(true);
+        
+        if (mNotification != null) {
+        	mNotification.contentView.setImageViewResource(R.id.status_bar_play,
+                    mIsSupposedToBePlaying ? android.R.drawable.ic_media_play
+                            : android.R.drawable.ic_media_pause);
+            mManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+            mManager.notify(PLAYBACKSERVICE_STATUS, mNotification);
+        }
     }
     
     private void saveBookmarkIfNeeded() {
@@ -1868,6 +1970,8 @@ public class MediaPlaybackService extends Service {
                 // and allow the device to go to sleep.
                 // This temporary wakelock is released when the RELEASE_WAKELOCK
                 // message is processed, but just in case, put a timeout on it.
+            	mPreAudioId = getAudioId();
+            	
                 mWakeLock.acquire(30000);
                 mHandler.sendEmptyMessage(TRACK_ENDED);
                 mHandler.sendEmptyMessage(RELEASE_WAKELOCK);
@@ -2044,4 +2148,42 @@ public class MediaPlaybackService extends Service {
     }
 
     private final IBinder mBinder = new ServiceStub(this);
+    
+    /**
+     * the class use to get the album art for notification
+     * @author Yuri
+     *
+     */
+    private class AlbumArtWorker extends AsyncTask<Long, Void, Bitmap>{
+
+		@Override
+		protected Bitmap doInBackground(Long... albumId) {
+			Bitmap bitmap = null;
+			try {
+				long id = albumId[0].longValue();
+				bitmap = MusicUtils.getArtwork(MediaPlaybackService.this, -1, id, true);
+				//for special file whose decode data is null
+				if (bitmap == null) {
+					bitmap = MusicUtils.getDefaultArtwork(MediaPlaybackService.this);
+				}
+			} catch (IllegalArgumentException e) {
+				Log.e(LOGTAG, "AlbumArtWOrker called with rong parameters");
+				return null;
+			}
+			return bitmap;
+		}
+		
+		/**
+		 * update the notification if got the bitmap
+		 */
+		@Override
+		protected void onPostExecute(Bitmap result) {
+			super.onPostExecute(result);
+			Log.d(LOGTAG, "AlbumArtWorker.onPostExecute");
+			if (mIsSupposedToBePlaying) {
+				updateNotification(MediaPlaybackService.this, result);
+			}
+		}
+    	
+    }
 }
