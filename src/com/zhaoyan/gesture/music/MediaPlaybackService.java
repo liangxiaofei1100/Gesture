@@ -381,6 +381,7 @@ public class MediaPlaybackService extends Service {
         if (isPlaying()) {
             Log.e(LOGTAG, "Service being destroyed while still playing.");
         }
+        Log.d(LOGTAG, "onDestory()");
         // release all MediaPlayer resources, including the native player and wakelocks
         Intent i = new Intent(AudioEffect.ACTION_CLOSE_AUDIO_EFFECT_CONTROL_SESSION);
         i.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, getAudioSessionId());
@@ -660,9 +661,11 @@ public class MediaPlaybackService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         mServiceStartId = startId;
         mDelayedStopHandler.removeCallbacksAndMessages(null);
+        Log.d(LOGTAG, "onStartCommand.intent:" + intent);
         if (intent != null) {
             String action = intent.getAction();
             String cmd = intent.getStringExtra("command");
+            Log.d(LOGTAG, "onStartCommand " + action + " / " + cmd);
             MusicUtils.debugLog("onStartCommand " + action + " / " + cmd);
 
             if (CMDNEXT.equals(cmd) || NEXT_ACTION.equals(action)) {
@@ -1185,7 +1188,7 @@ public class MediaPlaybackService extends Service {
 //                    new Intent("com.zhaoyan.gesture.music.PLAYBACK_VIEWER")
 //                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), 0);
 //            startForeground(PLAYBACKSERVICE_STATUS, status);
-            updateNotification(this, null);
+            updateNotification(MediaPlaybackService.this, null);
             if (!mIsSupposedToBePlaying) {
                 mIsSupposedToBePlaying = true;
                 notifyChange(PLAYSTATE_CHANGED);

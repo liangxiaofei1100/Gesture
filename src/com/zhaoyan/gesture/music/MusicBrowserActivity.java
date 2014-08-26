@@ -55,12 +55,6 @@ public class MusicBrowserActivity extends Activity
             mToken = MusicUtils.bindToService(this, autoshuffle);
         }
         MusicUtils.addActivity(this);
-        
-        Intent intent = new Intent();
-        intent.setAction(MediaPlaybackService.PLAY_ACTION);
-        sendBroadcast(intent);
-        
-        moveTaskToBack(false);
     }
 
     @Override
@@ -86,6 +80,10 @@ public class MusicBrowserActivity extends Activity
                 } catch (RemoteException ex) {
                 }
             }
+            
+            Intent intent = new Intent();
+            intent.setAction(MediaPlaybackService.PLAY_ACTION);
+            sendBroadcast(intent);
         }
 
         public void onServiceDisconnected(ComponentName classname) {

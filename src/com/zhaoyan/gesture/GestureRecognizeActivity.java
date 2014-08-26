@@ -3,17 +3,8 @@ package com.zhaoyan.gesture;
 import java.io.File;
 import java.util.ArrayList;
 
-import android.annotation.SuppressLint;
-
-import com.zhaoyan.gesture.music.MediaPlaybackService;
-import com.zhaoyan.gesture.music.MusicBrowserActivity;
-import com.zhaoyan.gesture.sos.MessageSender;
-import com.zhaoyan.gesture.util.CopyFile;
 import android.app.Activity;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.gesture.Gesture;
 import android.gesture.GestureLibraries;
 import android.gesture.GestureLibrary;
@@ -25,13 +16,15 @@ import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.IBinder;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.zhaoyan.gesture.service.MusicPlayerService;
+import com.zhaoyan.gesture.music.MediaPlaybackService;
+import com.zhaoyan.gesture.music.MusicBrowserActivity;
+import com.zhaoyan.gesture.sos.MessageSender;
+import com.zhaoyan.gesture.util.CopyFile;
 
 public class GestureRecognizeActivity extends Activity implements
 		OnGestureListener {
@@ -45,21 +38,6 @@ public class GestureRecognizeActivity extends Activity implements
 	private boolean mIsFlashOn = false;
 	private boolean mIsMusicOn = false;
 	
-	private MusicPlayerService mMusicPlayerService = null;
-	
-	private ServiceConnection mMusicServiceConnection = new ServiceConnection() {
-		public void onServiceConnected(ComponentName className, IBinder service) {
-			Log.d(TAG, "onServiceConnected");
-			mMusicPlayerService = ((MusicPlayerService.LocalBinder) service)
-					.getService();
-		}
-
-		public void onServiceDisconnected(ComponentName className) {
-			Log.d(TAG, "onServiceDisconnected");
-			mMusicPlayerService = null;
-		}
-	};
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -74,8 +52,6 @@ public class GestureRecognizeActivity extends Activity implements
 
 		mGestureOverlayView = (GestureOverlayView) findViewById(R.id.gestures_overlay);
 		mGestureOverlayView.addOnGestureListener(this);
-
-		bindService(new Intent(this,MusicPlayerService.class), mMusicServiceConnection, Context.BIND_AUTO_CREATE);
 	}
 
 	@Override
@@ -113,42 +89,38 @@ public class GestureRecognizeActivity extends Activity implements
 				if ("求救".equals(prediction.name)) {
 					MessageSender.sendMessage(this);
 				}
+				
+				if ("电筒".equals(prediction.name)) {
+					if (mIsFlashOn) {
+						closeFlashlight();
+					} else {
+						openFlashlight();
+					}
+				} else if ("音乐".equals(prediction.name)) {
+					if (mIsMusicOn ) {
+						Intent intent = new Intent();
+				        intent.setAction(MediaPlaybackService.TOGGLEPAUSE_ACTION);
+				        sendBroadcast(intent);
+					} else {
+						Intent intent = new Intent();
+						intent.setClass(this, MusicBrowserActivity.class);
+						startActivity(intent);
+						mIsMusicOn = true;
+					}
+				} else if ("上一首".equals(prediction.name)) {
+					Intent intent = new Intent();
+			        intent.setAction(MediaPlaybackService.PREVIOUS_ACTION);
+			        sendBroadcast(intent);
+				} else if ("下一首".equals(prediction.name)) {
+					Intent intent = new Intent();
+			        intent.setAction(MediaPlaybackService.NEXT_ACTION);
+			        sendBroadcast(intent);
+				}
 			} else {
 				Toast.makeText(
 						this,
 						"匹配度低，手势：" + prediction.name + "，匹配度："
 								+ prediction.score, Toast.LENGTH_SHORT).show();
-			}
-			if ("电筒".equals(prediction.name)) {
-				if (mIsFlashOn) {
-					closeFlashlight();
-				} else {
-					openFlashlight();
-				}
-			} else if ("音乐".equals(prediction.name)) {
-//				boolean isPlaying = mMusicPlayerService.isPlaying();
-//				if (mIsMusicOn && isPlaying) {
-//					mMusicPlayerService.pause();
-//				} else if (mIsMusicOn && !isPlaying) {
-//					mMusicPlayerService.start();
-//				} else {
-//					mMusicPlayerService.startMusic();
-//					mIsMusicOn = true;
-//				}
-				
-				Intent intent = new Intent();
-				intent.setClass(this, MusicBrowserActivity.class);
-				startActivity(intent);
-			} else if ("上一首".equals(prediction.name)) {
-//				mMusicPlayerService.previous();
-				Intent intent = new Intent();
-		        intent.setAction(MediaPlaybackService.PREVIOUS_ACTION);
-		        sendBroadcast(intent);
-			} else if ("下一首".equals(prediction.name)) {
-//				mMusicPlayerService.next();
-				Intent intent = new Intent();
-		        intent.setAction(MediaPlaybackService.NEXT_ACTION);
-		        sendBroadcast(intent);
 			}
 		} else {
 			Toast.makeText(this, "无匹配手势", Toast.LENGTH_SHORT).show();
@@ -195,7 +167,6 @@ public class GestureRecognizeActivity extends Activity implements
 		super.onDestroy();
 		
 		closeFlashlight();
-		unbindService(mMusicServiceConnection);
 	}
 
 }
