@@ -19,4 +19,9 @@
 -->
 <resources>
     <color name="gesture_color">#FFFFFF00</color>
+    
+    <color name="appwidget_text">#ffffffff</color>
+    <color name="transparent">#00000000</color>
+    <color name="press_color">#ff606060</color>
+    <color name="default_color">#00000000</color>
 </resources>

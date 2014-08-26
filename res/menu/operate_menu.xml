@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="@string/sel_all"
+        android:id="@+id/sel_all"
+        android:icon="@drawable/ic_menu_sel_all">
+    </item>
+    <item android:title="@string/desel_all"
+        android:id="@+id/desel_all"
+        android:icon="@drawable/ic_menu_desel_all">
+    </item>
+    <item android:title="@string/add_sel"
+        android:id="@+id/add_sel"
+        android:icon="@drawable/ic_menu_add_sel">
+    </item>
+    <item android:title="@string/add_all"
+        android:id="@+id/add_all"
+        android:icon="@drawable/ic_menu_add_all">
+    </item>
+    <item android:title="@string/del_sel"
+        android:id="@+id/del_sel"
+        android:icon="@drawable/ic_menu_del_sel">
+    </item>
+    <item android:title="@string/del_all"
+        android:id="@+id/del_all"
+        android:icon="@drawable/ic_menu_del_all">
+    </item>
+</menu>
