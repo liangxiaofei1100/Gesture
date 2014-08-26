@@ -22,7 +22,7 @@
     <!-- General -->
     <skip />
     <!-- Application name -->
-    <string name="app_name">手势设置</string>
+    <string name="app_name">指尖轻舞</string>
     <!-- Title, name of the activity used to create a gesture -->
     <string name="label_create_gesture">Create a gesture</string>
     <string name="gesture_recognize">手势识别</string>
@@ -36,6 +36,16 @@
     <string name="button_discard">Discard</string>
     <!-- Label, button used to save a gesture newly created -->
     <string name="button_done">Done</string>
+    
+    <string name="main_music">轻舞随听</string>
+    <string name="main_camera">轻舞随拍</string>
+    <string name="main_quick_capture">轻舞闪拍</string>
+    <string name="main_light">轻舞光芒</string>
+    <string name="main_sos">轻舞生机</string>
+    <string name="main_app_launcher">我的轻舞</string>
+    <string name="main_picture">我的相册</string>
+    <string name="main_app_manager">应用管理</string>
+    <string name="main_more">更多</string>
 
     <!-- Gestures -->
     <skip />

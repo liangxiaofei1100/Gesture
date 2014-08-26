@@ -1,6 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <array name="main_item_icon">
+        <item>@drawable/main_camera_selector</item>
+        <item>@drawable/main_quick_capture_selector</item>
+        <item>@drawable/main_music_selector</item>
+        <item>@drawable/main_light_selector</item>
+        <item>@drawable/main_sos_selector</item>
+        <item>@drawable/main_app_launcher_selector</item>
+        <item>@drawable/main_picture_selector</item>
+        <item>@drawable/main_app_manager_selector</item>
+        <item>@drawable/main_more_selector</item>
+    </array>
+
+    <string-array name="main_item_text">
+        <item>@string/main_camera</item>
+        <item>@string/main_quick_capture</item>
+        <item>@string/main_music</item>
+        <item>@string/main_light</item>
+        <item>@string/main_sos</item>
+        <item>@string/main_app_launcher</item>
+        <item>@string/main_picture</item>
+        <item>@string/main_app_manager</item>
+        <item>@string/main_more</item>
+    </string-array>
+    <string-array name="main_item_classname">
+        <item>com.zhaoyan.juyou.activity.JiFenActivity</item>
+        <item>com.zhaoyan.juyou.activity.ZhaoHuActivity</item>
+        <item>com.zhaoyan.juyou.activity.WiFiAPShareActivity</item>
+        <item>com.zhaoyan.juyou.activity.QRCodeScanActivity</item>
+        <item>com.zhaoyan.juyou.activity.JuYouAppActivity</item>
+        <item>com.zhaoyan.juyou.activity.AppActivity</item>
+        <item>com.zhaoyan.juyou.activity.AppActivity$GameActivity</item>
+        <item>com.zhaoyan.juyou.activity.ImageActivity$PhotoActivity</item>
+        <item>com.zhaoyan.juyou.activity.ImageActivity</item>
+    </string-array>
+
     <!-- Vibrator pattern for feedback about touching a virtual key -->
     <integer-array name="viberatorPattern">
         <item>0</item>
