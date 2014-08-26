@@ -20,6 +20,13 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <!-- General -->
+     <!-- Gestures start -->
+    <string name="gesture_message">求救</string>
+    <string name="gesture_flashlight">电筒</string>
+    <string name="gesture_music">音乐</string>
+    <string name="gesture_next_song">下一首</string>
+    <string name="gesture_up_song">上一首</string>
+    <!-- Gestures end -->
     <skip />
     <!-- Application name -->
     <string name="app_name">手势设置</string>
