@@ -1202,7 +1202,7 @@ public class MusicUtils {
         return bm;
     }
     
-    private static Bitmap getDefaultArtwork(Context context) {
+    static Bitmap getDefaultArtwork(Context context) {
         BitmapFactory.Options opts = new BitmapFactory.Options();
         opts.inPreferredConfig = Bitmap.Config.ARGB_8888;
         return BitmapFactory.decodeStream(
