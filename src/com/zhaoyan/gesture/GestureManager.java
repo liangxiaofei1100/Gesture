@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import android.content.Context;
 import android.gesture.Gesture;
 import android.gesture.Prediction;
+import android.widget.Toast;
 
 import com.zhaoyan.gesture.appgesture.AppGesture;
 import com.zhaoyan.gesture.appgesture.FlashLightGuestrue;
@@ -15,9 +16,11 @@ import com.zhaoyan.gesture.music.MusicGesture;
 import com.zhaoyan.gesture.sos.MessageGesture;
 
 public class GestureManager {
+	private Context mContext;
 	private Map<String, GestureHandler> mGestureHandlers;
 
 	public void init(Context context) {
+		mContext = context;
 		mGestureHandlers = new HashMap<String, GestureHandler>();
 		addGesture(new MessageGesture(context));
 		addGesture(new AppGesture(context));
@@ -34,6 +37,9 @@ public class GestureManager {
 	}
 
 	public void dispatchGesture(Gesture gesture, Prediction prediction) {
+		Toast.makeText(mContext,
+				prediction.name + "   匹配度: " + prediction.score,
+				Toast.LENGTH_SHORT).show();
 		GestureHandler handler = mGestureHandlers.get(prediction.name);
 		if (handler != null)
 			handler.handleGesture(gesture, prediction);
