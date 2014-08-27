@@ -56,6 +56,7 @@
         <activity
             android:name="com.zhaoyan.gesture.GestureRecognizeActivity"
             android:icon="@drawable/ic_gesturebuilder"
+            android:taskAffinity="com.zhaoyan.gesture.GestureRecognizeActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:label="@string/gesture_recognize" >
