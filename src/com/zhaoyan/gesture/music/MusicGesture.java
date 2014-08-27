@@ -41,8 +41,9 @@ public class MusicGesture implements GestureHandler{
 				if (mIsMusicOn) {
 					intent.setAction(MediaPlaybackService.TOGGLEPAUSE_ACTION);
 				} else {
-					intent.setClass(mContext, MusicBrowserActivity.class);
-					mContext.startActivity(intent);
+					Intent i = new Intent(mContext, MediaPlaybackService.class);
+					i.setAction(MediaPlaybackService.OPEN_ACTION);
+			        mContext.startService(i);
 					mIsMusicOn = true;
 					return;
 				}
@@ -62,8 +63,8 @@ public class MusicGesture implements GestureHandler{
 
 	@Override
 	public void release() {
-		// TODO Auto-generated method stub
-		
+		Intent i = new Intent(mContext, MediaPlaybackService.class);
+        mContext.stopService(i);
 	}
 
 }

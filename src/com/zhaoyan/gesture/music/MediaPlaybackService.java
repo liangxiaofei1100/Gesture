@@ -105,6 +105,7 @@ public class MediaPlaybackService extends Service {
     public static final String PREVIOUS_ACTION = "com.zhaoyan.gesture.music.musicservicecommand.previous";
     public static final String NEXT_ACTION = "com.zhaoyan.gesture.music.musicservicecommand.next";
     public static final String PLAY_ACTION = "com.zhaoyan.gesture.music.musicservicecommand.play";
+    public static final String OPEN_ACTION = "com.zhaoyan.gesture.music.musicservicecommand.open";
 
     private static final int TRACK_ENDED = 1;
     private static final int RELEASE_WAKELOCK = 2;
@@ -693,7 +694,33 @@ public class MediaPlaybackService extends Service {
                 pause();
                 mPausedByTransientLossOfFocus = false;
                 seek(0);
-            }
+            } else if (OPEN_ACTION.equals(action)) {
+            	Log.d(LOGTAG, "OPEN_ACTION");
+            	String path = "";
+            	Log.d(LOGTAG, "open_aciton.path:" + path);
+            	//test
+            	Log.d(LOGTAG, "mcursor:" + mCursor + "playlistsize:" + mPlayList);
+            	//test
+            	if (mPlayList == null) {
+            		Cursor cursor = MusicUtils.query(
+        					MediaPlaybackService.this,
+        					MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, mCursorCols,
+        					null, null, MediaStore.Audio.Media._ID);
+                	if (cursor != null && cursor.moveToFirst()) {
+    					path = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA));
+    					cursor.close();
+    				} else {
+    					Log.d(LOGTAG, "cursor is null");
+    				}
+                	open(path);
+                	play();
+	                notifyChange(META_CHANGED);
+				} else {
+					openCurrent();
+					play();
+	                notifyChange(META_CHANGED);
+				}
+			}
         }
         
         // make sure the service will shut down on its own if it was
@@ -1034,7 +1061,7 @@ public class MediaPlaybackService extends Service {
                 mCursor.close();
                 mCursor = null;
             }
-
+            Log.d(LOGTAG, "openCurrent.mPlayListLen:" + mPlayListLen + ",mPlayPos: " + mPlayPos);
             if (mPlayListLen == 0) {
                 return;
             }
@@ -1072,7 +1099,7 @@ public class MediaPlaybackService extends Service {
             
             // if mCursor is null, try to associate path with a database cursor
             if (mCursor == null) {
-
+            	Log.d(LOGTAG, "open.path:" + path);
                 ContentResolver resolver = getContentResolver();
                 Uri uri;
                 String where;
@@ -1105,6 +1132,7 @@ public class MediaPlaybackService extends Service {
                 }
             }
             mFileToPlay = path;
+            Log.d(LOGTAG, "mFileToPlay:" + mFileToPlay);
             mPlayer.setDataSource(mFileToPlay);
             if (! mPlayer.isInitialized()) {
                 stop(true);
@@ -1156,38 +1184,6 @@ public class MediaPlaybackService extends Service {
             mMediaplayerHandler.removeMessages(FADEDOWN);
             mMediaplayerHandler.sendEmptyMessage(FADEUP);
 
-            //modify by yuri 
-            //use new notification
-//            RemoteViews views = new RemoteViews(getPackageName(), R.layout.statusbar);
-//            views.setImageViewResource(R.id.icon, R.drawable.stat_notify_musicplayer);
-//            if (getAudioId() < 0) {
-//                // streaming
-//                views.setTextViewText(R.id.trackname, getPath());
-//                views.setTextViewText(R.id.artistalbum, null);
-//            } else {
-//                String artist = getArtistName();
-//                views.setTextViewText(R.id.trackname, getTrackName());
-//                if (artist == null || artist.equals(MediaStore.UNKNOWN_STRING)) {
-//                    artist = getString(R.string.unknown_artist_name);
-//                }
-//                String album = getAlbumName();
-//                if (album == null || album.equals(MediaStore.UNKNOWN_STRING)) {
-//                    album = getString(R.string.unknown_album_name);
-//                }
-//                
-//                views.setTextViewText(R.id.artistalbum,
-//                        getString(R.string.notification_artist_album, artist, album)
-//                        );
-//            }
-//            
-//            Notification status = new Notification();
-//            status.contentView = views;
-//            status.flags |= Notification.FLAG_ONGOING_EVENT;
-//            status.icon = R.drawable.stat_notify_musicplayer;
-//            status.contentIntent = PendingIntent.getActivity(this, 0,
-//                    new Intent("com.zhaoyan.gesture.music.PLAYBACK_VIEWER")
-//                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), 0);
-//            startForeground(PLAYBACKSERVICE_STATUS, status);
             updateNotification(MediaPlaybackService.this, null);
             if (!mIsSupposedToBePlaying) {
                 mIsSupposedToBePlaying = true;
