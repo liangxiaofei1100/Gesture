@@ -27,7 +27,7 @@
     <string-array name="main_item_classname">
         <item>com.zhaoyan.juyou.activity.JiFenActivity</item>
         <item>com.zhaoyan.juyou.activity.ZhaoHuActivity</item>
-        <item>com.zhaoyan.juyou.activity.WiFiAPShareActivity</item>
+        <item>com.zhaoyan.gesture.music.MusicBrowserActivity</item>
         <item>com.zhaoyan.juyou.activity.QRCodeScanActivity</item>
         <item>com.zhaoyan.juyou.activity.JuYouAppActivity</item>
         <item>com.zhaoyan.gesture.GestureBuilderActivity</item>

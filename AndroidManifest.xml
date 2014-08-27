@@ -56,6 +56,8 @@
         <activity
             android:name="com.zhaoyan.gesture.GestureRecognizeActivity"
             android:icon="@drawable/ic_gesturebuilder"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:label="@string/gesture_recognize" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -82,7 +84,7 @@
         
         <!-- Music begin -->
         <activity android:name="com.zhaoyan.gesture.music.MusicBrowserActivity"
-            android:theme="@android:style/Theme.NoTitleBar"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar"
             android:exported="true"
         >
             <intent-filter>
@@ -112,7 +114,7 @@
              recents since this is accessible through a notification when
              appropriate. -->
         <activity android:name="com.zhaoyan.gesture.music.MediaPlaybackActivity"
-                android:theme="@android:style/Theme.NoTitleBar"
+                android:theme="@android:style/Theme.Holo.Light.NoActionBar"
                 android:label="@string/mediaplaybacklabel"
                 android:taskAffinity=""
                 android:launchMode="singleTask"
@@ -200,7 +202,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.zhaoyan.gesture.music.QueryBrowserActivity"
-                android:theme="@android:style/Theme.NoTitleBar"
+                android:theme="@android:style/Theme.Holo.Light.NoActionBar"
                 android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />

@@ -39,16 +39,21 @@ public class MusicGesture implements GestureHandler{
 			Intent intent = new Intent();
 			if ("音乐".equals(name)) {
 				if (mIsMusicOn) {
+					Log.d(TAG, "handleGesture.playpause");
 					intent.setAction(MediaPlaybackService.TOGGLEPAUSE_ACTION);
 				} else {
-					intent.setClass(mContext, MusicBrowserActivity.class);
-					mContext.startActivity(intent);
+					Log.d(TAG, "handleGesture.open");
+					Intent i = new Intent(mContext, MediaPlaybackService.class);
+					i.setAction(MediaPlaybackService.OPEN_ACTION);
+			        mContext.startService(i);
 					mIsMusicOn = true;
 					return;
 				}
 			} else if ("上一首".equals(name)) {
+				Log.d(TAG, "handleGesture.previous");
 				intent.setAction(MediaPlaybackService.PREVIOUS_ACTION);
 			} else if ("下一首".equals(name)) {
+				Log.d(TAG, "handleGesture.next");
 				intent.setAction(MediaPlaybackService.NEXT_ACTION);
 			}
 			mContext.sendBroadcast(intent);
@@ -62,8 +67,8 @@ public class MusicGesture implements GestureHandler{
 
 	@Override
 	public void release() {
-		// TODO Auto-generated method stub
-		
+		Intent i = new Intent(mContext, MediaPlaybackService.class);
+        mContext.stopService(i);
 	}
 
 }
