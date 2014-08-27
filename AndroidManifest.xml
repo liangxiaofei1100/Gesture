@@ -253,7 +253,7 @@
                 <data android:mimeType="vnd.android.cursor.dir/playlist"/>
             </intent-filter>
         </activity>
-        <activity-alias android:name="com.zhaoyan.gesture.music.PlaylistShortcutActivity"
+        <activity-alias android:name="com.zhaoyan.gesture.music.ui.PlaylistShortcutActivity"
             android:targetActivity="com.zhaoyan.gesture.music.ui.PlaylistBrowserActivity"
             android:label="@string/musicshortcutlabel"
             android:icon="@drawable/ic_launcher_shortcut_music_playlist"
@@ -307,7 +307,7 @@
             </intent-filter>
 -->
         </activity>
-        <activity android:name="com.zhaoyan.gesture.music.MusicPicker"
+        <activity android:name="com.zhaoyan.gesture.music.ui.MusicPicker"
                 android:label="@string/music_picker_title" android:exported="true" >
             <!-- First way to invoke us: someone asks to get content of
                  any of the audio types we support. -->
@@ -337,15 +337,15 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="false">
         </activity>
-        <activity android:name="com.zhaoyan.gesture.music.CreatePlaylist"
+        <activity android:name="com.zhaoyan.gesture.music.ui.CreatePlaylist"
             android:theme="@android:style/Theme.Dialog" android:exported="false" />
-        <activity android:name="com.zhaoyan.gesture.music.RenamePlaylist"
+        <activity android:name="com.zhaoyan.gesture.music.ui.RenamePlaylist"
             android:theme="@android:style/Theme.Dialog" android:exported="false" />
-        <activity android:name="com.zhaoyan.gesture.music.WeekSelector"
+        <activity android:name="com.zhaoyan.gesture.music.ui.WeekSelector"
             android:theme="@android:style/Theme.Dialog" android:exported="false" />
-        <activity android:name="com.zhaoyan.gesture.music.DeleteItems"
+        <activity android:name="com.zhaoyan.gesture.music.ui.DeleteItems"
             android:theme="@android:style/Theme.Dialog" android:exported="false" />
-        <activity android:name="com.zhaoyan.gesture.music.ScanningProgress"
+        <activity android:name="com.zhaoyan.gesture.music.ui.ScanningProgress"
             android:theme="@android:style/Theme.Dialog" android:exported="false" />
         <service android:name="com.zhaoyan.gesture.music.MediaPlaybackService"
             android:exported="false" />
