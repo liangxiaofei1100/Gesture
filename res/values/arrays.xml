@@ -30,7 +30,7 @@
         <item>com.zhaoyan.juyou.activity.WiFiAPShareActivity</item>
         <item>com.zhaoyan.juyou.activity.QRCodeScanActivity</item>
         <item>com.zhaoyan.juyou.activity.JuYouAppActivity</item>
-        <item>com.zhaoyan.juyou.activity.AppActivity</item>
+        <item>com.zhaoyan.gesture.GestureBuilderActivity</item>
         <item>com.zhaoyan.juyou.activity.AppActivity$GameActivity</item>
         <item>com.zhaoyan.juyou.activity.ImageActivity$PhotoActivity</item>
         <item>com.zhaoyan.juyou.activity.ImageActivity</item>

@@ -26,6 +26,8 @@
     <string name="gesture_music">音乐</string>
     <string name="gesture_next_song">下一首</string>
     <string name="gesture_up_song">上一首</string>
+    <string name="gesture_camera">拍照</string>
+    <string name="gesture_quick_capture">偷拍</string>
     <!-- Gestures end -->
     <skip />
     <!-- Application name -->
