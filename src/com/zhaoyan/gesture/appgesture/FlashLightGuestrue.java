@@ -38,7 +38,6 @@ public class FlashLightGuestrue implements GestureHandler {
 	@Override
 	public void handleGesture(Gesture gesture, Prediction prediction) {
 		// TODO Auto-generated method stub
-		Log.e("ArbiterLiu", "----------------------------------");
 		if (prediction.score > 3) {
 			if (!mIsFlashOn) {
 				openFlashlight();

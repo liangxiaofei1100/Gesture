@@ -48,7 +48,6 @@ public class MessageSender {
 		Date d1 = new Date(time);
 		String t1 = format.format(d1);
 		File file = new File(context.getFilesDir().getAbsoluteFile() + "/sos");
-		Log.e("ArbiterLiu", file.getAbsolutePath());
 		if (!file.exists()) {
 			try {
 				file.createNewFile();

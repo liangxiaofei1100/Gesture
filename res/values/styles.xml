@@ -34,5 +34,18 @@
         <item name="android:scrollHorizontally">true</item>
         <item name="android:singleLine">true</item>
     </style>
+<!-- slide style start -->
+    <style name="SlideTheme" parent="AppBaseTheme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@style/Animation_translate</item>
+        <item name="android:windowBackground">@color/activity_background</item>
+    </style>
 
+    <style name="Animation_translate">
+        <item name="android:activityOpenEnterAnimation">@anim/activity_right_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/activity_left_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/activity_left_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/activity_right_out</item>
+    </style>
+    <!-- slide style end -->
 </resources>
