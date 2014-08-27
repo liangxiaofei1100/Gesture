@@ -411,4 +411,9 @@
     <string name="exit">Exit</string>
     <string name="exit_message">"Do you sure to exit?"</string>
 	 <!-- music end -->
+	 
+	 <!-- base activty start -->
+	 <string name="num_format">(<xliff:g id="num">%1$d</xliff:g>)</string>
+   	 <string name="num_format2">( %1$d/%2$d )</string>
+	 <!-- base activty end -->
 </resources>
