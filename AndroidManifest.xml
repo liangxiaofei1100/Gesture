@@ -72,7 +72,6 @@
         <activity
             android:name="CreateGestureActivity"
             android:label="@string/label_create_gesture" />
-        <activity android:name="com.zhaoyan.gesture.camera.CameraLauncher" />
         <activity
             android:name="com.zhaoyan.gesture.camera.QuickCapture"
             android:screenOrientation="portrait"

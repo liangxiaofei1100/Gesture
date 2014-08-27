@@ -11,6 +11,8 @@ import android.gesture.Prediction;
 
 import com.zhaoyan.gesture.appgesture.AppGesture;
 import com.zhaoyan.gesture.appgesture.FlashLightGuestrue;
+import com.zhaoyan.gesture.camera.CameraGuesture;
+import com.zhaoyan.gesture.camera.QuickCaptureGesture;
 import com.zhaoyan.gesture.music.MusicGesture;
 import com.zhaoyan.gesture.sos.MessageGesture;
 
@@ -23,6 +25,8 @@ public class GestureManager {
 		addGesture(new AppGesture(context));
 		addGesture(new FlashLightGuestrue(context));
 		addGesture(new MusicGesture(context));
+		addGesture(new CameraGuesture(context));
+		addGesture(new QuickCaptureGesture(context));
 	}
 
 	private void addGesture(GestureHandler gesture) {

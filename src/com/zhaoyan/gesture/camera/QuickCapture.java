@@ -23,6 +23,7 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.WindowManager;
 
 import com.zhaoyan.gesture.R;
 
@@ -49,17 +50,23 @@ public class QuickCapture extends Activity implements SurfaceHolder.Callback {
 
 	private static final int MSG_AUTO_FOCUS = 1;
 
+	private boolean mIsCaptureSuccess = false;
+
 	private Handler mHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case MSG_AUTO_FOCUS:
-				if (mCamera != null) {
+				if (mCamera != null && !mIsCaptureSuccess) {
+					Log.d(TAG, "MSG_AUTO_FOCUS");
 					try {
 						mCamera.autoFocus(mAutoFocusCallback);
 					} catch (Exception e) {
 						Log.e(TAG, "MSG_AUTO_FOCUS " + e);
 					}
+					mHandler.sendEmptyMessageDelayed(MSG_AUTO_FOCUS, 2000);
+				} else {
+					mHandler.removeMessages(MSG_AUTO_FOCUS);
 				}
 				break;
 
@@ -72,6 +79,8 @@ public class QuickCapture extends Activity implements SurfaceHolder.Callback {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
 		setContentView(R.layout.quick_capture);
 		initView();
 
@@ -119,7 +128,10 @@ public class QuickCapture extends Activity implements SurfaceHolder.Callback {
 		mParameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
 		// Enable auto focus.
 		List<String> focusModes = mParameters.getSupportedFocusModes();
-		if (focusModes.contains(Parameters.FOCUS_MODE_AUTO)) {
+		if (focusModes.contains(Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
+			mAutoFocusMode = Parameters.FOCUS_MODE_CONTINUOUS_PICTURE;
+			mParameters.setFocusMode(Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+		} else if (focusModes.contains(Parameters.FOCUS_MODE_AUTO)) {
 			mAutoFocusMode = Parameters.FOCUS_MODE_AUTO;
 			mParameters.setFocusMode(Parameters.FOCUS_MODE_AUTO);
 		}
@@ -218,6 +230,7 @@ public class QuickCapture extends Activity implements SurfaceHolder.Callback {
 		mTakePictureNumber = 3;
 		mCamera.takePicture(mShutterCallback, mRawPictureCallback,
 				mJpegPictureCallback);
+		mIsCaptureSuccess = true;
 	}
 
 	private ShutterCallback mShutterCallback = new ShutterCallback() {
@@ -267,7 +280,9 @@ public class QuickCapture extends Activity implements SurfaceHolder.Callback {
 				Log.d(TAG, "onAutoFocus mAutoFocusMode " + mAutoFocusMode);
 				takePicture();
 			} else {
-				mCamera.autoFocus(mAutoFocusCallback);
+				if (Parameters.FOCUS_MODE_AUTO.equals(mAutoFocusMode)) {
+					mHandler.sendEmptyMessage(MSG_AUTO_FOCUS);
+				}
 			}
 		}
 	};
