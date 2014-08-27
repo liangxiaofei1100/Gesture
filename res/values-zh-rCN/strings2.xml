@@ -20,4 +20,9 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="notification_artist_album" msgid="4018561869382447390">"<xliff:g id="ALBUM">%2$s</xliff:g>"\n"<xliff:g id="ARTIST">%1$s</xliff:g>"</string>
+	<!-- Visualizations -->
+    <string name="visual_none">默认不显示</string>
+    <string name="visual_bargraph">矩形块叠加显示</string>
+    <string name="visual_solidbargraph">立体条形图风格</string>
+    <string name="visual_waveform">波浪图风格</string>
 </resources>

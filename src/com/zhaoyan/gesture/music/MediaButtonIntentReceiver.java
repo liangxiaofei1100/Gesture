@@ -16,6 +16,8 @@
 
 package com.zhaoyan.gesture.music;
 
+import com.zhaoyan.gesture.music.ui.MusicBrowserActivity;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;

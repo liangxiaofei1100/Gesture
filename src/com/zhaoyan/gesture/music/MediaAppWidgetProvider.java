@@ -28,6 +28,9 @@ import android.view.View;
 import android.widget.RemoteViews;
 
 import com.zhaoyan.gesture.R;
+import com.zhaoyan.gesture.music.ui.MediaPlaybackActivity;
+import com.zhaoyan.gesture.music.ui.MediaPlaybackActivity2;
+import com.zhaoyan.gesture.music.ui.MusicBrowserActivity;
 
 /**
  * Simple widget to show currently playing album art along
@@ -179,7 +182,7 @@ public class MediaAppWidgetProvider extends AppWidgetProvider {
         final ComponentName serviceName = new ComponentName(context, MediaPlaybackService.class);
         
         if (playerActive) {
-            intent = new Intent(context, MediaPlaybackActivity.class);
+            intent = new Intent(context, MediaPlaybackActivity2.class);
             pendingIntent = PendingIntent.getActivity(context,
                     0 /* no requestCode */, intent, 0 /* no flags */);
             views.setOnClickPendingIntent(R.id.album_appwidget, pendingIntent);

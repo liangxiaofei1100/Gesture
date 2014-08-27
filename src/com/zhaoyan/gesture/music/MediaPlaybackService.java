@@ -63,6 +63,8 @@ import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import com.zhaoyan.gesture.R;
+import com.zhaoyan.gesture.music.utils.MusicUtils;
+import com.zhaoyan.gesture.music.utils.SharedPreferencesCompat;
 
 /**
  * Provides "background" audio playback capabilities, allowing the

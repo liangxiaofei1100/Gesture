@@ -34,5 +34,40 @@
         <item name="android:scrollHorizontally">true</item>
         <item name="android:singleLine">true</item>
     </style>
+    
+    <!--  Black top border  -->
+    <style name="Topborderline"> 
+	    <item name="android:layout_width">match_parent</item>
+	    <item name="android:layout_height">2dp</item>
+	    <item name="android:background">@android:color/black</item>
+    </style>
+    
+    <!-- TextView in the audio player -->
+    <style name="AudioPlayerText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">true</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
+        <item name="android:scrollHorizontally">true</item>
+    </style>
+    
+    <!--  TextView with drop-shadow and white text -->
+    <style name="ShadowedText" parent="AudioPlayerText">        
+	    <item name="android:shadowColor">#000000</item>
+	    <item name="android:shadowDx">1</item>
+	    <item name="android:shadowDy">1</item>
+	    <item name="android:shadowRadius">1.5</item> 
+    </style>
+    
+    <!-- ImageButton in the audio player controls -->
+    <style name="AudioPlayerButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/holo_selector</item>
+    </style>
 
 </resources>
