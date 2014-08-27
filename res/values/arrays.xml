@@ -25,12 +25,12 @@
         <item>@string/main_more</item>
     </string-array>
     <string-array name="main_item_classname">
-        <item>com.zhaoyan.juyou.activity.JiFenActivity</item>
-        <item>com.zhaoyan.juyou.activity.ZhaoHuActivity</item>
-        <item>com.zhaoyan.gesture.music.ui.MusicBrowserActivity</item>
-        <item>com.zhaoyan.juyou.activity.QRCodeScanActivity</item>
-        <item>com.zhaoyan.juyou.activity.JuYouAppActivity</item>
-        <item>com.zhaoyan.gesture.GestureBuilderActivity</item>
+        <item>com.zhaoyan.gesture.activity.CameraActivity</item>
+        <item>com.zhaoyan.gesture.activity.QuickCaptureActivity</item>
+        <item>com.zhaoyan.gesture.activity.MusicActivity</item>
+        <item>com.zhaoyan.gesture.activity.LightActivity</item>
+        <item>com.zhaoyan.gesture.activity.MessageSettingActivity</item>
+        <item>com.zhaoyan.gesture.activity.AppLauncherActivity</item>
         <item>com.zhaoyan.juyou.activity.AppActivity$GameActivity</item>
         <item>com.zhaoyan.juyou.activity.ImageActivity$PhotoActivity</item>
         <item>com.zhaoyan.juyou.activity.ImageActivity</item>

@@ -363,6 +363,38 @@
             </intent-filter>
         </receiver>
         <!-- Music end -->
+        <!-- base start -->
+        <activity 
+            android:name="com.zhaoyan.gesture.activity.MessageSettingActivity"
+            android:theme="@style/SlideTheme"
+            >
+        </activity>
+        <activity 
+            android:name="com.zhaoyan.gesture.activity.AppLauncherActivity"
+            android:theme="@style/SlideTheme"
+            >
+        </activity>
+        <activity 
+            android:name="com.zhaoyan.gesture.activity.CameraActivity"
+            android:theme="@style/SlideTheme"
+            >
+        </activity>
+        <activity 
+            android:name="com.zhaoyan.gesture.activity.MusicActivity"
+            android:theme="@style/SlideTheme"
+            >
+        </activity>
+        <activity 
+            android:name="com.zhaoyan.gesture.activity.QuickCaptureActivity"
+            android:theme="@style/SlideTheme"
+            >
+        </activity>
+        <activity 
+            android:name="com.zhaoyan.gesture.activity.LightActivity"
+            android:theme="@style/SlideTheme"
+            >
+        </activity>
+        <!-- base end -->
     </application>
 
 </manifest>
