@@ -180,6 +180,7 @@ public class TrackBrowserActivity extends ListActivity implements
 		mUseLastListPos = MusicUtils.updateButtonBar(this, R.id.songtab);
 		mTrackList = getListView();
 		mTrackList.setOnCreateContextMenuListener(this);
+		mTrackList.setBackgroundColor(0xffffffff);
 		mTrackList.setCacheColorHint(0);
 		if (mEditMode) {
 			((TouchInterceptor) mTrackList).setDropListener(mDropListener);
@@ -470,9 +471,12 @@ public class TrackBrowserActivity extends ListActivity implements
 	private void setAlbumArtBackground() {
 		if (!mEditMode) {
 			try {
+				//modify by yuri
+				//do not show album
 				long albumid = Long.valueOf(mAlbumId);
-				Bitmap bm = MusicUtils.getArtwork(TrackBrowserActivity.this,
-						-1, albumid, false);
+//				Bitmap bm = MusicUtils.getArtwork(TrackBrowserActivity.this,
+//						-1, albumid, false);
+				Bitmap bm = null;
 				if (bm != null) {
 					MusicUtils.setBackground(mTrackList, bm);
 					mTrackList.setCacheColorHint(0);
@@ -481,7 +485,7 @@ public class TrackBrowserActivity extends ListActivity implements
 			} catch (Exception ex) {
 			}
 		}
-		mTrackList.setBackgroundColor(0xff000000);
+		mTrackList.setBackgroundColor(0xffffffff);
 		mTrackList.setCacheColorHint(0);
 	}
 
@@ -712,7 +716,7 @@ public class TrackBrowserActivity extends ListActivity implements
 			menu.add(0, REMOVE, 0, R.string.remove_from_playlist);
 		}
 		menu.add(0, USE_AS_RINGTONE, 0, R.string.ringtone_menu);
-		menu.add(0, USE_AS_RINGTONE2, 0, R.string.ringtone2_menu);
+//		menu.add(0, USE_AS_RINGTONE2, 0, R.string.ringtone2_menu);
 		menu.add(0, DELETE_ITEM, 0, R.string.delete_item);
 		AdapterContextMenuInfo mi = (AdapterContextMenuInfo) menuInfoIn;
 		mSelectedPosition = mi.position;

@@ -259,7 +259,7 @@
     <!-- Toast after turning repeat all on -->
     <string name="repeat_all_notif">Repeating all songs.</string>
     <!-- Individual song context menu item -->
-    <string name="ringtone_menu">Use as phone ringtone(SIM1)</string>
+    <string name="ringtone_menu">Use as phone ringtone</string>
     <string name="ringtone2_menu">Use as phone ringtone(SIM2)</string>
     <!-- Menu item -->
     <string name="ringtone_menu_short">Use as ringtone(SIM1)</string>
@@ -319,7 +319,7 @@
     <!-- Do not translate. Background color for currently dragged item in playlist edit mode. -->
     <color name="dragndrop_background">#e0103010</color>
     <!-- Do not translate. Background color for albums in the artists list view. -->
-    <color name="expanding_child_background">#ff404040</color>
+    <color name="expanding_child_background">#ffffff</color>
 
     <!-- menu item to save the current list as a new playlist -->
     <string name="save_as_playlist">Save as playlist</string>

@@ -47,6 +47,7 @@
         android:layout_alignWithParentIfMissing="true"
         android:layout_toRightOf="@id/icon"
         android:layout_toLeftOf="@id/duration"
+        android:textColor="@android:color/black"
         android:ellipsize="marquee"
         android:singleLine="true" />
 

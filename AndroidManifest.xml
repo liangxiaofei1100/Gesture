@@ -204,7 +204,7 @@
                 <data android:mimeType="vnd.android.cursor.dir/artistalbum"/>
             </intent-filter>
         </activity>
-        <activity android:name="com.zhaoyan.gesture.music.ui.AlbumBrowserActivityity" android:exported="false" >
+        <activity android:name="com.zhaoyan.gesture.music.ui.AlbumBrowserActivity" android:exported="false" >
             <intent-filter>
                 <action android:name="android.intent.action.PICK" />
                 <category android:name="android.intent.category.DEFAULT" />

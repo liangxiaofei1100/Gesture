@@ -551,10 +551,10 @@ public class MediaPlaybackActivity extends Activity implements MusicUtils.Defs,
 			// these next two are in a separate group, so they can be
 			// shown/hidden as needed
 			// based on the keyguard state
-			menu.add(1, USE_AS_RINGTONE, 0, R.string.ringtone_menu_short)
+			menu.add(1, USE_AS_RINGTONE, 0, R.string.ringtone_menu)
 					.setIcon(R.drawable.ic_menu_set_as_ringtone);
-			menu.add(1, USE_AS_RINGTONE2, 0, R.string.ringtone2_menu_short)
-					.setIcon(R.drawable.ic_menu_set_as_ringtone);
+//			menu.add(1, USE_AS_RINGTONE2, 0, R.string.ringtone2_menu_short)
+//					.setIcon(R.drawable.ic_menu_set_as_ringtone);
 			menu.add(1, DELETE_ITEM, 0, R.string.delete_item).setIcon(
 					R.drawable.ic_menu_delete);
 

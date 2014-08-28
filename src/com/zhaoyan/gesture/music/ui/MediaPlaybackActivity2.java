@@ -118,6 +118,9 @@ public class MediaPlaybackActivity2 extends Activity implements MusicUtils.Defs,
 		mAlbumArtHandler = new AlbumArtHandler(mAlbumArtWorker.getLooper());
 
 		setContentView(R.layout.audio_player_main);
+		
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		
 		try {
 			getWindow().addFlags(
 					WindowManager.LayoutParams.class.getField(
@@ -563,10 +566,10 @@ public class MediaPlaybackActivity2 extends Activity implements MusicUtils.Defs,
 			// these next two are in a separate group, so they can be
 			// shown/hidden as needed
 			// based on the keyguard state
-			menu.add(1, USE_AS_RINGTONE, 0, R.string.ringtone_menu_short)
+			menu.add(1, USE_AS_RINGTONE, 0, R.string.ringtone_menu)
 					.setIcon(R.drawable.ic_menu_set_as_ringtone);
-			menu.add(1, USE_AS_RINGTONE2, 0, R.string.ringtone2_menu_short)
-					.setIcon(R.drawable.ic_menu_set_as_ringtone);
+//			menu.add(1, USE_AS_RINGTONE2, 0, R.string.ringtone2_menu_short)
+//					.setIcon(R.drawable.ic_menu_set_as_ringtone);
 			menu.add(1, DELETE_ITEM, 0, R.string.delete_item).setIcon(
 					R.drawable.ic_menu_delete);
 
@@ -621,6 +624,7 @@ public class MediaPlaybackActivity2 extends Activity implements MusicUtils.Defs,
 		try {
 			switch (item.getItemId()) {
 			case GOTO_START:
+			case android.R.id.home:
 				intent = new Intent();
 				intent.setClass(this, MusicBrowserActivity.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
