@@ -162,7 +162,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="AudioPreview" android:theme="@android:style/Theme.Dialog"
+        <activity android:name="com.zhaoyan.gesture.music.ui.AudioPreview" android:theme="@android:style/Theme.Holo.Dialog"
                 android:taskAffinity=""
                 android:excludeFromRecents="true" android:exported="true" >
             <intent-filter>
@@ -227,7 +227,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.zhaoyan.gesture.music.ui.QueryBrowserActivity"
-                android:theme="@android:style/Theme.Holo.Light.NoActionBar"
+                android:theme="@android:style/Theme.Holo.Light"
                 android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -270,42 +270,9 @@
             android:label="@string/videobrowserlabel"
             android:icon="@drawable/app_video"
             android:exported="false" >
-            <intent-filter>
-                <action android:name="android.intent.action.PICK" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="vnd.android.cursor.dir/video"/>
-            </intent-filter>
-<!--
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
--->
         </activity>
         <activity android:name="com.zhaoyan.gesture.music.ui.MediaPickerActivity"
                 android:label="@string/mediapickerlabel" android:exported="false" >
-<!--
-            <intent-filter>
-                <action android:name="android.intent.action.PICK" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="media/*"/>
-                <data android:mimeType="audio/*"/>
-                <data android:mimeType="application/ogg"/>
-                <data android:mimeType="application/x-ogg"/>
-                <data android:mimeType="video/*"/>
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.GET_CONTENT" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.OPENABLE" />
-                <data android:mimeType="media/*"/>
-                <data android:mimeType="audio/*"/>
-                <data android:mimeType="application/ogg"/>
-                <data android:mimeType="application/x-ogg"/>
-                <data android:mimeType="video/*"/>
-            </intent-filter>
--->
         </activity>
         <activity android:name="com.zhaoyan.gesture.music.ui.MusicPicker"
                 android:label="@string/music_picker_title" android:exported="true" >
@@ -355,12 +322,6 @@
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/appwidget_info" />
-        </receiver>
-        <receiver android:name="com.zhaoyan.gesture.music.MediaButtonIntentReceiver" >
-            <intent-filter>
-                <action android:name="android.intent.action.MEDIA_BUTTON" />
-                <action android:name="android.media.AUDIO_BECOMING_NOISY" />
-            </intent-filter>
         </receiver>
         <!-- Music end -->
         <!-- base start -->
