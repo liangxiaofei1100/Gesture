@@ -12,19 +12,20 @@
 
     <EditText
         android:id="@+id/sos_contact_et"
-        android:layout_width="200dip"
+        android:layout_width="match_parent"
         android:layout_height="50dip"
         android:layout_below="@+id/sos_contact_tv"
+        android:layout_toLeftOf="@+id/sos_contact_btn"
         android:background="@drawable/corner_rect_bg_normal"
         android:hint="联系人号码" />
 
-    <Button
+    <ImageButton
         android:id="@+id/sos_contact_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:layout_below="@+id/sos_contact_tv"
-        android:layout_toRightOf="@+id/sos_contact_et"
-        android:text="选择联系人" />
+        android:src="@drawable/ic_add_contact_holo_light" />
 
     <TextView
         android:id="@+id/sos_message_tv"
@@ -36,16 +37,19 @@
 
     <EditText
         android:id="@+id/sos_message_et"
-        android:layout_width="200dip"
-        android:layout_height="50dip"
+        android:layout_width="match_parent"
+        android:layout_height="200dip"
         android:layout_below="@+id/sos_message_tv"
         android:background="@drawable/corner_rect_bg_normal"
-        android:hint="紧急联系消息" />
+        android:gravity="top"
+        android:hint="紧急联系消息"
+        android:lines="5"
+        android:maxLength="50" />
 
     <Button
         android:id="@+id/sos_confirm_btn"
         android:layout_width="200dip"
-        android:layout_height="50dip"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/sos_message_et"
         android:layout_centerHorizontal="true"
         android:text="确认" />

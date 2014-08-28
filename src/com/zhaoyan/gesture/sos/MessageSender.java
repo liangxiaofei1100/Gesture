@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.zhaoyan.gesture.activity.MessageSettingActivity;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -16,9 +18,9 @@ import android.util.Log;
 public class MessageSender {
 	public static boolean sendMessage(Context context) {
 		SharedPreferences sharedPreferences = context.getSharedPreferences(
-				"info", Context.MODE_PRIVATE);
-		String number = sharedPreferences.getString("number", "");
-		String info = sharedPreferences.getString("info", "help me!救救我!SOS");
+				MessageSettingActivity.SHARED_NAME, Context.MODE_PRIVATE);
+		String number = sharedPreferences.getString(MessageSettingActivity.NUMBER, "");
+		String info = sharedPreferences.getString(MessageSettingActivity.INFO, "help me!救救我!SOS");
 		saveTime(context, number);
 		if (number.isEmpty()) {
 			return false;
