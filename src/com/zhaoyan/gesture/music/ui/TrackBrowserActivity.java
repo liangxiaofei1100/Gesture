@@ -200,12 +200,13 @@ public class TrackBrowserActivity extends ListActivity implements
 		mToken = MusicUtils.bindToService(this, this);
 
 		// don't set the album art until after the view has been layed out
-		mTrackList.post(new Runnable() {
-
-			public void run() {
-				setAlbumArtBackground();
-			}
-		});
+		//modify by yuri do not do this
+//		mTrackList.post(new Runnable() {
+//
+//			public void run() {
+//				setAlbumArtBackground();
+//			}
+//		});
 	}
 
 	public void onServiceConnected(ComponentName name, IBinder service) {
@@ -474,9 +475,8 @@ public class TrackBrowserActivity extends ListActivity implements
 				//modify by yuri
 				//do not show album
 				long albumid = Long.valueOf(mAlbumId);
-//				Bitmap bm = MusicUtils.getArtwork(TrackBrowserActivity.this,
-//						-1, albumid, false);
-				Bitmap bm = null;
+				Bitmap bm = MusicUtils.getArtwork(TrackBrowserActivity.this,
+						-1, albumid, false);
 				if (bm != null) {
 					MusicUtils.setBackground(mTrackList, bm);
 					mTrackList.setCacheColorHint(0);
@@ -716,7 +716,6 @@ public class TrackBrowserActivity extends ListActivity implements
 			menu.add(0, REMOVE, 0, R.string.remove_from_playlist);
 		}
 		menu.add(0, USE_AS_RINGTONE, 0, R.string.ringtone_menu);
-//		menu.add(0, USE_AS_RINGTONE2, 0, R.string.ringtone2_menu);
 		menu.add(0, DELETE_ITEM, 0, R.string.delete_item);
 		AdapterContextMenuInfo mi = (AdapterContextMenuInfo) menuInfoIn;
 		mSelectedPosition = mi.position;
@@ -772,7 +771,6 @@ public class TrackBrowserActivity extends ListActivity implements
 		}
 
 		case USE_AS_RINGTONE:
-		case USE_AS_RINGTONE2:
 			// Set the system setting to make this the current ringtone
 			MusicUtils.setRingtone(this, item.getItemId() == USE_AS_RINGTONE,
 					mSelectedId);
