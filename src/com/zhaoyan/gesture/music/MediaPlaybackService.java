@@ -55,6 +55,7 @@ import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.os.SystemClock;
 import android.provider.MediaStore;
+import android.provider.MediaStore.Audio.Media;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
@@ -139,6 +140,7 @@ public class MediaPlaybackService extends Service {
             MediaStore.Audio.Media.DATA,
             MediaStore.Audio.Media.MIME_TYPE,
             MediaStore.Audio.Media.ALBUM_ID,
+            MediaStore.Audio.Media.DURATION,
             MediaStore.Audio.Media.ARTIST_ID,
             MediaStore.Audio.Media.IS_PODCAST, // index must match PODCASTCOLIDX below
             MediaStore.Audio.Media.BOOKMARK    // index must match BOOKMARKCOLIDX below
@@ -704,12 +706,16 @@ public class MediaPlaybackService extends Service {
             	Log.d(LOGTAG, "mcursor:" + mCursor + "playlistsize:" + mPlayList);
             	//test
             	if (mPlayList == null) {
+            		String selection = Media.IS_MUSIC + "!=0" +
+            	 " and " + Media.DURATION + "> 1000";
             		Cursor cursor = MusicUtils.query(
         					MediaPlaybackService.this,
         					MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, mCursorCols,
-        					null, null, MediaStore.Audio.Media._ID);
+        					selection, null, MediaStore.Audio.Media._ID);
                 	if (cursor != null && cursor.moveToFirst()) {
     					path = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA));
+    					int duration = cursor.getInt(cursor.getColumnIndex(Media.DURATION));
+    					Log.d(LOGTAG, "duration:" + duration);
     					cursor.close();
     				} else {
     					Log.d(LOGTAG, "cursor is null");
