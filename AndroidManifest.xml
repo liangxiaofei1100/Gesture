@@ -338,15 +338,15 @@
             android:exported="false">
         </activity>
         <activity android:name="com.zhaoyan.gesture.music.ui.CreatePlaylist"
-            android:theme="@android:style/Theme.Dialog" android:exported="false" />
+            android:theme="@android:style/Theme.Holo.Light.Dialog" android:exported="false" />
         <activity android:name="com.zhaoyan.gesture.music.ui.RenamePlaylist"
-            android:theme="@android:style/Theme.Dialog" android:exported="false" />
+            android:theme="@android:style/Theme.Holo.Light.Dialog" android:exported="false" />
         <activity android:name="com.zhaoyan.gesture.music.ui.WeekSelector"
-            android:theme="@android:style/Theme.Dialog" android:exported="false" />
+            android:theme="@android:style/Theme.Holo.Light.Dialog" android:exported="false" />
         <activity android:name="com.zhaoyan.gesture.music.ui.DeleteItems"
-            android:theme="@android:style/Theme.Dialog" android:exported="false" />
+            android:theme="@android:style/Theme.Holo.Light.Dialog" android:exported="false" />
         <activity android:name="com.zhaoyan.gesture.music.ui.ScanningProgress"
-            android:theme="@android:style/Theme.Dialog" android:exported="false" />
+            android:theme="@android:style/Theme.Holo.Light.Dialog" android:exported="false" />
         <service android:name="com.zhaoyan.gesture.music.MediaPlaybackService"
             android:exported="false" />
 

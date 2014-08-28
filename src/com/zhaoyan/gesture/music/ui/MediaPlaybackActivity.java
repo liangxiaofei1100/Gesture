@@ -553,8 +553,6 @@ public class MediaPlaybackActivity extends Activity implements MusicUtils.Defs,
 			// based on the keyguard state
 			menu.add(1, USE_AS_RINGTONE, 0, R.string.ringtone_menu)
 					.setIcon(R.drawable.ic_menu_set_as_ringtone);
-//			menu.add(1, USE_AS_RINGTONE2, 0, R.string.ringtone2_menu_short)
-//					.setIcon(R.drawable.ic_menu_set_as_ringtone);
 			menu.add(1, DELETE_ITEM, 0, R.string.delete_item).setIcon(
 					R.drawable.ic_menu_delete);
 
@@ -615,7 +613,6 @@ public class MediaPlaybackActivity extends Activity implements MusicUtils.Defs,
 				finish();
 				break;
 			case USE_AS_RINGTONE:
-			case USE_AS_RINGTONE2: {
 				// Set the system setting to make this the current ringtone
 				if (mService != null) {
 					MusicUtils.setRingtone(this,
@@ -623,7 +620,6 @@ public class MediaPlaybackActivity extends Activity implements MusicUtils.Defs,
 							mService.getAudioId());
 				}
 				return true;
-			}
 			case PARTY_SHUFFLE:
 				MusicUtils.togglePartyShuffle();
 				setShuffleButtonImage();
