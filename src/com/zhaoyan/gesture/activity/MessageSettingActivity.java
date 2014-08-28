@@ -2,6 +2,8 @@ package com.zhaoyan.gesture.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,12 +13,18 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.zhaoyan.gesture.R;
 
-public class MessageSettingActivity extends BaseActivity implements OnClickListener {
+public class MessageSettingActivity extends BaseActivity implements
+		OnClickListener {
 	private EditText mContactEt, mMessageEt;
-	private Button mSelectContactBtn, mConfirmBtn;
+	private Button mConfirmBtn;
+	private ImageButton mSelectContactBtn;
+	public static final String SHARED_NAME = "gesture_info", NUMBER = "number",
+			INFO = "info";
+	private String number,info;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -24,16 +32,24 @@ public class MessageSettingActivity extends BaseActivity implements OnClickListe
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.sos_message_setting);
 		initTitle(R.string.main_sos);
+		getInfo();
 		intiView();
 	}
 
 	private void intiView() {
 		mConfirmBtn = (Button) findViewById(R.id.sos_confirm_btn);
 		mContactEt = (EditText) findViewById(R.id.sos_contact_et);
-		mSelectContactBtn = (Button) findViewById(R.id.sos_contact_btn);
+		mSelectContactBtn = (ImageButton) findViewById(R.id.sos_contact_btn);
 		mMessageEt = (EditText) findViewById(R.id.sos_message_et);
 		mConfirmBtn.setOnClickListener(this);
 		mSelectContactBtn.setOnClickListener(this);
+		if(!number.isEmpty()){
+			mContactEt.setText(number);
+		}
+		if(!info.isEmpty()){
+			mMessageEt.setText(info);
+		}
+		
 	}
 
 	@Override
@@ -45,7 +61,10 @@ public class MessageSettingActivity extends BaseActivity implements OnClickListe
 					ContactsContract.Contacts.CONTENT_URI);
 			this.startActivityForResult(intent, 1);
 			break;
-
+		case R.id.sos_confirm_btn:
+			saveInfo();
+			finish();
+			break;
 		default:
 			break;
 		}
@@ -64,6 +83,7 @@ public class MessageSettingActivity extends BaseActivity implements OnClickListe
 				cursor.moveToFirst();
 				String num = this.getContactPhone(cursor);
 				Log.e("ArbiterLiu", "number " + num);
+				mContactEt.setText(num);
 			}
 			break;
 
@@ -112,5 +132,31 @@ public class MessageSettingActivity extends BaseActivity implements OnClickListe
 			}
 		}
 		return result;
+	}
+
+	private void saveInfo() {
+		SharedPreferences sharedPreferences = getSharedPreferences(SHARED_NAME,
+				Activity.MODE_PRIVATE);
+		Editor editor = sharedPreferences.edit();
+		if (mContactEt != null) {
+			String s = mContactEt.getText().toString();
+			if (!s.isEmpty()) {
+				editor.putString(NUMBER, s);
+			}
+		}
+		if (mMessageEt != null) {
+			String s = mMessageEt.getText().toString();
+			if (!s.isEmpty()) {
+				editor.putString(INFO, s);
+			}
+		}
+		editor.commit();
+	}
+
+	private void getInfo(){
+		SharedPreferences sharedPreferences = getSharedPreferences(SHARED_NAME,
+				Activity.MODE_PRIVATE);
+		number=sharedPreferences.getString(NUMBER, "");
+		info=sharedPreferences.getString(INFO, "");
 	}
 }
