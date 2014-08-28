@@ -30,7 +30,7 @@
         <item>com.zhaoyan.gesture.music.ui.MusicBrowserActivity</item>
         <item>com.zhaoyan.gesture.activity.LightActivity</item>
         <item>com.zhaoyan.gesture.activity.MessageSettingActivity</item>
-        <item>com.zhaoyan.gesture.CreateGestureActivity</item>
+        <item>com.zhaoyan.gesture.GestureBuilderActivity</item>
         <item>com.zhaoyan.juyou.activity.AppActivity$GameActivity</item>
         <item>com.zhaoyan.juyou.activity.ImageActivity$PhotoActivity</item>
         <item>com.zhaoyan.juyou.activity.ImageActivity</item>

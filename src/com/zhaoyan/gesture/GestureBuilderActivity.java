@@ -67,7 +67,7 @@ public class GestureBuilderActivity extends ListActivity {
     // Type: long (id)
     private static final String GESTURES_INFO_ID = "gestures.info_id";
 
-    private final File mStoreFile = new File(Environment.getExternalStorageDirectory(), "gestures");
+    private  File mStoreFile = new File(Environment.getExternalStorageDirectory(), "gestures");
 
     private final Comparator<NamedGesture> mSorter = new Comparator<NamedGesture>() {
         public int compare(NamedGesture object1, NamedGesture object2) {
@@ -95,6 +95,7 @@ public class GestureBuilderActivity extends ListActivity {
         setListAdapter(mAdapter);
 
         if (sStore == null) {
+        	mStoreFile= new File(getFilesDir(),"gestures");
             sStore = GestureLibraries.fromFile(mStoreFile);
         }
         mEmpty = (TextView) findViewById(android.R.id.empty);
