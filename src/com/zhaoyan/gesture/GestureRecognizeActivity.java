@@ -82,7 +82,16 @@ public class GestureRecognizeActivity extends Activity implements
 		}
 		ArrayList<Prediction> predictions = mLibrary.recognize(gesture);
 		if(!predictions.isEmpty()){
-			mGestureManager.dispatchGesture(gesture, predictions.get(0));
+			double score=0;
+			Prediction temp = null;
+			for(Prediction p:predictions){
+				if(p.score>score){
+					score=p.score;
+					temp=p;
+				}
+			}
+			
+			mGestureManager.dispatchGesture(gesture, temp);
 		} else {
 			Toast.makeText(this, "无匹配手势", Toast.LENGTH_SHORT).show();
 		}
