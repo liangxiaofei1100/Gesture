@@ -60,6 +60,7 @@ import android.widget.TextView;
 import com.zhaoyan.gesture.R;
 import com.zhaoyan.gesture.music.MediaPlaybackService;
 import com.zhaoyan.gesture.music.MusicAlphabetIndexer;
+import com.zhaoyan.gesture.music.MusicConf;
 import com.zhaoyan.gesture.music.utils.MusicUtils;
 import com.zhaoyan.gesture.music.utils.MusicUtils.ServiceToken;
 
@@ -293,7 +294,8 @@ public class ArtistAlbumBrowserActivity extends ExpandableListActivity
 
 		mCurrentAlbumId = Long.valueOf(id).toString();
 
-		Intent intent = new Intent(Intent.ACTION_PICK);
+//      Intent intent = new Intent(Intent.ACTION_PICK);
+		Intent intent = new Intent(MusicConf.ZY_MUSIC_ACTION);
 		intent.setDataAndType(Uri.EMPTY, "vnd.android.cursor.dir/track");
 		intent.putExtra("album", mCurrentAlbumId);
 		Cursor c = (Cursor) getExpandableListAdapter().getChild(groupPosition,

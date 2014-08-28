@@ -58,6 +58,7 @@ import android.widget.Toast;
 
 import com.zhaoyan.gesture.R;
 import com.zhaoyan.gesture.music.MediaPlaybackService;
+import com.zhaoyan.gesture.music.MusicConf;
 import com.zhaoyan.gesture.music.utils.MusicUtils;
 import com.zhaoyan.gesture.music.utils.MusicUtils.Defs;
 import com.zhaoyan.gesture.music.utils.MusicUtils.ServiceToken;
@@ -459,12 +460,14 @@ public class PlaylistBrowserActivity extends ListActivity
             return;
         }
         if (id == RECENTLY_ADDED_PLAYLIST) {
-            Intent intent = new Intent(Intent.ACTION_PICK);
+//            Intent intent = new Intent(Intent.ACTION_PICK);
+        	Intent intent = new Intent(MusicConf.ZY_MUSIC_ACTION);
             intent.setDataAndType(Uri.EMPTY, "vnd.android.cursor.dir/track");
             intent.putExtra("playlist", "recentlyadded");
             startActivity(intent);
         } else if (id == PODCASTS_PLAYLIST) {
-            Intent intent = new Intent(Intent.ACTION_PICK);
+//            Intent intent = new Intent(Intent.ACTION_PICK);
+            Intent intent = new Intent(MusicConf.ZY_MUSIC_ACTION);
             intent.setDataAndType(Uri.EMPTY, "vnd.android.cursor.dir/track");
             intent.putExtra("playlist", "podcasts");
             startActivity(intent);

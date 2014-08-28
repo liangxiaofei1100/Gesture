@@ -80,6 +80,7 @@ import com.zhaoyan.gesture.R;
 import com.zhaoyan.gesture.music.IMediaPlaybackService;
 import com.zhaoyan.gesture.music.MediaPlaybackService;
 import com.zhaoyan.gesture.music.IMediaPlaybackService.Stub;
+import com.zhaoyan.gesture.music.MusicConf;
 import com.zhaoyan.gesture.music.ui.MediaPlaybackActivity;
 import com.zhaoyan.gesture.music.ui.MediaPlaybackActivity2;
 import com.zhaoyan.gesture.music.ui.ScanningProgress;
@@ -1338,7 +1339,8 @@ public class MusicUtils {
     }
     
     public static void activateTab(Activity a, int id) {
-        Intent intent = new Intent(Intent.ACTION_PICK);
+//        Intent intent = new Intent(Intent.ACTION_PICK);
+    	Intent intent = new Intent(MusicConf.ZY_MUSIC_ACTION);
         switch (id) {
             case R.id.artisttab:
                 intent.setDataAndType(Uri.EMPTY, "vnd.android.cursor.dir/artistalbum");

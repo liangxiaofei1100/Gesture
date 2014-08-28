@@ -61,6 +61,7 @@ import android.widget.TextView;
 import com.zhaoyan.gesture.R;
 import com.zhaoyan.gesture.music.MediaPlaybackService;
 import com.zhaoyan.gesture.music.MusicAlphabetIndexer;
+import com.zhaoyan.gesture.music.MusicConf;
 import com.zhaoyan.gesture.music.utils.MusicUtils;
 import com.zhaoyan.gesture.music.utils.MusicUtils.Defs;
 import com.zhaoyan.gesture.music.utils.MusicUtils.ServiceToken;
@@ -443,7 +444,8 @@ public class AlbumBrowserActivity extends ListActivity implements
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-		Intent intent = new Intent(Intent.ACTION_PICK);
+//      Intent intent = new Intent(Intent.ACTION_PICK);
+		Intent intent = new Intent(MusicConf.ZY_MUSIC_ACTION);
 		intent.setDataAndType(Uri.EMPTY, "vnd.android.cursor.dir/track");
 		intent.putExtra("album", Long.valueOf(id).toString());
 		intent.putExtra("artist", mArtistId);

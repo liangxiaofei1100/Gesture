@@ -199,21 +199,24 @@
 
         <activity android:name="com.zhaoyan.gesture.music.ui.ArtistAlbumBrowserActivity" android:exported="false" >
             <intent-filter>
-                <action android:name="android.intent.action.PICK" />
+<!--                 <action android:name="android.intent.action.PICK" /> -->
+                <action android:name="com.zhaoyan.music.aciton" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="vnd.android.cursor.dir/artistalbum"/>
             </intent-filter>
         </activity>
         <activity android:name="com.zhaoyan.gesture.music.ui.AlbumBrowserActivity" android:exported="false" >
             <intent-filter>
-                <action android:name="android.intent.action.PICK" />
+                <!--                 <action android:name="android.intent.action.PICK" /> -->
+                <action android:name="com.zhaoyan.music.aciton" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="vnd.android.cursor.dir/album"/>
             </intent-filter>
         </activity>
         <activity android:name="com.zhaoyan.gesture.music.NowPlayingActivity" android:exported="false" >
             <intent-filter>
-                <action android:name="android.intent.action.PICK" />
+                <!--                 <action android:name="android.intent.action.PICK" /> -->
+                <action android:name="com.zhaoyan.music.aciton" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="vnd.android.cursor.dir/nowplaying"/>
             </intent-filter>
@@ -221,7 +224,8 @@
         <activity android:name="com.zhaoyan.gesture.music.ui.TrackBrowserActivity" android:exported="false" >
             <intent-filter>
                 <action android:name="android.intent.action.EDIT" />
-                <action android:name="android.intent.action.PICK" />
+                <!--                 <action android:name="android.intent.action.PICK" /> -->
+                <action android:name="com.zhaoyan.music.aciton" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="vnd.android.cursor.dir/track"/>
             </intent-filter>
@@ -243,7 +247,8 @@
                 android:label="@string/musicbrowserlabel" 
                 android:exported="true" >
             <intent-filter>
-                <action android:name="android.intent.action.PICK" />
+                <!--                 <action android:name="android.intent.action.PICK" /> -->
+                <action android:name="com.zhaoyan.music.aciton" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="vnd.android.cursor.dir/playlist"/>
             </intent-filter>
