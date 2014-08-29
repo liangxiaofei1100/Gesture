@@ -27,7 +27,7 @@
     <string-array name="main_item_classname">
         <item>com.zhaoyan.gesture.activity.CameraActivity</item>
         <item>com.zhaoyan.gesture.activity.QuickCaptureActivity</item>
-        <item>com.zhaoyan.gesture.music.ui.MusicBrowserActivity</item>
+        <item>com.zhaoyan.gesture.activity.MusicActivity</item>
         <item>com.zhaoyan.gesture.activity.LightActivity</item>
         <item>com.zhaoyan.gesture.activity.MessageSettingActivity</item>
         <item>com.zhaoyan.gesture.GestureBuilderActivity</item>

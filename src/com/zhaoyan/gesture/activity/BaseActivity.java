@@ -1,26 +1,23 @@
 package com.zhaoyan.gesture.activity;
 
-import com.zhaoyan.gesture.R;
-import com.zhaoyan.gesture.R.anim;
-import com.zhaoyan.gesture.R.id;
-import com.zhaoyan.gesture.R.layout;
-import com.zhaoyan.gesture.R.string;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.zhaoyan.gesture.R;
 
 public class BaseActivity extends Activity implements OnMenuItemClickListener,
 		OnGestureListener {
@@ -180,5 +177,20 @@ public class BaseActivity extends Activity implements OnMenuItemClickListener,
 	public boolean onSingleTapUp(MotionEvent e) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	/**
+	 * use this to instead of like:(Button) findViewById(R.id.xxx);
+	 * @param id
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public final <E extends View> E getView (int id) {
+	    try {
+	        return (E) findViewById(id);
+	    } catch (ClassCastException ex) {
+	        Log.e(TAG, "Could not cast View to concrete class.", ex);
+	        throw ex;
+	    }
 	}
 }
