@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2007 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.zhaoyan.gesture.music;
 
 import com.zhaoyan.gesture.music.ui.MusicBrowserActivity;
@@ -24,13 +8,15 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.KeyEvent;
 
 /**
  * 
  */
 public class MediaButtonIntentReceiver extends BroadcastReceiver {
-
+	private static final String TAG = MediaButtonIntentReceiver.class.getSimpleName();
+	
     private static final int MSG_LONGPRESS_TIMEOUT = 1;
     private static final int LONG_PRESS_DELAY = 1000;
 
@@ -70,16 +56,20 @@ public class MediaButtonIntentReceiver extends BroadcastReceiver {
             i.putExtra(MediaPlaybackService.CMDNAME, MediaPlaybackService.CMDPAUSE);
             context.startService(i);
         } else if (Intent.ACTION_MEDIA_BUTTON.equals(intentAction)) {
+        	Log.d(TAG, "ACTION_MEDIA_BUTTON");
             KeyEvent event = (KeyEvent)
                     intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
             
             if (event == null) {
+            	Log.d(TAG, "ACTION_MEDIA_BUTTON.event is null");
                 return;
             }
 
             int keycode = event.getKeyCode();
             int action = event.getAction();
             long eventtime = event.getEventTime();
+            Log.d(TAG, "currenttime:" + System.currentTimeMillis());
+            Log.d(TAG, "keycode:" + keycode + ",action:" + action + ",eventime:" + eventtime + "repeatCount:" + event.getRepeatCount());
 
             // single quick press: pause/resume. 
             // double press: next track
@@ -111,6 +101,7 @@ public class MediaButtonIntentReceiver extends BroadcastReceiver {
             if (command != null) {
                 if (action == KeyEvent.ACTION_DOWN) {
                     if (mDown) {
+                    	Log.d(TAG, "action down1");
                         if ((MediaPlaybackService.CMDTOGGLEPAUSE.equals(command) ||
                                 MediaPlaybackService.CMDPLAY.equals(command))
                                 && mLastClickTime != 0 
@@ -119,6 +110,7 @@ public class MediaButtonIntentReceiver extends BroadcastReceiver {
                                     mHandler.obtainMessage(MSG_LONGPRESS_TIMEOUT, context));
                         }
                     } else if (event.getRepeatCount() == 0) {
+                    	Log.d(TAG, "action down2");
                         // only consider the first event in a sequence, not the repeat events,
                         // so that we don't trigger in cases where the first event went to
                         // a different app (e.g. when the user ends a phone call by
@@ -143,6 +135,7 @@ public class MediaButtonIntentReceiver extends BroadcastReceiver {
                         mDown = true;
                     }
                 } else {
+                	Log.d(TAG, "action up");
                     mHandler.removeMessages(MSG_LONGPRESS_TIMEOUT);
                     mDown = false;
                 }
