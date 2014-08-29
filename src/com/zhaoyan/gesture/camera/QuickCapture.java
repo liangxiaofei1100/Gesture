@@ -1,6 +1,8 @@
 package com.zhaoyan.gesture.camera;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -128,10 +130,7 @@ public class QuickCapture extends Activity implements SurfaceHolder.Callback {
 		mParameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
 		// Enable auto focus.
 		List<String> focusModes = mParameters.getSupportedFocusModes();
-		if (focusModes.contains(Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
-			mAutoFocusMode = Parameters.FOCUS_MODE_CONTINUOUS_PICTURE;
-			mParameters.setFocusMode(Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
-		} else if (focusModes.contains(Parameters.FOCUS_MODE_AUTO)) {
+		if (focusModes.contains(Parameters.FOCUS_MODE_AUTO)) {
 			mAutoFocusMode = Parameters.FOCUS_MODE_AUTO;
 			mParameters.setFocusMode(Parameters.FOCUS_MODE_AUTO);
 		}
@@ -159,6 +158,7 @@ public class QuickCapture extends Activity implements SurfaceHolder.Callback {
 	private void setPreviewAndPictureSize() {
 		List<Size> pictureSizes = mParameters.getSupportedPictureSizes();
 		List<Size> previewSizes = mParameters.getSupportedPreviewSizes();
+
 		DisplayMetrics metrics = getResources().getDisplayMetrics();
 		Size pictureSize = findBestFullScreenSize(pictureSizes, metrics);
 		Size previewSize = findBestFullScreenSize(previewSizes, metrics);
@@ -172,6 +172,12 @@ public class QuickCapture extends Activity implements SurfaceHolder.Callback {
 		mParameters.setPreviewSize(previewSize.width, previewSize.height);
 	}
 
+	private void showSize(String name, List<Size> sizes) {
+		for (Size size : sizes) {
+			Log.d(TAG, "name " + size.width + " x " + size.height);
+		}
+	}
+
 	private Size findBestFullScreenSize(List<Size> sizes, DisplayMetrics metrics) {
 		double fullscreen;
 		if (metrics.widthPixels > metrics.heightPixels) {
@@ -179,16 +185,19 @@ public class QuickCapture extends Activity implements SurfaceHolder.Callback {
 		} else {
 			fullscreen = (double) metrics.heightPixels / metrics.widthPixels;
 		}
+
+		Collections.sort(sizes, mSizeComparator);
+
 		for (int i = sizes.size() - 1; i >= 0; i--) {
 			if (toleranceRatio(fullscreen,
 					(double) sizes.get(i).width / sizes.get(i).height)) {
 				return sizes.get(i);
 			}
 		}
-		// If no matched size, find width / height = 4 / 3
+		// If no matched size, find the 4/3.
 		for (int i = sizes.size() - 1; i >= 0; i--) {
-			if (toleranceRatio(4 / 3,
-					(double) sizes.get(i).width / sizes.get(i).height)) {
+			if (toleranceRatio((double) 4 / 3, (double) sizes.get(i).width
+					/ sizes.get(i).height)) {
 				return sizes.get(i);
 			}
 		}
@@ -221,14 +230,17 @@ public class QuickCapture extends Activity implements SurfaceHolder.Callback {
 
 	private void closeCamera() {
 		Log.d(TAG, "closeCamera");
-		mCamera.cancelAutoFocus();
-		mCamera.stopPreview();
-		mCamera.release();
+		if (mCamera != null) {
+			mCamera.cancelAutoFocus();
+			mCamera.stopPreview();
+			mCamera.release();
+			mCamera = null;
+		}
 	}
 
 	private void takePicture() {
 		mTakePictureNumber = 3;
-		mCamera.takePicture(mShutterCallback, mRawPictureCallback,
+		mCamera.takePicture(null, mRawPictureCallback,
 				mJpegPictureCallback);
 		mIsCaptureSuccess = true;
 	}
@@ -258,11 +270,12 @@ public class QuickCapture extends Activity implements SurfaceHolder.Callback {
 			mPhotoSaver.savePhoto(data, new Date(),
 					mParameters.getPictureSize().width,
 					mParameters.getPictureSize().height);
-
+			mHapticFeedback.vibrate();
+			
 			mTakePictureNumber--;
 			if (mTakePictureNumber > 0) {
 				mCamera.startPreview();
-				mCamera.takePicture(mShutterCallback, mRawPictureCallback,
+				mCamera.takePicture(null, mRawPictureCallback,
 						mJpegPictureCallback);
 			} else {
 				// finish.
@@ -277,12 +290,11 @@ public class QuickCapture extends Activity implements SurfaceHolder.Callback {
 		public void onAutoFocus(boolean focus, Camera camera) {
 			Log.d(TAG, "onAutoFocus " + (focus ? "success. " : "fail."));
 			if (focus) {
+				mCamera.cancelAutoFocus();
 				Log.d(TAG, "onAutoFocus mAutoFocusMode " + mAutoFocusMode);
 				takePicture();
 			} else {
-				if (Parameters.FOCUS_MODE_AUTO.equals(mAutoFocusMode)) {
-					mHandler.sendEmptyMessage(MSG_AUTO_FOCUS);
-				}
+				mHandler.sendEmptyMessage(MSG_AUTO_FOCUS);
 			}
 		}
 	};
@@ -305,6 +317,14 @@ public class QuickCapture extends Activity implements SurfaceHolder.Callback {
 		closeCamera();
 		restoreVolume();
 	}
+	
+	@Override
+	protected void onStop() {
+		super.onStop();
+		if (mCamera != null) {
+			closeCamera();
+		}
+	}
 
 	private void silenceVolume() {
 		mAudioManager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
@@ -321,5 +341,20 @@ public class QuickCapture extends Activity implements SurfaceHolder.Callback {
 		mAudioManager.setStreamVolume(AudioManager.STREAM_SYSTEM, mVolumn,
 				AudioManager.FLAG_ALLOW_RINGER_MODES);
 	}
+
+	private Comparator<Size> mSizeComparator = new Comparator<Size>() {
+
+		@Override
+		public int compare(Size size1, Size size2) {
+			if (size1.width > size2.width) {
+				return 1;
+			} else if (size1.width == size2.width) {
+				return 0;
+			} else {
+				return -1;
+			}
+		}
+
+	};
 
 }

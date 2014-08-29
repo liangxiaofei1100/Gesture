@@ -51,6 +51,8 @@ import java.util.Comparator;
 import java.util.Set;
 import java.io.File;
 
+import com.zhaoyan.gesture.util.CopyFile;
+
 public class GestureBuilderActivity extends ListActivity {
     private static final int STATUS_SUCCESS = 0;
     private static final int STATUS_CANCELLED = 1;
@@ -96,6 +98,7 @@ public class GestureBuilderActivity extends ListActivity {
 
         if (sStore == null) {
         	mStoreFile= new File(getFilesDir(),"gestures");
+        	CopyFile.copyFile(this, mStoreFile.getAbsolutePath(), "");
             sStore = GestureLibraries.fromFile(mStoreFile);
         }
         mEmpty = (TextView) findViewById(android.R.id.empty);
