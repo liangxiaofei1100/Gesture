@@ -1,6 +1,13 @@
 package com.zhaoyan.gesture.activity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -24,7 +31,8 @@ public class MessageSettingActivity extends BaseActivity implements
 	private ImageButton mSelectContactBtn;
 	public static final String SHARED_NAME = "gesture_info", NUMBER = "number",
 			INFO = "info";
-	private String number,info;
+	private String number, info;
+	private Dialog mSelectNumberDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,13 +51,13 @@ public class MessageSettingActivity extends BaseActivity implements
 		mMessageEt = (EditText) findViewById(R.id.sos_message_et);
 		mConfirmBtn.setOnClickListener(this);
 		mSelectContactBtn.setOnClickListener(this);
-		if(!number.isEmpty()){
+		if (!number.isEmpty()) {
 			mContactEt.setText(number);
 		}
-		if(!info.isEmpty()){
+		if (!info.isEmpty()) {
 			mMessageEt.setText(info);
 		}
-		
+
 	}
 
 	@Override
@@ -81,9 +89,7 @@ public class MessageSettingActivity extends BaseActivity implements
 				Cursor cursor = getContentResolver().query(contactData, null,
 						null, null, null);
 				cursor.moveToFirst();
-				String num = this.getContactPhone(cursor);
-				Log.e("ArbiterLiu", "number " + num);
-				mContactEt.setText(num);
+				getContactPhone(cursor);
 			}
 			break;
 
@@ -92,12 +98,12 @@ public class MessageSettingActivity extends BaseActivity implements
 		}
 	}
 
-	private String getContactPhone(Cursor cursor) {
+	private void getContactPhone(Cursor cursor) {
 		// TODO Auto-generated method stub
+		List<String> numberList = null;
 		int phoneColumn = cursor
 				.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER);
 		int phoneNum = cursor.getInt(phoneColumn);
-		String result = "";
 		if (phoneNum > 0) {
 			// 获得联系人的ID号
 			int idColumn = cursor.getColumnIndex(ContactsContract.Contacts._ID);
@@ -108,30 +114,21 @@ public class MessageSettingActivity extends BaseActivity implements
 					null,
 					ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "="
 							+ contactId, null, null);
+			if (numberList == null)
+				numberList = new ArrayList<String>();
+			numberList.clear();
 			if (phone.moveToFirst()) {
 				for (; !phone.isAfterLast(); phone.moveToNext()) {
 					int index = phone
 							.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
-					int typeindex = phone
-							.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE);
-					int phone_type = phone.getInt(typeindex);
-					String phoneNumber = phone.getString(index);
-					result = phoneNumber;
-					// switch (phone_type) {//此处请看下方注释
-					// case 2:
-					// result = phoneNumber;
-					// break;
-					//
-					// default:
-					// break;
-					// }
+					numberList.add(phone.getString(index));
 				}
 				if (!phone.isClosed()) {
 					phone.close();
 				}
 			}
+			setPhoneNumber(numberList);
 		}
-		return result;
 	}
 
 	private void saveInfo() {
@@ -140,23 +137,49 @@ public class MessageSettingActivity extends BaseActivity implements
 		Editor editor = sharedPreferences.edit();
 		if (mContactEt != null) {
 			String s = mContactEt.getText().toString();
-			if (!s.isEmpty()) {
-				editor.putString(NUMBER, s);
-			}
+			editor.putString(NUMBER, s);
 		}
 		if (mMessageEt != null) {
 			String s = mMessageEt.getText().toString();
-			if (!s.isEmpty()) {
-				editor.putString(INFO, s);
-			}
+			editor.putString(INFO, s);
 		}
 		editor.commit();
 	}
 
-	private void getInfo(){
+	private void getInfo() {
 		SharedPreferences sharedPreferences = getSharedPreferences(SHARED_NAME,
 				Activity.MODE_PRIVATE);
-		number=sharedPreferences.getString(NUMBER, "");
-		info=sharedPreferences.getString(INFO, "");
+		number = sharedPreferences.getString(NUMBER, "");
+		info = sharedPreferences.getString(INFO, "");
+	}
+
+	private void setPhoneNumber(List<String> numList) {
+		if (numList == null || numList.size() == 0) {
+			return;
+		} else if (numList.size() == 1) {
+			number = numList.get(0);
+			mContactEt.setText(number);
+		} else {
+			Builder builder = new Builder(this);
+			int num = numList.size();
+			builder.setTitle("选择号码");
+			final CharSequence[] a = new CharSequence[num];
+			for (int i = 0; i < num; i++) {
+				a[i] = numList.get(i);
+			}
+			builder.setSingleChoiceItems(a, 0,
+					new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							// TODO Auto-generated method stub
+							number = (String) a[which];
+							mContactEt.setText(number);
+							mSelectNumberDialog.dismiss();
+						}
+					});
+			mSelectNumberDialog = builder.create();
+			mSelectNumberDialog.show();
+		}
 	}
 }
