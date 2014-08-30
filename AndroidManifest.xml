@@ -369,6 +369,17 @@
         </activity>
         <activity android:name="com.zhaoyan.gesture.activity.GestureShowActivity"></activity>
         <!-- base end -->
+        
+        <activity 
+            android:name="com.zhaoyan.gesture.activity.TestActivity"
+            android:theme="@style/SlideTheme"
+            >
+            <intent-filter>
+                <action 
+                    android:name="com.zhaoyan.gesutre.test"
+                    />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

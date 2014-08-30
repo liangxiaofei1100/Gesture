@@ -40,10 +40,10 @@
             android:id="@+id/status_bar_artist_name"
             style="@style/StatusBarText" />
     </LinearLayout>
-     <ImageButton 
-	            android:id="@+id/status_bar_prev" 
-	             android:src="@android:drawable/ic_media_previous"
-	            style="@style/StatusBarButton" />
+<!--      <ImageButton  -->
+<!-- 	            android:id="@+id/status_bar_prev"  -->
+<!-- 	             android:src="@android:drawable/ic_media_previous" -->
+<!-- 	            style="@style/StatusBarButton" /> -->
     
     <ImageButton
         android:id="@+id/status_bar_play"
@@ -54,6 +54,15 @@
         android:id="@+id/status_bar_next"
         style="@style/StatusBarButton"
         android:src="@android:drawable/ic_media_next"
+        />
+    
+    <ImageButton 
+        android:id="@+id/status_bar_close"
+        android:layout_width="28dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center|right"
+        android:background="?android:listChoiceBackgroundIndicator"
+        android:src="@drawable/statusbar_btn_close"
         />
 
    <!--  <ImageButton

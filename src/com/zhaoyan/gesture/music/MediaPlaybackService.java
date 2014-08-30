@@ -109,6 +109,7 @@ public class MediaPlaybackService extends Service {
     public static final String NEXT_ACTION = "com.zhaoyan.gesture.music.musicservicecommand.next";
     public static final String PLAY_ACTION = "com.zhaoyan.gesture.music.musicservicecommand.play";
     public static final String OPEN_ACTION = "com.zhaoyan.gesture.music.musicservicecommand.open";
+    public static final String CLOSE_ACTION = "com.zhaoyan.gesture.music.musicservicecommand.close";
 
     private static final int TRACK_ENDED = 1;
     private static final int RELEASE_WAKELOCK = 2;
@@ -413,7 +414,8 @@ public class MediaPlaybackService extends Service {
             mUnmountReceiver = null;
         }
         mWakeLock.release();
-        mManager.cancelAll();
+        stopForeground(true);
+        mManager.cancel(PLAYBACKSERVICE_STATUS);
         
         if (mAsyncAlbumArtWorker != null) {
 			mAsyncAlbumArtWorker.cancel(true);
@@ -676,12 +678,13 @@ public class MediaPlaybackService extends Service {
             if (CMDNEXT.equals(cmd) || NEXT_ACTION.equals(action)) {
                 next(true);
             } else if (CMDPREVIOUS.equals(cmd) || PREVIOUS_ACTION.equals(action)) {
-                if (position() < 2000) {
+            	//modify by yuri,if prev,just do it ,do not replay
+//                if (position() < 2000) {
                     prev();
-                } else {
-                    seek(0);
-                    play();
-                }
+//                } else {
+//                    seek(0);
+//                    play();
+//                }
             } else if (CMDTOGGLEPAUSE.equals(cmd) || TOGGLEPAUSE_ACTION.equals(action)) {
                 if (isPlaying()) {
                     pause();
@@ -701,6 +704,9 @@ public class MediaPlaybackService extends Service {
             } else if (OPEN_ACTION.equals(action)) {
             	Log.d(LOGTAG, "OPEN_ACTION");
             	play();
+			} else if (CLOSE_ACTION.equals(action)) {
+				stopForeground(true);
+				mManager.cancel(PLAYBACKSERVICE_STATUS);
 			}
         }
         
@@ -1209,10 +1215,10 @@ public class MediaPlaybackService extends Service {
         pIntent = PendingIntent.getActivity(context, 0, intent, 0);
         views.setOnClickPendingIntent(R.id.status_bar_ll, pIntent);
         
-        intent = new Intent(PREVIOUS_ACTION);
-        intent.setClass(context, MediaPlaybackService.class);
-        pIntent = PendingIntent.getService(context, 0, intent, 0);
-        views.setOnClickPendingIntent(R.id.status_bar_prev, pIntent);
+//        intent = new Intent(PREVIOUS_ACTION);
+//        intent.setClass(context, MediaPlaybackService.class);
+//        pIntent = PendingIntent.getService(context, 0, intent, 0);
+//        views.setOnClickPendingIntent(R.id.status_bar_prev, pIntent);
         
         intent = new Intent(TOGGLEPAUSE_ACTION);
         intent.setClass(context, MediaPlaybackService.class);
@@ -1223,6 +1229,11 @@ public class MediaPlaybackService extends Service {
         intent.setClass(context, MediaPlaybackService.class);
         pIntent = PendingIntent.getService(context, 0, intent, 0);
         views.setOnClickPendingIntent(R.id.status_bar_next, pIntent);
+        
+        intent = new Intent(CLOSE_ACTION);
+        intent.setClass(context, MediaPlaybackService.class);
+        pIntent = PendingIntent.getService(context, 0, intent, 0);
+        views.setOnClickPendingIntent(R.id.status_bar_close, pIntent);
         
         views.setImageViewResource(R.id.status_bar_play, android.R.drawable.ic_media_pause);
         views.setTextViewText(R.id.status_bar_track_name, getTrackName());

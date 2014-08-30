@@ -462,12 +462,13 @@ public class MediaPlaybackActivity2 extends Activity implements MusicUtils.Defs,
 			if (mService == null)
 				return;
 			try {
-				if (mService.position() < 2000) {
+				//modify by yuri.just do it,do not peplay
+//				if (mService.position() < 2000) {
 					mService.prev();
-				} else {
-					mService.seek(0);
-					mService.play();
-				}
+//				} else {
+//					mService.seek(0);
+//					mService.play();
+//				}
 			} catch (RemoteException ex) {
 			}
 		}

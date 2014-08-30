@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
@@ -18,6 +21,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ListAdapter;
+import android.widget.RemoteViews;
 import android.widget.SimpleAdapter;
 import android.widget.AbsListView.LayoutParams;
 import android.widget.AdapterView.OnItemClickListener;
@@ -44,6 +48,37 @@ public class MainActivity extends Activity implements OnItemClickListener,
 
 		initLaunchers();
 		initView();
+		
+		//notification test
+		RemoteViews views = new RemoteViews(getPackageName(), R.layout.main_notification);
+		
+		Intent intent;
+		PendingIntent pIntent;
+
+		intent = new Intent("com.zhaoyan.gesutre.test");
+		intent.putExtra("test", "11111111111111111");
+		pIntent = PendingIntent.getActivity(this, 0, intent, 0);
+		views.setOnClickPendingIntent(R.id.iv_add, pIntent);
+		
+		intent = new Intent("com.zhaoyan.gesutre.test");
+		intent.putExtra("test", "2222222222222222222");
+		pIntent = PendingIntent.getActivity(this, 0, intent, 0);
+		views.setOnClickPendingIntent(R.id.iv_add2, pIntent);
+		
+		
+		intent = new Intent("com.zhaoyan.gesutre.test");
+		intent.putExtra("test", "333333333333333333");
+		pIntent = PendingIntent.getActivity(this, 0, intent, 0);
+		views.setOnClickPendingIntent(R.id.iv_add3, pIntent);
+		
+		Notification mNotification = new Notification.Builder(this).getNotification();
+		mNotification.contentView = views;
+		mNotification.flags = Notification.FLAG_ONGOING_EVENT;
+		mNotification.contentIntent = PendingIntent.getActivity(this, 0,
+				intent, 0);
+		
+		NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+		manager.notify(222, mNotification);
 	}
 
 	@Override

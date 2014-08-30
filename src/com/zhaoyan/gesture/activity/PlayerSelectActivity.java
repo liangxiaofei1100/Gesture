@@ -129,6 +129,7 @@ public class PlayerSelectActivity extends Activity implements OnItemClickListene
 		}
 		
 		public void setSelect(int position){
+			System.out.println("setSelect");
 			currentSelectPos = position;
 			notifyDataSetChanged();
 		}
@@ -174,9 +175,13 @@ public class PlayerSelectActivity extends Activity implements OnItemClickListene
 			String label = (String) info.loadLabel(getPackageManager());
 			Drawable logoDrawable = info.loadIcon(getPackageManager());
 			
+			System.out.println("position:" + position);
+			System.out.println("currentpos:" + currentSelectPos);
 			if (currentSelectPos == position) {
-				view.setBackgroundResource(R.color.holo_blue_dark);
+				System.out.println("11111111111");
+				view.setBackgroundResource(android.R.color.holo_blue_light);
 			} else {
+				System.out.println("2222222222222");
 				view.setBackgroundColor(Color.TRANSPARENT);
 			}
 			
