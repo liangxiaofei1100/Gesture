@@ -30,6 +30,7 @@ import android.view.ViewGroup;
 import android.gesture.GestureLibrary;
 import android.gesture.Gesture;
 import android.gesture.GestureLibraries;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.EditText;
 import android.widget.AdapterView;
@@ -51,6 +52,7 @@ import java.util.Comparator;
 import java.util.Set;
 import java.io.File;
 
+import com.zhaoyan.gesture.activity.GestureShowActivity;
 import com.zhaoyan.gesture.util.CopyFile;
 
 public class GestureBuilderActivity extends ListActivity {
@@ -123,6 +125,16 @@ public class GestureBuilderActivity extends ListActivity {
     }
 
     @Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		// TODO Auto-generated method stub
+		super.onListItemClick(l, v, position, id);
+		Intent intent=new Intent();
+		intent.setClass(this, GestureShowActivity.class);
+		intent.putExtra("name", mAdapter.getItem(position).name);
+		startActivity(intent);
+	}
+
+	@Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         
