@@ -243,7 +243,7 @@ public class MediaPickerActivity extends ListActivity implements
 		@Override
 		public View newView(Context context, Cursor cursor, ViewGroup parent) {
 			View v = super.newView(context, cursor, parent);
-			ImageView iv = (ImageView) v.findViewById(R.id.icon);
+			ImageView iv = (ImageView) v.findViewById(R.id.iv_app_logo);
 			iv.setVisibility(View.VISIBLE);
 			ViewGroup.LayoutParams p = iv.getLayoutParams();
 			p.width = ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -282,7 +282,7 @@ public class MediaPickerActivity extends ListActivity implements
 			tv.setText(builder.toString());
 
 			String text = cursor.getString(mMimeIdx);
-			ImageView iv = (ImageView) view.findViewById(R.id.icon);
+			ImageView iv = (ImageView) view.findViewById(R.id.iv_app_logo);
 			;
 			if ("audio/midi".equals(text)) {
 				iv.setImageResource(R.drawable.midi);

@@ -700,34 +700,7 @@ public class MediaPlaybackService extends Service {
                 seek(0);
             } else if (OPEN_ACTION.equals(action)) {
             	Log.d(LOGTAG, "OPEN_ACTION");
-            	String path = "";
-            	Log.d(LOGTAG, "open_aciton.path:" + path);
-            	//test
-            	Log.d(LOGTAG, "mcursor:" + mCursor + "playlistsize:" + mPlayList);
-            	//test
-            	if (mPlayList == null) {
-            		String selection = Media.IS_MUSIC + "!=0" +
-            	 " and " + Media.DURATION + "> 1000";
-            		Cursor cursor = MusicUtils.query(
-        					MediaPlaybackService.this,
-        					MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, mCursorCols,
-        					selection, null, MediaStore.Audio.Media._ID);
-                	if (cursor != null && cursor.moveToFirst()) {
-    					path = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA));
-    					int duration = cursor.getInt(cursor.getColumnIndex(Media.DURATION));
-    					Log.d(LOGTAG, "duration:" + duration);
-    					cursor.close();
-    				} else {
-    					Log.d(LOGTAG, "cursor is null");
-    				}
-                	open(path);
-                	play();
-	                notifyChange(META_CHANGED);
-				} else {
-					openCurrent();
-					play();
-	                notifyChange(META_CHANGED);
-				}
+            	play();
 			}
         }
         

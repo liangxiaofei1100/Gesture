@@ -383,7 +383,7 @@ implements MusicUtils.Defs, ServiceConnection
             
             TextView tv1 = (TextView) view.findViewById(R.id.line1);
             TextView tv2 = (TextView) view.findViewById(R.id.line2);
-            ImageView iv = (ImageView) view.findViewById(R.id.icon);
+            ImageView iv = (ImageView) view.findViewById(R.id.iv_app_logo);
             ViewGroup.LayoutParams p = iv.getLayoutParams();
             if (p == null) {
                 // seen this happen, not sure why

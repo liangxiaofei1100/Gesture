@@ -1591,7 +1591,7 @@ public class TrackBrowserActivity extends ListActivity implements
 		@Override
 		public View newView(Context context, Cursor cursor, ViewGroup parent) {
 			View v = super.newView(context, cursor, parent);
-			ImageView iv = (ImageView) v.findViewById(R.id.icon);
+			ImageView iv = (ImageView) v.findViewById(R.id.iv_app_logo);
 			iv.setVisibility(View.GONE);
 
 			ViewHolder vh = new ViewHolder();

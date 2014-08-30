@@ -672,7 +672,7 @@ public class PlaylistBrowserActivity extends ListActivity implements
 			TextView tv = (TextView) view.findViewById(R.id.line1);
 			String name = cursor.getString(mTitleIdx);
 
-			ImageView iv = (ImageView) view.findViewById(R.id.icon);
+			ImageView iv = (ImageView) view.findViewById(R.id.iv_app_logo);
 			if (id == RECENTLY_ADDED_PLAYLIST) {
 				tv.setText(R.string.recentlyadded);
 				iv.setImageResource(R.drawable.ic_mp_playlist_recently_added_list);

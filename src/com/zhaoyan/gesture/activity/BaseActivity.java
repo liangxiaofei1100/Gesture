@@ -64,6 +64,17 @@ public class BaseActivity extends Activity implements OnMenuItemClickListener,
 		mTitleNumView = (TextView) mCustomTitleView
 				.findViewById(R.id.tv_title_num);
 	}
+	
+	protected void initTitle(String title) {
+		mCustomTitleView = findViewById(R.id.title);
+
+		// title name view
+		mTitleNameView = (TextView) mCustomTitleView
+				.findViewById(R.id.tv_title_name);
+		mTitleNameView.setText(title);
+		mTitleNumView = (TextView) mCustomTitleView
+				.findViewById(R.id.tv_title_num);
+	}
 
 	protected void setTitleNumVisible(boolean visible) {
 		mTitleNumView.setVisibility(visible ? View.VISIBLE : View.GONE);
