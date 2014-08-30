@@ -57,7 +57,7 @@ public class MessageSettingActivity extends BaseActivity implements
 		mMessageEt = (EditText) findViewById(R.id.sos_message_et);
 		mInfoLengthTv = (TextView) findViewById(R.id.info_length_tv);
 		mCleanBtn = (Button) findViewById(R.id.btn_cancel);
-		mIntroductionView = (IntroductionView) findViewById(R.id.introduction_lay);
+		mIntroductionView = mBaseIntroductionView;
 		mIntroductionView.setIntroductionText("画手势，做动作");
 		Intent intent = new Intent();
 		intent.setClass(this, GestureShowActivity.class);
