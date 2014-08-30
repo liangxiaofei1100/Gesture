@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/show_gesture_introduction_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/login_edittext_selector"
+        android:gravity="center" />
+
+    <ImageView
+        android:id="@+id/show_gesture"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/show_gesture_introduction_tv"
+        android:scaleType="fitCenter" />
+
+    <android.gesture.GestureOverlayView
+        android:id="@+id/show_gestures_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/show_gesture_introduction_tv"
+        android:background="#0f000000"
+        android:gestureStrokeType="multiple" />
+    <TextView
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/show_gesture_introduction_tv_score"
+        android:layout_width="100dip"
+        android:layout_height="wrap_content"
+        android:background="#00000000"
+        android:gravity="right" />
+
+</RelativeLayout>

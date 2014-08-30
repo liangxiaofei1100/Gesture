@@ -15,24 +15,30 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
+import com.zhaoyan.common.view.IntroductionView;
 import com.zhaoyan.gesture.R;
 
 public class MessageSettingActivity extends BaseActivity implements
 		OnClickListener {
 	private EditText mContactEt, mMessageEt;
-	private Button mConfirmBtn;
+	private Button mConfirmBtn, mCleanBtn;
 	private ImageButton mSelectContactBtn;
 	public static final String SHARED_NAME = "gesture_info", NUMBER = "number",
 			INFO = "info";
 	private String number, info;
 	private Dialog mSelectNumberDialog;
+	private TextView mInfoLengthTv;
+	private IntroductionView mIntroductionView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,12 +51,47 @@ public class MessageSettingActivity extends BaseActivity implements
 	}
 
 	private void intiView() {
-		mConfirmBtn = (Button) findViewById(R.id.sos_confirm_btn);
+		mConfirmBtn = (Button) findViewById(R.id.btn_save);
 		mContactEt = (EditText) findViewById(R.id.sos_contact_et);
 		mSelectContactBtn = (ImageButton) findViewById(R.id.sos_contact_btn);
 		mMessageEt = (EditText) findViewById(R.id.sos_message_et);
+		mInfoLengthTv = (TextView) findViewById(R.id.info_length_tv);
+		mCleanBtn = (Button) findViewById(R.id.btn_cancel);
+		mIntroductionView = (IntroductionView) findViewById(R.id.introduction_lay);
+		mIntroductionView.setIntroductionText("画手势，做动作");
+		Intent intent = new Intent();
+		intent.setClass(this, GestureShowActivity.class);
+		intent.putExtra("name", "求救");
+		mIntroductionView.setShowGestureIntent(intent);
 		mConfirmBtn.setOnClickListener(this);
 		mSelectContactBtn.setOnClickListener(this);
+		mCleanBtn.setOnClickListener(this);
+		mMessageEt.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+				int len = s.length();
+				if (len > 0)
+					mInfoLengthTv.setText(s.length() + "个字");
+				else
+					mInfoLengthTv.setText("");
+			}
+		});
 		if (!number.isEmpty()) {
 			mContactEt.setText(number);
 		}
@@ -69,9 +110,13 @@ public class MessageSettingActivity extends BaseActivity implements
 					ContactsContract.Contacts.CONTENT_URI);
 			this.startActivityForResult(intent, 1);
 			break;
-		case R.id.sos_confirm_btn:
+		case R.id.btn_save:
 			saveInfo();
 			finish();
+			break;
+		case R.id.btn_cancel:
+			mContactEt.setText("");
+			mMessageEt.setText("");
 			break;
 		default:
 			break;
