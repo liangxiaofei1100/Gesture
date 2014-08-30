@@ -7,6 +7,7 @@ import com.zhaoyan.gesture.R;
 import com.zhaoyan.gesture.util.CopyFile;
 
 import android.app.Activity;
+import android.content.res.ColorStateList;
 import android.gesture.Gesture;
 import android.gesture.GestureLibraries;
 import android.gesture.GestureLibrary;
@@ -18,6 +19,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.ViewTreeObserver.OnPreDrawListener;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,7 +28,7 @@ public class GestureShowActivity extends Activity implements OnGestureListener {
 	private Gesture mGesture;
 	private static GestureLibrary sStore;
 	private GestureOverlayView overlayView;
-	private TextView mTv, mScoreTv;
+	private TextView mTv, mScoreTv, mTittleTv;
 	private ImageView mImageView;
 	private Bitmap mBackgroundBitmap;
 	private String name;
@@ -35,13 +37,18 @@ public class GestureShowActivity extends Activity implements OnGestureListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.gesture_show_layout);
 		File f = new File(getFilesDir(), "gestures");
 		CopyFile.copyFile(this, f.getAbsolutePath(), "");
 		sStore = GestureLibraries.fromFile(f);
 		name = getIntent().getStringExtra("name");
+		mTittleTv = (TextView) findViewById(R.id.tv_title_name);
 		if (name != null) {
 			getGesture(name);
+			mTittleTv.setText("手势练习：" + name);
+		} else {
+			mTittleTv.setText("手势练习");
 		}
 		mTv = (TextView) findViewById(R.id.show_gesture_introduction_tv);
 		mScoreTv = (TextView) findViewById(R.id.show_gesture_introduction_tv_score);
@@ -55,8 +62,8 @@ public class GestureShowActivity extends Activity implements OnGestureListener {
 					public boolean onPreDraw() {
 						// TODO Auto-generated method stub
 						if (mGesture != null) {
-							mBackgroundBitmap = mGesture.toBitmap(300, 400, 10,
-									Color.GREEN);
+							mBackgroundBitmap = mGesture.toBitmap(300, 400, 1,
+									Color.BLUE);
 							mImageView.setImageBitmap(mBackgroundBitmap);
 						}
 						return true;
@@ -101,11 +108,13 @@ public class GestureShowActivity extends Activity implements OnGestureListener {
 		if (!predictions.isEmpty()) {
 			for (Prediction p : predictions) {
 				if (name != null && p.name.equals(name)) {
-					if (p.score >= 10)
-						mScoreTv.setText("匹配成功");
-					else
+					if (p.score >= 10){
+						mScoreTv.setTextColor(Color.GREEN);
+						mScoreTv.setText("匹配成功");}
+					else{
+						mScoreTv.setTextColor(Color.RED);
 						mScoreTv.setText("匹配失败");
-				}
+				}}
 			}
 		}
 	}

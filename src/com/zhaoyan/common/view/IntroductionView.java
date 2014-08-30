@@ -51,10 +51,10 @@ public class IntroductionView extends RelativeLayout implements OnClickListener 
 				mIntroductionTv.setVisibility(View.VISIBLE);
 				if (mIntroductionText != null)
 					mIntroductionTv.setText(mIntroductionText);
-				mImageView.setImageResource(R.drawable.setting_item_arrow_down);
+				mImageView.setImageResource(R.drawable.setting_item_arrow_up);
 			} else {
 				mIntroductionTv.setVisibility(View.GONE);
-				mImageView.setImageResource(R.drawable.setting_item_arrow);
+				mImageView.setImageResource(R.drawable.setting_item_arrow_down);
 			}
 			break;
 		case R.id.gestrue_try:
