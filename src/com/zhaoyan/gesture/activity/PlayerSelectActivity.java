@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -25,7 +26,7 @@ import com.zhaoyan.gesture.R;
 import com.zhaoyan.gesture.music.MusicConf;
 import com.zhaoyan.gesture.music.utils.MusicUtils;
 
-public class PlayerSelectActivity extends Activity implements OnItemClickListener {
+public class PlayerSelectActivity extends Activity implements OnItemClickListener, OnClickListener {
 	private static final String TAG = PlayerSelectActivity.class.getSimpleName();
 	
 	
@@ -43,10 +44,15 @@ public class PlayerSelectActivity extends Activity implements OnItemClickListene
 		String packagename = MusicConf.getStringPref(getApplicationContext(), "package", "com.zhaoyan.gesture");
 		
 		mListView = (ListView) findViewById (R.id.player_select_listview);
+		
+		View footView = LayoutInflater.from(this).inflate(R.layout.dialog_default_player_select_footview, null);
+		View loadMore = footView.findViewById(R.id.rl_footview);
+		loadMore.setOnClickListener(this);
+		mListView.addFooterView(footView);
+		
 		mAdapter = new MusicSelectAdapter(this, packagename);
 		mListView.setAdapter(mAdapter);
 		mListView.setOnItemClickListener(this);
-		
 	}
 	
 	private List<ResolveInfo> getMusicApps() {
@@ -67,8 +73,6 @@ public class PlayerSelectActivity extends Activity implements OnItemClickListene
 		case R.id.btn_ok:
 			ResolveInfo info = (ResolveInfo) mAdapter.getSelectItem();
 			String packageName = info.activityInfo.packageName;
-			System.out.println("package:"  + packageName);
-			MusicConf.setStringPref(getApplicationContext(), "package", packageName);
 			Intent intent = new Intent();
 			intent.setPackage(packageName);
 			setResult(RESULT_OK, intent);
@@ -80,9 +84,31 @@ public class PlayerSelectActivity extends Activity implements OnItemClickListene
 		}
 	}
 	
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.rl_footview:
+			Intent intent = new Intent();
+			intent.setClass(this, AppLauncherActivity.class);
+			
+			Bundle bundle = new Bundle();
+			bundle.putBoolean("selectMode", true);
+			bundle.putString("title", "选择默认播放器");
+			
+			intent.putExtras(bundle);
+			
+			startActivityForResult(intent, 0);
+			break;
+
+		default:
+			break;
+		}
+	}
+	
 	private class MusicSelectAdapter extends BaseAdapter{
 		LayoutInflater inflater = null;
-		int currentSelectPos = 0;
+		int currentSelectPos = -1;
+		int defaultPos = -1;
 		
 		public MusicSelectAdapter(Context context, String defPackage){
 			inflater = LayoutInflater.from(context);
@@ -93,7 +119,13 @@ public class PlayerSelectActivity extends Activity implements OnItemClickListene
 				if (defPackage.equals(packagename)) {
 					currentSelectPos = i;
 				}
+				
+				if ("com.zhaoyan.gesture".equals(packagename)) {
+					defaultPos = i;
+				}
 			}
+			
+			currentSelectPos = (currentSelectPos == -1) ? defaultPos : currentSelectPos;
 		}
 		
 		public void setSelect(int position){
@@ -165,6 +197,14 @@ public class PlayerSelectActivity extends Activity implements OnItemClickListene
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		mAdapter.setSelect(position);
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		setResult(resultCode, data);
+		this.finish();
 	}
 
 }

@@ -19,7 +19,7 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- icon is used for albumart, the grabber in edit playlist mode, and the playlist icon in the list of playlists -->
-    <ImageView android:id="@+id/icon"
+    <ImageView android:id="@+id/iv_app_logo"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
@@ -45,7 +45,7 @@
         android:paddingLeft="9dip"
         android:layout_height="wrap_content"
         android:layout_alignWithParentIfMissing="true"
-        android:layout_toRightOf="@id/icon"
+        android:layout_toRightOf="@id/iv_app_logo"
         android:layout_toLeftOf="@id/duration"
         android:textColor="@android:color/black"
         android:ellipsize="marquee"
@@ -60,7 +60,7 @@
         android:scrollHorizontally="true"
         android:layout_below="@id/line1"
         android:layout_alignWithParentIfMissing="true"
-        android:layout_toRightOf="@id/icon"
+        android:layout_toRightOf="@id/iv_app_logo"
         android:layout_toLeftOf="@id/duration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

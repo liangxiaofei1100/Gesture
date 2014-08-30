@@ -716,7 +716,7 @@ public class ArtistAlbumBrowserActivity extends ExpandableListActivity
 		public View newGroupView(Context context, Cursor cursor,
 				boolean isExpanded, ViewGroup parent) {
 			View v = super.newGroupView(context, cursor, isExpanded, parent);
-			ImageView iv = (ImageView) v.findViewById(R.id.icon);
+			ImageView iv = (ImageView) v.findViewById(R.id.iv_app_logo);
 			ViewGroup.LayoutParams p = iv.getLayoutParams();
 			p.width = ViewGroup.LayoutParams.WRAP_CONTENT;
 			p.height = ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -724,7 +724,7 @@ public class ArtistAlbumBrowserActivity extends ExpandableListActivity
 			vh.line1 = (TextView) v.findViewById(R.id.line1);
 			vh.line2 = (TextView) v.findViewById(R.id.line2);
 			vh.play_indicator = (ImageView) v.findViewById(R.id.play_indicator);
-			vh.icon = (ImageView) v.findViewById(R.id.icon);
+			vh.icon = (ImageView) v.findViewById(R.id.iv_app_logo);
 			vh.icon.setPadding(0, 0, 1, 0);
 			v.setTag(vh);
 			return v;
@@ -738,7 +738,7 @@ public class ArtistAlbumBrowserActivity extends ExpandableListActivity
 			vh.line1 = (TextView) v.findViewById(R.id.line1);
 			vh.line2 = (TextView) v.findViewById(R.id.line2);
 			vh.play_indicator = (ImageView) v.findViewById(R.id.play_indicator);
-			vh.icon = (ImageView) v.findViewById(R.id.icon);
+			vh.icon = (ImageView) v.findViewById(R.id.iv_app_logo);
 			vh.icon.setBackgroundDrawable(mDefaultAlbumIcon);
 			vh.icon.setPadding(0, 0, 1, 0);
 			v.setTag(vh);

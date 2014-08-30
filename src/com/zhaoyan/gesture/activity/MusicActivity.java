@@ -2,6 +2,7 @@ package com.zhaoyan.gesture.activity;
 
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zhaoyan.gesture.R;
+import com.zhaoyan.gesture.music.MusicConf;
 import com.zhaoyan.gesture.music.ui.MusicBrowserActivity;
 
 public class MusicActivity extends BaseActivity {
@@ -17,6 +19,8 @@ public class MusicActivity extends BaseActivity {
 	private TextView mSetPlayerSummary, mSetPlayListSummary;
 	private ImageView mLogoView;
 	
+	private String packageName = "";
+	private PackageManager mPackageManager;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -26,13 +30,21 @@ public class MusicActivity extends BaseActivity {
 		
 		mSetPlayerSummary = getView(R.id.tv_player_label);
 		mLogoView = getView(R.id.iv_player_logo);
+		
+		packageName = MusicConf.getStringPref(getApplicationContext(), "package", "com.zhaoyan.gesture");
+		
+		mPackageManager = getPackageManager();
+		updatePlayer();
 	}
 	
 	public void openMusicPlayer(View view){
-		Intent intent = new Intent();
-		intent.setClass(MusicActivity.this, MusicBrowserActivity.class);
-//		intent.setAction("android.intent.action.MUSIC_PLAYER");
-//		intent.addCategory(Intent.CATEGORY_APP_MUSIC);
+		Intent intent = null;
+		if (packageName == null || packageName.equals("com.zhaoyan.gesture")) {
+			intent = new Intent();
+			intent.setClass(MusicActivity.this, MusicBrowserActivity.class);
+		} else {
+			intent = mPackageManager.getLaunchIntentForPackage(packageName);
+		}
 		startActivity(intent);
 	}
 	
@@ -47,20 +59,24 @@ public class MusicActivity extends BaseActivity {
 	
 	}
 	
+	private void updatePlayer(){
+		try {
+			ApplicationInfo info = mPackageManager.getApplicationInfo(packageName, 0);
+			mSetPlayerSummary.setText(info.loadLabel(mPackageManager));
+			mLogoView.setImageDrawable(info.loadIcon(mPackageManager));
+		} catch (NameNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (RESULT_OK == resultCode) {
-			String packagename = data.getPackage();
-			try {
-				ApplicationInfo info = getPackageManager().getApplicationInfo(packagename, 0);
-				mSetPlayerSummary.setText(info.loadLabel(getPackageManager()));
-				mLogoView.setImageDrawable(info.loadIcon(getPackageManager()));
-			} catch (NameNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			packageName = data.getPackage();
+			MusicConf.setStringPref(getApplicationContext(), "package", packageName);
+			updatePlayer();
 		}
 	}
 	

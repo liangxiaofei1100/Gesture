@@ -62,10 +62,10 @@ public class MusicGesture implements GestureHandler{
 				keyEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_NEXT);
 			}
 			long time = SystemClock.uptimeMillis();
-			System.out.println(packageName);
+			Log.d(TAG, "handleGesture.package:" + packageName);
 			KeyEvent.changeTimeRepeat(keyEvent, time, 0);
 			intent.putExtra(Intent.EXTRA_KEY_EVENT, keyEvent);
-//			intent.setPackage(packageName);
+			intent.setPackage(packageName);
 			mContext.sendBroadcast(intent);
 			
 			keyup();

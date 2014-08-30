@@ -27,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="66dip"
         android:gravity="center_vertical"
-        android:ignoreGravity="@+id/icon"
+        android:ignoreGravity="@+id/iv_app_logo"
         android:background="@drawable/playlist_tile"
         android:paddingLeft="47dip"
         >
