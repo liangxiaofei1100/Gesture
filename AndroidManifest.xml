@@ -360,6 +360,7 @@
             android:theme="@style/SlideTheme"
             >
         </activity>
+        <activity android:name="com.zhaoyan.gesture.activity.GestureShowActivity"></activity>
         <!-- base end -->
     </application>
 

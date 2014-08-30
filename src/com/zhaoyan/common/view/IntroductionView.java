@@ -1,6 +1,7 @@
 package com.zhaoyan.common.view;
 
 import com.zhaoyan.gesture.R;
+import com.zhaoyan.gesture.activity.GestureShowActivity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -17,6 +19,8 @@ public class IntroductionView extends RelativeLayout implements OnClickListener 
 	private TextView mIntroductionTv;
 	private Intent intent;
 	private String mIntroductionText;
+	private ImageView mImageView;
+	private String extraString;
 
 	public IntroductionView(Context context) {
 		// TODO Auto-generated constructor stub
@@ -47,11 +51,21 @@ public class IntroductionView extends RelativeLayout implements OnClickListener 
 				mIntroductionTv.setVisibility(View.VISIBLE);
 				if (mIntroductionText != null)
 					mIntroductionTv.setText(mIntroductionText);
+				mImageView.setImageResource(R.drawable.setting_item_arrow_down);
 			} else {
 				mIntroductionTv.setVisibility(View.GONE);
+				mImageView.setImageResource(R.drawable.setting_item_arrow);
 			}
 			break;
 		case R.id.gestrue_try:
+			if (intent != null) {
+				mContext.startActivity(intent);
+			} else if (extraString != null) {
+				Intent intent = new Intent();
+				intent.setClass(mContext, GestureShowActivity.class);
+				intent.putExtra("name", extraString);
+				mContext.startActivity(intent);
+			}
 
 			break;
 		default:
@@ -66,8 +80,13 @@ public class IntroductionView extends RelativeLayout implements OnClickListener 
 		mIntroductionTv.setText(introdunction);
 	}
 
+	/** @deprecated use  {@link #setIntentExtraName(String)} */
 	public void setShowGestureIntent(Intent intent) {
 		this.intent = intent;
+	}
+
+	public void setIntentExtraName(String name) {
+		extraString = name;
 	}
 
 	private void initView(String introdunction) {
@@ -75,6 +94,7 @@ public class IntroductionView extends RelativeLayout implements OnClickListener 
 		inflater.inflate(R.layout.introduction_view_layout, this);
 		mClkView = findViewById(R.id.introduction_layout);
 		mTryGestrueView = findViewById(R.id.gestrue_try);
+		mImageView = (ImageView) findViewById(R.id.iv_wo_ts_arrow);
 		mIntroductionTv = (TextView) findViewById(R.id.introduction_tv);
 		mClkView.setOnClickListener(this);
 		mTryGestrueView.setOnClickListener(this);
