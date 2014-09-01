@@ -3,6 +3,9 @@ package com.zhaoyan.gesture;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.zhaoyan.gesture.service.CommonUtils;
+import com.zhaoyan.gesture.service.CommonUtils.ServiceToken;
+
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -38,7 +41,7 @@ public class MainActivity extends Activity implements OnItemClickListener,
 	private final String KEY_ITEM_ICON = "icon";
 	private final String KEY_ITEM_TEXT = "text";
 	private final String KEY_ITEM_CLASS_NAME = "class";
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -49,36 +52,9 @@ public class MainActivity extends Activity implements OnItemClickListener,
 		initLaunchers();
 		initView();
 		
-		//notification test
-		RemoteViews views = new RemoteViews(getPackageName(), R.layout.main_notification);
-		
-		Intent intent;
-		PendingIntent pIntent;
-
-		intent = new Intent("com.zhaoyan.gesutre.test");
-		intent.putExtra("test", "11111111111111111");
-		pIntent = PendingIntent.getActivity(this, 0, intent, 0);
-		views.setOnClickPendingIntent(R.id.iv_add, pIntent);
-		
-		intent = new Intent("com.zhaoyan.gesutre.test");
-		intent.putExtra("test", "2222222222222222222");
-		pIntent = PendingIntent.getActivity(this, 0, intent, 0);
-		views.setOnClickPendingIntent(R.id.iv_add2, pIntent);
-		
-		
-		intent = new Intent("com.zhaoyan.gesutre.test");
-		intent.putExtra("test", "333333333333333333");
-		pIntent = PendingIntent.getActivity(this, 0, intent, 0);
-		views.setOnClickPendingIntent(R.id.iv_add3, pIntent);
-		
-		Notification mNotification = new Notification.Builder(this).getNotification();
-		mNotification.contentView = views;
-		mNotification.flags = Notification.FLAG_ONGOING_EVENT;
-		mNotification.contentIntent = PendingIntent.getActivity(this, 0,
-				intent, 0);
-		
-		NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-		manager.notify(222, mNotification);
+		//when app start,start Common Service
+		//and the service do not stop,when app destroy
+		CommonUtils.bindToService(this);
 	}
 
 	@Override

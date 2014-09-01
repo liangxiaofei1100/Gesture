@@ -48,8 +48,11 @@
             android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.zhaoyao.gesture.main" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -78,9 +81,14 @@
         <activity
             android:name="com.zhaoyan.gesture.camera.QuickCapture"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+            <intent-filter>
+                <action android:name="com.zhaoyao.gesture.quickcapture" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <service 
-            android:name="com.zhaoyan.gesture.service.MusicPlayerService"
+            android:name="com.zhaoyan.gesture.service.CommonService"
             ></service>
         
         <!-- Music begin -->
@@ -91,9 +99,9 @@
             <intent-filter>
 <!--                 <action android:name="android.intent.action.MAIN" /> -->
                 <action android:name="android.intent.action.MUSIC_PLAYER" />
-<!--                 <category android:name="android.intent.category.DEFAULT" /> -->
+                <action android:name="com.zhaoyan.action.MUSIC_PAYER" />
+                <category android:name="android.intent.category.DEFAULT" />
 <!--                 <category android:name="android.intent.category.LAUNCHER" /> -->
-				<action android:name="com.zhaoyan.action.MUSIC_PAYER" />
                 <category android:name="android.intent.category.APP_MUSIC" />
             </intent-filter>
         </activity>
@@ -372,12 +380,11 @@
         
         <activity 
             android:name="com.zhaoyan.gesture.activity.TestActivity"
-            android:theme="@style/SlideTheme"
+            android:theme="@android:style/Theme.Holo.Light"
             >
             <intent-filter>
-                <action 
-                    android:name="com.zhaoyan.gesutre.test"
-                    />
+                <action  android:name="com.zhaoyan.gesutre.test"  />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
     </application>

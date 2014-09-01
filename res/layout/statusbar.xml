@@ -59,7 +59,7 @@
     <ImageButton 
         android:id="@+id/status_bar_close"
         android:layout_width="28dp"
-        android:layout_height="48dp"
+        android:layout_height="fill_parent"
         android:layout_gravity="center|right"
         android:background="?android:listChoiceBackgroundIndicator"
         android:src="@drawable/statusbar_btn_close"
