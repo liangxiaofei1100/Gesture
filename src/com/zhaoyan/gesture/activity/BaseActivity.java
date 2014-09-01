@@ -17,6 +17,7 @@ import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.zhaoyan.common.view.IntroductionView;
 import com.zhaoyan.gesture.R;
 
 public class BaseActivity extends Activity implements OnMenuItemClickListener,
@@ -35,6 +36,7 @@ public class BaseActivity extends Activity implements OnMenuItemClickListener,
 	private GestureDetector mGestureDetector;;
 	private int verticalMinDistance = 20;
 	private int minVelocity = 0;
+	protected IntroductionView mBaseIntroductionView;
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -63,8 +65,9 @@ public class BaseActivity extends Activity implements OnMenuItemClickListener,
 		mTitleNameView.setText(titleName);
 		mTitleNumView = (TextView) mCustomTitleView
 				.findViewById(R.id.tv_title_num);
+		mBaseIntroductionView = (IntroductionView) findViewById(R.id.base_introduction_view);
 	}
-	
+
 	protected void initTitle(String title) {
 		mCustomTitleView = findViewById(R.id.title);
 
@@ -189,19 +192,20 @@ public class BaseActivity extends Activity implements OnMenuItemClickListener,
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
 	/**
 	 * use this to instead of like:(Button) findViewById(R.id.xxx);
+	 * 
 	 * @param id
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public final <E extends View> E getView (int id) {
-	    try {
-	        return (E) findViewById(id);
-	    } catch (ClassCastException ex) {
-	        Log.e(TAG, "Could not cast View to concrete class.", ex);
-	        throw ex;
-	    }
+	public final <E extends View> E getView(int id) {
+		try {
+			return (E) findViewById(id);
+		} catch (ClassCastException ex) {
+			Log.e(TAG, "Could not cast View to concrete class.", ex);
+			throw ex;
+		}
 	}
 }

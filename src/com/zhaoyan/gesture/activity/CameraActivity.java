@@ -12,6 +12,8 @@ public class CameraActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(0);
 		initTitle(R.string.main_camera);
+		mBaseIntroductionView.setIntentExtraName(getString(R.string.gesture_camera));
+		mBaseIntroductionView.setIntroductionText(getString(R.string.introduction_camer));
 	}
 
 }

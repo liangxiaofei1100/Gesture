@@ -2,70 +2,75 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/setting_item_bg_normal"
+    android:layout_marginLeft="15dip"
+    android:layout_marginRight="15dip"
+    android:layout_marginTop="15dip"
+    android:background="@color/activity_background"
     android:orientation="vertical" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/btn_normal"
-        android:orientation="vertical" >
-
-        <RelativeLayout
-            android:id="@+id/introduction_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/setting_item_bg"
-            android:clickable="true"
-            android:padding="5dp" >
-
-            <ImageView
-                android:id="@+id/iv_wo_traffic_statistics"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="15dp"
-                android:src="@drawable/newer_help" />
-
-            <ImageView
-                android:id="@+id/iv_wo_ts_arrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/setting_item_arrow" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@id/iv_wo_ts_arrow"
-                android:layout_toRightOf="@id/iv_wo_traffic_statistics"
-                android:text="功能介绍"
-                android:textSize="16sp" />
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/introduction_tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dip"
-            android:layout_marginRight="15dip"
-            android:paddingLeft="10dip"
-            android:paddingRight="10dip"
-            android:singleLine="false"
-            android:textColor="@android:color/black"
-            android:visibility="gone" />
-    </LinearLayout>
-
     <RelativeLayout
-        android:id="@+id/gestrue_try"
+        android:id="@+id/introduction_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/setting_item_bg"
         android:clickable="true"
         android:padding="5dp" >
+
+        <ImageView
+            android:id="@+id/iv_wo_traffic_statistics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/newer_help" />
+
+        <ImageView
+            android:id="@+id/iv_wo_ts_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/setting_item_arrow_down" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/iv_wo_ts_arrow"
+            android:layout_toRightOf="@id/iv_wo_traffic_statistics"
+            android:text="功能介绍"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/introduction_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/setting_item_bg_bottom"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip"
+        android:singleLine="false"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/gestrue_try"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dip"
+        android:background="@drawable/setting_item_bg"
+        android:clickable="true"
+        android:padding="5dp" >
+
+        <ImageView
+            android:id="@+id/iv_w"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/setting_item_arrow" />
 
         <ImageView
             android:id="@+id/iv_wo_1"
