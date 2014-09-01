@@ -27,7 +27,7 @@ public class MusicActivity extends BaseActivity {
 		setContentView(R.layout.music_main);
 		
 		initTitle(R.string.main_music);
-		
+		mBaseIntroductionView.setIntentExtraName(getString(R.string.gesture_music));
 		mSetPlayerSummary = getView(R.id.tv_player_label);
 		mLogoView = getView(R.id.iv_player_logo);
 		

@@ -72,7 +72,7 @@ public class AppLauncherActivity extends BaseActivity {
 		} else {
 			initTitle(bundle.getString("title"));
 		}
-
+		mBaseIntroductionView.setVisibility(View.GONE);
 		FragmentManager fm = getFragmentManager();
 
 		// Create the list fragment and add it as our sole content.
