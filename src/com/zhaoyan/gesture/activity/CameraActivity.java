@@ -13,6 +13,7 @@ public class CameraActivity extends BaseActivity {
 		setContentView(0);
 		initTitle(R.string.main_camera);
 		mBaseIntroductionView.setIntentExtraName(getString(R.string.gesture_camera));
+		mBaseIntroductionView.setIntroductionText(getString(R.string.introduction_camer));
 	}
 
 }

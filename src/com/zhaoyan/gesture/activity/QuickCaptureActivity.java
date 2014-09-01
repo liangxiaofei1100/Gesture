@@ -13,6 +13,7 @@ public class QuickCaptureActivity extends BaseActivity {
 		setContentView(0);
 		initTitle(R.string.main_quick_capture);
 		mBaseIntroductionView.setIntentExtraName(getString(R.string.gesture_quick_capture));
+		mBaseIntroductionView.setIntroductionText(getString(R.string.introduction_quick_capture));
 	}
 
 }

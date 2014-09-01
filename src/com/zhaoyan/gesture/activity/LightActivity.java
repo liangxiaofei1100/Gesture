@@ -13,6 +13,7 @@ public class LightActivity extends BaseActivity {
 		setContentView(0);
 		initTitle(R.string.main_light);
 		mBaseIntroductionView.setIntentExtraName(getString(R.string.gesture_flashlight));
+		mBaseIntroductionView.setIntroductionText(getString(R.string.introduction_light));
 	}
 
 }

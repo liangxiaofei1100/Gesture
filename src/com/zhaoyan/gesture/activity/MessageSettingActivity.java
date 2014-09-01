@@ -59,6 +59,7 @@ public class MessageSettingActivity extends BaseActivity implements
 		mCleanBtn = (Button) findViewById(R.id.btn_cancel);
 		mIntroductionView = mBaseIntroductionView;
 		mIntroductionView.setIntroductionText("画手势，做动作");
+		mIntroductionView.setIntroductionText(getString(R.string.introduction_message));
 		Intent intent = new Intent();
 		intent.setClass(this, GestureShowActivity.class);
 		intent.putExtra("name", "求救");
