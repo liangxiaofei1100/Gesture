@@ -77,6 +77,7 @@ public class BaseActivity extends Activity implements OnMenuItemClickListener,
 		mTitleNameView.setText(title);
 		mTitleNumView = (TextView) mCustomTitleView
 				.findViewById(R.id.tv_title_num);
+		mBaseIntroductionView = (IntroductionView) findViewById(R.id.base_introduction_view);
 	}
 
 	protected void setTitleNumVisible(boolean visible) {

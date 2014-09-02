@@ -424,5 +424,39 @@
     <string name="introduction_message">&#160; &#160;轻舞生机功能可以让用户在遇到危险的情况下以最隐蔽的方式迅速的报警求救，如果用户在遇到非法劫持的时候，一旦正常拨打电话一定会造成手机屏幕亮起，这样极易被歹徒发现会被立即阻止，所以需要一种更隐秘的报警方式来确保自身的安全。\n&#160; &#160;在手机处于灭屏状态时，用户只需要在熄灭背光的屏幕上轻划出S的手势，轻舞光芒会自动发送求救短信给自己设定好的联系人，用户通过多次划出S手势可以多次报警引起朋友的注意并进行报警以致最终脱险。</string>
     <string name="introduction_app_launcher">&#160; &#160;我的轻舞功能是为了满足用户的个性化需求，如果用户觉得我们提供的手势和功能还不能满足他的所有愿望还不够个性，那么用户可以自己定义手势并且设置启动的应用程序，设置手势后，当手机处于灭屏状态时，用户只需要在熄灭背光的屏幕上轻划出自己设置的手势后就可以启动自己选择的应用。</string>
     <!-- introduction text end -->
-
+	<!-- image start -->
+	<string name="file_rename_error_1">命名错误：文件名不能包含“%1s”</string>
+    <string name="file_rename_error_2">命名错误：文件名不能是“%1s”</string>
+    <string name="menu_info">属性</string>
+    <string name="camera">相机</string>
+    <string name="gallery">图库</string>
+    <string name="image">图片</string>
+    <string name="info_filename">文件名称:</string>
+    <string name="info_musicname">歌曲名称:</string>
+    <string name="info_imagename">图片名称:</string>
+    <string name="info_videoname">视频名称:</string>
+    <string name="info_foldername">文件夹名称:</string>
+    <string name="info_modify_music_name">修改歌曲名称</string>
+     <string name="ok">确定</string>
+     <string name="deleting">正在删除...</string>
+     <string name="delete_file_confirm_msg">确定要删除“%1$s”？</string>
+     <string name="delete_image">删除图片</string>
+     <string name="delete_file_confirm_msg_image">确定要删除这%1$s个图片？</string>
+      <string name="menu_delete">删除</string>
+      <string name="select_all">全选</string>
+    <string name="unselect_all">取消全选</string>
+     <string name="info_filetype">文件格式:</string>
+      <string name="info_location">文件路径:</string>
+    <string name="info_size">文件大小:</string>
+    <string name="info_include">包含:</string>
+    <string name="info_include_files">%1$d个文件, %2$d个文件夹</string>
+      <string name="info_date">修改日期:</string>
+      <string name="unknow">未知</string>
+      <string name="menu_send">发送</string>
+    <string name="menu_backup">备份</string>
+    <string name="menu_play">播放</string>
+    <string name="menu_more">更多</string>
+    <string name="info">属性</string>
+    <string name="hide">隐藏</string>
+	<!-- image end -->
 </resources>
