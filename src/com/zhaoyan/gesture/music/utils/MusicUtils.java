@@ -1376,7 +1376,6 @@ public class MusicUtils {
     }
     
     public static void updateNowPlaying(Activity a) {
-    	System.out.println("updateNowPlaying:"  + a);
         View nowPlayingView = a.findViewById(R.id.nowplaying);
         if (nowPlayingView == null) {
             return;
@@ -1415,7 +1414,6 @@ public class MusicUtils {
 						try {
 							MusicUtils.sService.prev();
 						} catch (RemoteException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}

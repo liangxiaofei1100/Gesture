@@ -211,10 +211,6 @@ public class AlbumBrowserActivity extends ListActivity implements
 	private BroadcastReceiver mTrackListListener = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			System.out.println("mTrackListListener:" + intent);
-			if (intent != null) {
-				System.out.println("trak.acton:" + intent.getAction());
-			}
 			getListView().invalidateViews();
 			MusicUtils.updateNowPlaying(AlbumBrowserActivity.this);
 		}
