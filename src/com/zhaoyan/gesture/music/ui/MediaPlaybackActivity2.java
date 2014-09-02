@@ -1159,14 +1159,14 @@ public class MediaPlaybackActivity2 extends Activity implements MusicUtils.Defs,
 		try {
 			switch (mService.getRepeatMode()) {
 			case MediaPlaybackService.REPEAT_ALL:
-				mRepeatButton.setImageResource(R.drawable.apollo_holo_light_repeat_all);
+				mRepeatButton.setImageResource(R.drawable.holo_light_repeat_all);
 				break;
 			case MediaPlaybackService.REPEAT_CURRENT:
 				mRepeatButton
-						.setImageResource(R.drawable.apollo_holo_light_repeat_one);
+						.setImageResource(R.drawable.holo_light_repeat_one);
 				break;
 			default:
-				mRepeatButton.setImageResource(R.drawable.apollo_holo_light_repeat_normal);
+				mRepeatButton.setImageResource(R.drawable.holo_light_repeat_normal);
 				break;
 			}
 		} catch (RemoteException ex) {
@@ -1180,15 +1180,15 @@ public class MediaPlaybackActivity2 extends Activity implements MusicUtils.Defs,
 			switch (mService.getShuffleMode()) {
 			case MediaPlaybackService.SHUFFLE_NONE:
 				mShuffleButton
-						.setImageResource(R.drawable.apollo_holo_light_shuffle_normal);
+						.setImageResource(R.drawable.holo_light_shuffle_normal);
 				break;
 			case MediaPlaybackService.SHUFFLE_AUTO:
 				mShuffleButton
-						.setImageResource(R.drawable.apollo_holo_light_shuffle_on);
+						.setImageResource(R.drawable.holo_light_shuffle_on);
 				break;
 			default:
 				mShuffleButton
-						.setImageResource(R.drawable.apollo_holo_light_shuffle_on);
+						.setImageResource(R.drawable.holo_light_shuffle_on);
 				break;
 			}
 		} catch (RemoteException ex) {
@@ -1199,9 +1199,9 @@ public class MediaPlaybackActivity2 extends Activity implements MusicUtils.Defs,
 		try {
 			if (mService != null && mService.isPlaying()) {
 				mPauseButton
-						.setImageResource(R.drawable.apollo_holo_light_pause);
+						.setImageResource(R.drawable.holo_light_pause);
 			} else {
-				mPauseButton.setImageResource(R.drawable.apollo_holo_light_play);
+				mPauseButton.setImageResource(R.drawable.holo_light_play);
 			}
 		} catch (RemoteException ex) {
 		}

@@ -60,12 +60,13 @@
     <ImageButton
         android:id="@+id/status_bar_4"
         style="@style/StatusBarButton"
-        android:src="@drawable/capture_normal"
+        android:src="@drawable/ic_appwidget_music_pause"
         />
 
     <ImageButton
         android:id="@+id/status_bar_5"
         style="@style/StatusBarButton"
-        android:src="@drawable/capture_normal" />
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_appwidget_music_pause" />
 
 </LinearLayout>

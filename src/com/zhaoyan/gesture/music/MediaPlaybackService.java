@@ -692,6 +692,7 @@ public class MediaPlaybackService extends Service {
                 } else {
                     play();
                 }
+                notifyChange(META_CHANGED);
             } else if (CMDPAUSE.equals(cmd) || PAUSE_ACTION.equals(action)) {
                 pause();
                 mPausedByTransientLossOfFocus = false;

@@ -71,7 +71,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -1374,6 +1376,7 @@ public class MusicUtils {
     }
     
     public static void updateNowPlaying(Activity a) {
+    	System.out.println("updateNowPlaying:"  + a);
         View nowPlayingView = a.findViewById(R.id.nowplaying);
         if (nowPlayingView == null) {
             return;
@@ -1402,12 +1405,70 @@ public class MusicUtils {
                         Context c = v.getContext();
                         c.startActivity(new Intent(c, MediaPlaybackActivity2.class));
                     }});
+                //prev pause play next
+                View preView = nowPlayingView.findViewById(R.id.ll_prev);
+                preView.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						if (MusicUtils.sService == null)
+							return;
+						try {
+							MusicUtils.sService.prev();
+						} catch (RemoteException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				});
+                View playpause = nowPlayingView.findViewById(R.id.ll_playpause);
+                final ImageView playpauseIV = (ImageView) nowPlayingView.findViewById(R.id.iv_playpause);
+                setPauseButtonImage(playpauseIV);
+                playpause.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						try {
+							if (sService != null) {
+								if (sService.isPlaying()) {
+									sService.pause();
+								} else {
+									sService.play();
+								}
+							}
+						} catch (RemoteException ex) {
+						}
+						
+						setPauseButtonImage(playpauseIV);
+					}
+				});
+                View nextView = nowPlayingView.findViewById(R.id.ll_next);
+                nextView.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						if (MusicUtils.sService == null)
+							return;
+						try {
+							MusicUtils.sService.next();
+						} catch (RemoteException ex) {
+						}
+					}
+				});
                 return;
             }
         } catch (RemoteException ex) {
         }
         nowPlayingView.setVisibility(View.GONE);
     }
+    
+	private static void setPauseButtonImage(ImageView view) {
+		try {
+			if (sService != null && sService.isPlaying()) {
+				view.setImageResource(R.drawable.holo_dark_pause);
+			} else {
+				view.setImageResource(R.drawable.holo_dark_play);
+			}
+		} catch (RemoteException ex) {
+		}
+	}
 
     public static void setBackground(View v, Bitmap bm) {
 
