@@ -23,6 +23,12 @@
         <item name="android:layout_height">fill_parent</item>
         <item name="android:background">?android:listChoiceBackgroundIndicator</item>
     </style>
+    
+    <style name="MainStatusBarButton">
+        <item name="android:layout_width">@dimen/status_bar_button_width_height2</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:background">?android:listChoiceBackgroundIndicator</item>
+    </style>
 
     <!-- Notification bar text -->
     <style name="StatusBarText">

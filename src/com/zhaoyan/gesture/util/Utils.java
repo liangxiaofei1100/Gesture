@@ -1,6 +1,7 @@
 package com.zhaoyan.gesture.util;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.Charset;
@@ -11,8 +12,11 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.StatFs;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -191,5 +195,28 @@ public class Utils {
 			return hours + ":" + min + ":" + sec.trim().substring(0, 2);
 		}
 	}
+	
+	/**
+     * Collapse status panel
+     * 
+     * @param context
+     *            the context used to fetch status bar manager
+     */
+     public static void collapseStatusBar(Context context) {
+        try {
+            Object statusBarManager = context.getSystemService("statusbar");
+            Method collapse;
+
+            if (Build.VERSION.SDK_INT <= 16) {
+                collapse = statusBarManager.getClass().getMethod("collapse");
+            } else {
+                collapse = statusBarManager.getClass().getMethod("collapsePanels");
+            }
+            collapse.invoke(statusBarManager);
+        } catch (Exception localException) {
+        	Log.e(TAG, "collapseStatusBar:" + localException);
+            localException.printStackTrace();
+        }
+    }
 	
 }

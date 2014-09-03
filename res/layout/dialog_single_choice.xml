@@ -8,6 +8,7 @@
         android:id="@+id/dlg_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:listSelector="@drawable/kk_theme_bg"
         android:layout_alignParentTop="true" >
     </ListView>
 

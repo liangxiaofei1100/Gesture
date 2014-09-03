@@ -1,10 +1,13 @@
 package com.zhaoyan.gesture.service;
 
 import com.zhaoyan.gesture.R;
+import com.zhaoyan.gesture.activity.MusicActivity;
 import com.zhaoyan.gesture.appgesture.FlashLightManager;
 import com.zhaoyan.gesture.music.MediaPlaybackService;
+import com.zhaoyan.gesture.music.MusicConf;
 import com.zhaoyan.gesture.music.ui.MusicBrowserActivity;
 import com.zhaoyan.gesture.sos.MessageSender;
+import com.zhaoyan.gesture.util.Utils;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -14,6 +17,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat.Builder;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -31,6 +36,7 @@ public class CommonService extends Service {
 	public static final String ACTION_QUICK_CAPTURE = "com.zhaoyao.juyou.commonservice.quickcapture";
 	public static final String ACTION_SOS = "com.zhaoyao.juyou.commonservice.sos";
 	public static final String ACTION_MUSIC = "com.zhaoyao.juyou.commonservice.music";
+	public static final String ACTION_VIDEO = "com.zhaoyao.juyou.commonservice.video";
 	
 	private FlashLightManager mFlashLightManager;
 
@@ -78,7 +84,20 @@ public class CommonService extends Service {
 				sendBroadcast(captureIntent);
 			} else if (ACTION_SOS.equals(action)) {
 				MessageSender.sendMessage(this);
-			} 
+			} else if (ACTION_MUSIC.equals(action)) {
+				String packageName = MusicConf.getStringPref(getApplicationContext(), "package", "com.zhaoyan.gesture");
+				Intent musicIntent = null;
+				if (packageName == null || packageName.equals("com.zhaoyan.gesture")) {
+					musicIntent = new Intent();
+					musicIntent.setClass(this, MusicBrowserActivity.class);
+					musicIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				} else {
+					musicIntent = getPackageManager().getLaunchIntentForPackage(packageName);
+				}
+				startActivity(musicIntent);
+				
+				Utils.collapseStatusBar(getApplicationContext());
+			}
 		}
 		return super.onStartCommand(intent, flags, startId);
 	}
@@ -95,38 +114,46 @@ public class CommonService extends Service {
 		pIntent = PendingIntent.getActivity(this, 0, intent, 0);
 		views.setOnClickPendingIntent(R.id.ll_main_notifi, pIntent);
 		
-		intent = new Intent(ACTION_FLASHLIGHT);
+		intent = new Intent(ACTION_CAPTURE);
 		intent.setClass(context, CommonService.class);
 		pIntent = PendingIntent.getService(this, 0, intent, 0);
 		views.setOnClickPendingIntent(R.id.status_bar_1, pIntent);
 
-		intent = new Intent(ACTION_CAPTURE);
-		intent.setClass(context, CommonService.class);
-		pIntent = PendingIntent.getService(this, 0, intent, 0);
-		views.setOnClickPendingIntent(R.id.status_bar_2, pIntent);
-		
 		intent = new Intent("com.zhaoyao.gesture.quickcapture");
 		pIntent = PendingIntent.getActivity(this, 0, intent, 0);
+		views.setOnClickPendingIntent(R.id.status_bar_2, pIntent);
+		
+		intent = new Intent(ACTION_MUSIC);
+		intent.setClass(context, CommonService.class);
+		pIntent = PendingIntent.getService(this, 0, intent, 0);
 		views.setOnClickPendingIntent(R.id.status_bar_3, pIntent);
 		
-		intent = new Intent(ACTION_SOS);
+		intent = new Intent("com.zhaoyan.action.voice");
 		intent.setClass(context, CommonService.class);
 		pIntent = PendingIntent.getService(this, 0, intent, 0);
 		views.setOnClickPendingIntent(R.id.status_bar_4, pIntent);
 		
-		intent = new Intent("com.zhaoyan.action.MUSIC_PAYER");
-		pIntent = PendingIntent.getActivity(this, 0, intent, 0);
+		intent = new Intent(ACTION_FLASHLIGHT);
+		intent.setClass(context, CommonService.class);
+		pIntent = PendingIntent.getService(this, 0, intent, 0);
 		views.setOnClickPendingIntent(R.id.status_bar_5, pIntent);
+		
+		intent = new Intent(ACTION_VIDEO);
+		intent.setClass(context, CommonService.class);
+		pIntent = PendingIntent.getService(this, 0, intent, 0);
+		views.setOnClickPendingIntent(R.id.status_bar_6, pIntent);
 
-		Notification mNotification = new Notification.Builder(this)
-				.getNotification();
-		mNotification.contentView = views;
-		mNotification.flags = Notification.FLAG_ONGOING_EVENT;
-		mNotification.icon = R.drawable.ic_launcher;
-		mNotification.contentIntent = PendingIntent.getService(this, 0, intent,
-				0);
+		Builder mNotification = new NotificationCompat.Builder(this);
+		mNotification.setContent(views);
+		mNotification.setAutoCancel(false);
+		mNotification.setOngoing(true);
+		mNotification.setSmallIcon(R.drawable.notifi_bg);
+		mNotification.setContentIntent(PendingIntent.getService(this, 0, intent,
+				0));
 
-		startForeground(GESTURE_NOTIFICATION, mNotification);
+//		startForeground(GESTURE_NOTIFICATION, mNotification);
+		NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		manager.notify(GESTURE_NOTIFICATION, mNotification.build());
 		Log.d(TAG, "showNotificaiton<<<<");
 	}
 	

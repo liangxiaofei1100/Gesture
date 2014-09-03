@@ -43,8 +43,10 @@ import android.database.sqlite.SQLiteException;
 import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.media.AudioManager.OnAudioFocusChangeListener;
+import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.media.RemoteControlClient;
+import android.media.RemoteControlClient.MetadataEditor;
 import android.media.audiofx.AudioEffect;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -332,19 +334,19 @@ public class MediaPlaybackService extends Service {
         mAudioManager.registerMediaButtonEventReceiver(rec);
         
         //add by yuri add mediabutton contronal
-//        Intent mediaButtonIntent = new Intent(Intent.ACTION_MEDIA_BUTTON);
-//        mediaButtonIntent.setComponent(rec);
-//        PendingIntent mediaPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0,
-//                mediaButtonIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-//        mRemoteControlClient = new RemoteControlClient(mediaPendingIntent);
-//        mAudioManager.registerRemoteControlClient(mRemoteControlClient);
+        Intent mediaButtonIntent = new Intent(Intent.ACTION_MEDIA_BUTTON);
+        mediaButtonIntent.setComponent(rec);
+        PendingIntent mediaPendingIntent = PendingIntent.getBroadcast(this, 0,
+                mediaButtonIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        mRemoteControlClient = new RemoteControlClient(mediaPendingIntent);
+        mAudioManager.registerRemoteControlClient(mRemoteControlClient);
 //
-//        int flags = RemoteControlClient.FLAG_KEY_MEDIA_PREVIOUS
-//                | RemoteControlClient.FLAG_KEY_MEDIA_NEXT | RemoteControlClient.FLAG_KEY_MEDIA_PLAY
-//                | RemoteControlClient.FLAG_KEY_MEDIA_PAUSE
-//                | RemoteControlClient.FLAG_KEY_MEDIA_PLAY_PAUSE
-//                | RemoteControlClient.FLAG_KEY_MEDIA_STOP;
-//        mRemoteControlClient.setTransportControlFlags(flags);
+        int flags = RemoteControlClient.FLAG_KEY_MEDIA_PREVIOUS
+                | RemoteControlClient.FLAG_KEY_MEDIA_NEXT | RemoteControlClient.FLAG_KEY_MEDIA_PLAY
+                | RemoteControlClient.FLAG_KEY_MEDIA_PAUSE
+                | RemoteControlClient.FLAG_KEY_MEDIA_PLAY_PAUSE
+                | RemoteControlClient.FLAG_KEY_MEDIA_STOP;
+        mRemoteControlClient.setTransportControlFlags(flags);
         
         mPreferences = getSharedPreferences("Music", MODE_WORLD_READABLE | MODE_WORLD_WRITEABLE);
         mCardId = MusicUtils.getCardId(this);
@@ -397,7 +399,7 @@ public class MediaPlaybackService extends Service {
         mPlayer = null;
 
         mAudioManager.abandonAudioFocus(mAudioFocusListener);
-//        mAudioManager.unregisterRemoteControlClient(mRemoteControlClient);
+        mAudioManager.unregisterRemoteControlClient(mRemoteControlClient);
         
         // make sure there aren't any other messages coming
         mDelayedStopHandler.removeCallbacksAndMessages(null);
@@ -837,19 +839,19 @@ public class MediaPlaybackService extends Service {
         sendStickyBroadcast(i);
 
         if (what.equals(PLAYSTATE_CHANGED)) {
-//            mRemoteControlClient.setPlaybackState(isPlaying() ?
-//                    RemoteControlClient.PLAYSTATE_PLAYING : RemoteControlClient.PLAYSTATE_PAUSED);
+            mRemoteControlClient.setPlaybackState(isPlaying() ?
+                    RemoteControlClient.PLAYSTATE_PLAYING : RemoteControlClient.PLAYSTATE_PAUSED);
         } else if (what.equals(META_CHANGED)) {
-//            RemoteControlClient.MetadataEditor ed = mRemoteControlClient.editMetadata(true);
-//            ed.putString(MediaMetadataRetriever.METADATA_KEY_TITLE, getTrackName());
-//            ed.putString(MediaMetadataRetriever.METADATA_KEY_ALBUM, getAlbumName());
-//            ed.putString(MediaMetadataRetriever.METADATA_KEY_ARTIST, getArtistName());
-//            ed.putLong(MediaMetadataRetriever.METADATA_KEY_DURATION, duration());
-//            Bitmap b = MusicUtils.getArtwork(this, getAudioId(), getAlbumId(), false);
-//            if (b != null) {
-//                ed.putBitmap(MetadataEditor.BITMAP_KEY_ARTWORK, b);
-//            }
-//            ed.apply();
+            RemoteControlClient.MetadataEditor ed = mRemoteControlClient.editMetadata(true);
+            ed.putString(MediaMetadataRetriever.METADATA_KEY_TITLE, getTrackName());
+            ed.putString(MediaMetadataRetriever.METADATA_KEY_ALBUM, getAlbumName());
+            ed.putString(MediaMetadataRetriever.METADATA_KEY_ARTIST, getArtistName());
+            ed.putLong(MediaMetadataRetriever.METADATA_KEY_DURATION, duration());
+            Bitmap b = MusicUtils.getArtwork(this, getAudioId(), getAlbumId(), false);
+            if (b != null) {
+                ed.putBitmap(MetadataEditor.BITMAP_KEY_ARTWORK, b);
+            }
+            ed.apply();
         }
 
         if (what.equals(QUEUE_CHANGED)) {

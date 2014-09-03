@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/button_layout"
+        android:listSelector="@drawable/kk_theme_bg"
         ></ListView>
     
     <ProgressBar 
@@ -41,7 +42,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/blue_bg"
+                android:background="@drawable/kk_theme_bg"
                 android:text="取消"
                 android:textSize="16sp" />
 
@@ -56,7 +57,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/blue_bg"
+                android:background="@drawable/kk_theme_bg"
                 android:text="确认选择"
                 android:textSize="16sp" />
         </LinearLayout>

@@ -4,6 +4,8 @@
     
     <color name="activity_background">#f5f7fa</color>
     
+    <color name="kk_theme_color">#E6DFDF</color>
+    
     <color name="appwidget_text">#ffffffff</color>
     <color name="transparent">#00000000</color>
     <color name="press_color">#ff606060</color>

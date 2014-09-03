@@ -17,56 +17,107 @@
         android:id="@+id/status_bar_icon"
         android:layout_width="@dimen/status_bar_album_art"
         android:layout_height="@dimen/status_bar_album_art"
-         android:background="@drawable/status_bg"
+         android:background= "#1D3741"
         android:scaleType="center"
-        android:src="@drawable/ic_launcher"
+        android:src="@drawable/ic_statusbar_icon"
         />
- 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
+
+    <LinearLayout 
+        android:id="@+id/status_bar_1"
+        android:layout_width="42dp"
+        android:layout_height="fill_parent"
+        android:background="?android:listChoiceBackgroundIndicator"
+        android:gravity="center_horizontal"
         android:layout_weight="1"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/status_bar_button_info_container_padding_left" >
-
-        <TextView
-            android:id="@+id/status_bar_track_name"
-            style="@style/StatusBarText"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/text_size_medium"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/status_bar_artist_name"
-            style="@style/StatusBarText" />
+        >
+         <ImageView 
+	             android:src="@drawable/status_bar_capture"
+	            android:layout_width="@dimen/status_bar_button_width_height2"
+	            android:layout_height="@dimen/status_bar_button_width_height2"
+	            android:layout_gravity="center"
+	            />
+    </LinearLayout>
+<!--     <ImageButton  -->
+<!-- 	             android:src="@drawable/notifi_capture_selector" -->
+<!-- 	            style="@style/StatusBarButton" /> -->
+    <LinearLayout 
+        android:id="@+id/status_bar_2"
+        android:layout_width="42dp"
+        android:layout_height="fill_parent"
+        android:background="?android:listChoiceBackgroundIndicator"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        >
+         <ImageView 
+	             android:src="@drawable/status_bar_quick_capture"
+	            android:layout_width="@dimen/status_bar_button_width_height2"
+	            android:layout_height="@dimen/status_bar_button_width_height2"
+	            android:layout_gravity="center"
+	            />
     </LinearLayout>
     
-    <ImageButton 
-	            android:id="@+id/status_bar_1" 
-	             android:src="@drawable/capture_normal"
-	            style="@style/StatusBarButton" />
+    <LinearLayout 
+        android:id="@+id/status_bar_6"
+        android:layout_width="42dp"
+        android:layout_height="fill_parent"
+        android:background="?android:listChoiceBackgroundIndicator"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        >
+         <ImageView 
+	             android:src="@drawable/status_bar_video"
+	            android:layout_width="@dimen/status_bar_button_width_height2"
+	            android:layout_height="@dimen/status_bar_button_width_height2"
+	            android:layout_gravity="center"
+	            />
+    </LinearLayout>
     
-    <ImageButton 
-	            android:id="@+id/status_bar_2" 
-	             android:src="@drawable/capture_normal"
-	            style="@style/StatusBarButton" />
+    <LinearLayout 
+        android:id="@+id/status_bar_3"
+        android:layout_width="42dp"
+        android:layout_height="fill_parent"
+        android:background="?android:listChoiceBackgroundIndicator"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        >
+         <ImageView 
+	             android:src="@drawable/status_bar_music"
+	            android:layout_width="@dimen/status_bar_button_width_height2"
+	            android:layout_height="@dimen/status_bar_button_width_height2"
+	            android:layout_gravity="center"
+	            />
+    </LinearLayout>
     
-     <ImageButton 
-	            android:id="@+id/status_bar_3" 
-	             android:src="@drawable/capture_normal"
-	            style="@style/StatusBarButton" />
-
-    <ImageButton
+     <LinearLayout 
         android:id="@+id/status_bar_4"
-        style="@style/StatusBarButton"
-        android:src="@drawable/ic_appwidget_music_pause"
-        />
-
-    <ImageButton
+        android:layout_width="42dp"
+        android:layout_height="fill_parent"
+        android:background="?android:listChoiceBackgroundIndicator"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        >
+         <ImageView 
+	             android:src="@drawable/status_bar_voice"
+	            android:layout_width="@dimen/status_bar_button_width_height2"
+	            android:layout_height="@dimen/status_bar_button_width_height2"
+	            android:layout_gravity="center"
+	            />
+    </LinearLayout>
+    
+     <LinearLayout 
         android:id="@+id/status_bar_5"
-        style="@style/StatusBarButton"
-        android:scaleType="centerInside"
-        android:src="@drawable/ic_appwidget_music_pause" />
+        android:layout_width="42dp"
+        android:layout_height="fill_parent"
+        android:background="?android:listChoiceBackgroundIndicator"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        >
+         <ImageView 
+	             android:src="@drawable/status_bar_flashlight"
+	            android:layout_width="@dimen/status_bar_button_width_height2"
+	            android:layout_height="@dimen/status_bar_button_width_height2"
+	            android:layout_gravity="center"
+	            />
+    </LinearLayout>
 
 </LinearLayout>

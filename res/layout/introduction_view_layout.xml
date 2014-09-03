@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/setting_item_bg"
         android:clickable="true"
-        android:padding="5dp" >
+        android:padding="10dp" >
 
         <ImageView
             android:id="@+id/iv_wo_traffic_statistics"
@@ -23,7 +23,9 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="15dp"
-            android:src="@drawable/newer_help" />
+            android:src="@drawable/newer_help" 
+            android:visibility="gone"
+            />
 
         <ImageView
             android:id="@+id/iv_wo_ts_arrow"
@@ -37,8 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/iv_wo_ts_arrow"
-            android:layout_toRightOf="@id/iv_wo_traffic_statistics"
+            android:layout_alignParentLeft="true"
             android:text="功能介绍"
             android:textSize="16sp" />
     </RelativeLayout>
@@ -62,7 +63,7 @@
         android:layout_marginTop="15dip"
         android:background="@drawable/setting_item_bg"
         android:clickable="true"
-        android:padding="5dp" >
+        android:padding="10dp" >
 
         <ImageView
             android:id="@+id/iv_w"
@@ -79,13 +80,14 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="15dp"
+            android:visibility="gone"
             android:src="@drawable/newer_help" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/iv_wo_1"
+            android:layout_alignParentLeft="true"
             android:text="手势练习"
             android:textSize="16sp" />
     </RelativeLayout>
