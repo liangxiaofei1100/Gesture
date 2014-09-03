@@ -9,6 +9,7 @@ import com.zhaoyan.gesture.music.ui.MusicBrowserActivity;
 import com.zhaoyan.gesture.sos.MessageSender;
 import com.zhaoyan.gesture.util.Utils;
 
+import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -16,6 +17,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
+import android.os.Build;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationCompat.Builder;
@@ -39,6 +41,10 @@ public class CommonService extends Service {
 	public static final String ACTION_VIDEO = "com.zhaoyao.juyou.commonservice.video";
 	
 	private FlashLightManager mFlashLightManager;
+	
+	private NotificationManager mNotificationManager;
+	private Builder mBuilder;
+	private Notification mNotification;
 
 	private void broadcastEvent(String what) {
 		Intent i = new Intent(what);
@@ -51,9 +57,9 @@ public class CommonService extends Service {
 	public void onCreate() {
 		super.onCreate();
 		Log.d(TAG, "onCreate>>>>");
-		showNotificaition(this);
-		
 		mFlashLightManager = new FlashLightManager();
+		mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		updateNotification(this, R.drawable.status_bar_flashlight);
 		Log.d(TAG, "onCreate<<<<");
 	}
 
@@ -102,10 +108,13 @@ public class CommonService extends Service {
 		return super.onStartCommand(intent, flags, startId);
 	}
 
-	public void showNotificaition(Context context) {
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+	public void updateNotification(Context context, int flashLightResId) {
 		Log.d(TAG, "showNotificaiton>>>>");
 		RemoteViews views = new RemoteViews(getPackageName(),
 				R.layout.main_notification);
+		
+		views.setImageViewResource(R.id.iv_statis_bar_flashlight, flashLightResId);
 
 		Intent intent;
 		PendingIntent pIntent;
@@ -143,17 +152,22 @@ public class CommonService extends Service {
 		pIntent = PendingIntent.getService(this, 0, intent, 0);
 		views.setOnClickPendingIntent(R.id.status_bar_6, pIntent);
 
-		Builder mNotification = new NotificationCompat.Builder(this);
-		mNotification.setContent(views);
-		mNotification.setAutoCancel(false);
-		mNotification.setOngoing(true);
-		mNotification.setSmallIcon(R.drawable.notifi_bg);
-		mNotification.setContentIntent(PendingIntent.getService(this, 0, intent,
-				0));
-
-//		startForeground(GESTURE_NOTIFICATION, mNotification);
-		NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-		manager.notify(GESTURE_NOTIFICATION, mNotification.build());
+//		mBuilder = new NotificationCompat.Builder(this);
+//		mBuilder.setContent(views);
+//		mBuilder.setAutoCancel(false);
+//		mBuilder.setOngoing(true);
+//		mBuilder.setSmallIcon(R.drawable.notifi_bg, NotificationCompat.PRIORITY_MIN);
+//		mBuilder.setContentIntent(PendingIntent.getService(this, 0, intent,
+//				0));
+//		mNotificationManager.notify(GESTURE_NOTIFICATION, mBuilder.build());
+		
+		mNotification = new Notification.Builder(this).getNotification();
+		mNotification.contentView = views;
+        mNotification.flags = Notification.FLAG_ONGOING_EVENT;
+        mNotification.icon = R.drawable.ic_launcher;
+        mNotification.priority = Notification.PRIORITY_MIN;
+        mNotification.contentIntent = PendingIntent.getService(context, 0, intent, 0);
+        startForeground(GESTURE_NOTIFICATION, mNotification);
 		Log.d(TAG, "showNotificaiton<<<<");
 	}
 	
