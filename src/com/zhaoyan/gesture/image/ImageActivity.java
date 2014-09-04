@@ -10,11 +10,14 @@ import com.zhaoyan.common.dialog.ZyDeleteDialog;
 import com.zhaoyan.common.dialog.ActionMenu.ActionMenuItem;
 import com.zhaoyan.common.dialog.ActionMenuInterface.OnMenuItemClickListener;
 import com.zhaoyan.common.dialog.ZyAlertDialog.OnZyAlertDlgClickListener;
+import com.zhaoyan.common.view.TableTitleView;
+import com.zhaoyan.common.view.TableTitleView.OnTableSelectChangeListener;
 import com.zhaoyan.gesture.R;
 import com.zhaoyan.gesture.activity.BaseActivity;
 import com.zhaoyan.gesture.image.FileDeleteHelper.OnDeleteListener;
 import com.zhaoyan.gesture.image.ZYConstant.Extra;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.FragmentManager;
 import android.content.AsyncQueryHandler;
@@ -49,8 +52,8 @@ public class ImageActivity extends BaseActivity implements OnScrollListener,
 		OnMenuItemClickListener {
 	private static final String TAG = "ImageActivity";
 
-	private TextView mGalleryTv, mCameraTv, mVideoTv;
 	private View mImageLayout, mVideoLayout;
+	private TableTitleView mTableTitleView;
 
 	public static final String IMAGE_TYPE = "IMAGE_TYPE";
 	public static final int TYPE_PHOTO = 0;
@@ -189,13 +192,10 @@ public class ImageActivity extends BaseActivity implements OnScrollListener,
 		// }
 		mImageLayout = findViewById(R.id.image_grid_layout);
 		mVideoLayout = findViewById(R.id.video_grid_layout);
-		mGalleryTv = (TextView) findViewById(R.id.gallery_image);
-		mCameraTv = (TextView) findViewById(R.id.camera_image);
-		mVideoTv = (TextView) findViewById(R.id.video_image);
-		mGalleryTv.setOnClickListener(myOnClickListener);
-		mCameraTv.setOnClickListener(myOnClickListener);
-		mVideoTv.setOnClickListener(myOnClickListener);
-
+		mTableTitleView = (TableTitleView) findViewById(R.id.ttv_sc_title);
+		mTableTitleView.initTitles(new String[] { getString(R.string.gallery),
+				getString(R.string.camera), getString(R.string.video) });
+		mTableTitleView.setOnTableSelectChangeListener(myOnClickListener);
 		initMenuBar();
 	}
 
@@ -590,13 +590,13 @@ public class ImageActivity extends BaseActivity implements OnScrollListener,
 		mMenuBarManager.refreshMenus(mActionMenu);
 	}
 
-	private OnClickListener myOnClickListener = new OnClickListener() {
+	private OnTableSelectChangeListener myOnClickListener = new TableTitleView.OnTableSelectChangeListener() {
 
 		@Override
-		public void onClick(View v) {
+		public void onTableSelect(int position) {
 			// TODO Auto-generated method stub
-			switch (v.getId()) {
-			case R.id.gallery_image:
+			switch (position) {
+			case 0:
 				if (mImageLayout.getVisibility() == View.GONE) {
 					mVideoLayout.setVisibility(View.GONE);
 					mImageLayout.setVisibility(View.VISIBLE);
@@ -604,7 +604,7 @@ public class ImageActivity extends BaseActivity implements OnScrollListener,
 				queryFolderItem(GALLERY);
 				initTitle(R.string.gallery);
 				break;
-			case R.id.camera_image:
+			case 1:
 				if (mImageLayout.getVisibility() == View.GONE) {
 					mVideoLayout.setVisibility(View.GONE);
 					mImageLayout.setVisibility(View.VISIBLE);
@@ -612,7 +612,7 @@ public class ImageActivity extends BaseActivity implements OnScrollListener,
 				queryFolderItem(CAMERA);
 				initTitle(R.string.camera);
 				break;
-			case R.id.video_image:
+			case 2:
 				if (mVideoLayout.getVisibility() == View.GONE) {
 					mVideoLayout.setVisibility(View.VISIBLE);
 					mImageLayout.setVisibility(View.GONE);
