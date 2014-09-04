@@ -32,7 +32,7 @@
         <item>com.zhaoyan.gesture.activity.MessageSettingActivity</item>
         <item>com.zhaoyan.gesture.GestureBuilderActivity</item>
         <item>com.zhaoyan.gesture.image.ImageActivity</item>
-        <item>com.zhaoyan.gesture.activity.AppLauncherActivity</item>
+        <item>com.zhaoyan.gesture.app.AppLauncherActivity</item>
         <item>com.zhaoyan.gesture.image.ImageActivity</item>
     </string-array>
 

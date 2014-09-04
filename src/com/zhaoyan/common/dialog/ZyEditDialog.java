@@ -1,7 +1,8 @@
-package com.zhaoyan.gesture.image;
+package com.zhaoyan.common.dialog;
 
 
 import com.zhaoyan.gesture.R;
+import com.zhaoyan.gesture.image.ZYUtils;
 
 import android.content.Context;
 import android.os.Bundle;

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:iknow="http://schemas.android.com/apk/res/com.ting.mp3.android"
+    android:layout_width="fill_parent"
+    android:layout_height="97.0dip"
+    android:background="@drawable/bg_widget" >
+
+    <ImageView
+        android:id="@+id/widget_music_album_art"
+        android:layout_width="85.0dip"
+        android:layout_height="85.0dip"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="6.0dip"
+        android:layout_marginLeft="5.0dip"
+        android:layout_marginTop="6.0dip"
+        android:src="@drawable/albumart_mp_unknown" />
+
+<!--     <ImageView -->
+<!--         android:layout_width="wrap_content" -->
+<!--         android:layout_height="wrap_content" -->
+<!--         android:layout_alignParentLeft="true" -->
+<!--         android:layout_alignParentTop="true" -->
+<!--         android:layout_marginLeft="10.0dip" -->
+<!--         android:layout_marginTop="8.0dip" -->
+<!--         android:src="@drawable/albumart_mp_unknown" /> -->
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_toRightOf="@+id/widget_music_album_art" >
+
+        <TextView
+            android:id="@+id/widget_music_track"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5.0dip"
+            android:ellipsize="end"
+            android:focusable="true"
+            android:gravity="center"
+            android:paddingLeft="12.0dip"
+            android:paddingRight="12.0dip"
+            android:singleLine="true"
+            android:text="百度音乐-听到极致"
+            android:textColor="#ff667780"
+            android:textSize="14.0dip" />
+
+        <TextView
+            android:id="@+id/widget_music_artist"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6.0dip"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:paddingLeft="12.0dip"
+            android:paddingRight="12.0dip"
+            android:singleLine="true"
+            android:text="未知歌手"
+            android:textColor="#ff667780"
+            android:textSize="9.0dip"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/player_music_control_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal"
+            android:paddingTop="10.0dip" >
+
+<!--             <ImageButton -->
+<!--                 android:id="@+id/player_music_mode" -->
+<!--                 android:layout_width="wrap_content" -->
+<!--                 android:layout_height="wrap_content" -->
+<!--                 android:layout_gravity="center" -->
+<!--                 android:layout_marginRight="1.0dip" -->
+<!--                 android:background="@null" -->
+<!--                 android:padding="8.0dip" -->
+<!--                 android:scaleType="center" -->
+<!--                 android:src="@drawable/bt_widget_mode_order" /> -->
+
+            <ImageButton
+                android:id="@+id/player_music_prev"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="6.0dip"
+                android:background="@null"
+                android:padding="4.0dip"
+                android:scaleType="center"
+                android:src="@drawable/holo_light_previous" />
+
+            <ImageButton
+                android:id="@+id/player_music_play_control"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:src="@drawable/holo_light_play" />
+
+            <ImageButton
+                android:id="@+id/player_music_next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="6.0dip"
+                android:background="@null"
+                android:padding="4.0dip"
+                android:scaleType="center"
+                android:src="@drawable/holo_light_next" />
+
+<!--             <ImageButton -->
+<!--                 android:id="@id/player_music_lyric_btn" -->
+<!--                 android:layout_width="wrap_content" -->
+<!--                 android:layout_height="wrap_content" -->
+<!--                 android:layout_gravity="center" -->
+<!--                 android:layout_marginLeft="1.0dip" -->
+<!--                 android:background="@null" -->
+<!--                 android:padding="8.0dip" -->
+<!--                 android:scaleType="center" -->
+<!--                 android:src="@drawable/bt_widget_desklyric_open" /> -->
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="18.0dip"
+            android:layout_alignParentBottom="true"
+            android:paddingBottom="6.0dip" >
+
+<!--             <ProgressBar -->
+<!--                 android:id="@+id/player_music_progress_bar" -->
+<!--                 style="?android:attr/seekBarStyle" -->
+<!--                 android:layout_width="fill_parent" -->
+<!--                 android:layout_height="1.0dip" -->
+<!--                 android:layout_alignParentBottom="true" -->
+<!--                 android:layout_marginLeft="6.0dip" -->
+<!--                 android:layout_marginRight="6.0dip" -->
+<!--                 android:maxHeight="1.0dip" -->
+<!--                 android:minHeight="1.0dip" -->
+<!--                 android:progressDrawable="@drawable/seek_style_widget" /> -->
+
+<!--             <TextView -->
+<!--                 android:id="@id/player_music_current_time" -->
+<!--                 android:layout_width="wrap_content" -->
+<!--                 android:layout_height="wrap_content" -->
+<!--                 android:layout_above="@id/player_music_progress_bar" -->
+<!--                 android:layout_alignParentLeft="true" -->
+<!--                 android:layout_marginLeft="6.0dip" -->
+<!--                 android:text="00:00" -->
+<!--                 android:textColor="#ffa0abb0" -->
+<!--                 android:textSize="6.0dip" /> -->
+
+<!--             <TextView -->
+<!--                 android:id="@id/player_music_total_time" -->
+<!--                 android:layout_width="wrap_content" -->
+<!--                 android:layout_height="wrap_content" -->
+<!--                 android:layout_above="@id/player_music_progress_bar" -->
+<!--                 android:layout_alignParentRight="true" -->
+<!--                 android:layout_marginRight="6.0dip" -->
+<!--                 android:text="00:00" -->
+<!--                 android:textColor="#ffa0abb0" -->
+<!--                 android:textSize="6.0dip" /> -->
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

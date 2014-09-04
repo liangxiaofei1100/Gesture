@@ -1,5 +1,6 @@
 package com.zhaoyan.gesture.image;
 
+import com.zhaoyan.common.dialog.ZyAlertDialog;
 import com.zhaoyan.gesture.R;
 
 import android.R.bool;

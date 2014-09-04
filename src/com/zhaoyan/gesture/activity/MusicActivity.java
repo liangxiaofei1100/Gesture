@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.zhaoyan.common.dialog.PlayerChoiceDialog;
 import com.zhaoyan.common.dialog.ZyDialogBuilder;
 import com.zhaoyan.gesture.R;
+import com.zhaoyan.gesture.app.AppLauncherActivity;
 import com.zhaoyan.gesture.music.MusicConf;
 import com.zhaoyan.gesture.music.PlayerAppInfo;
 import com.zhaoyan.gesture.music.ui.MusicBrowserActivity;

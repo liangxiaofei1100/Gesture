@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import com.zhaoyan.common.dialog.AppInfo;
 import com.zhaoyan.gesture.R;
 
 import android.app.AlertDialog;

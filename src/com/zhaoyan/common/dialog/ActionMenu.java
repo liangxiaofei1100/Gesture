@@ -1,4 +1,4 @@
-package com.zhaoyan.gesture.image;
+package com.zhaoyan.common.dialog;
 
 import java.util.ArrayList;
 import java.util.List;

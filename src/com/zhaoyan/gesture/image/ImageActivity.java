@@ -4,15 +4,22 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.zhaoyan.common.dialog.ActionMenu;
+import com.zhaoyan.common.dialog.ActionMenuInflater;
+import com.zhaoyan.common.dialog.ZyDeleteDialog;
+import com.zhaoyan.common.dialog.ActionMenu.ActionMenuItem;
+import com.zhaoyan.common.dialog.ActionMenuInterface.OnMenuItemClickListener;
+import com.zhaoyan.common.dialog.ZyAlertDialog.OnZyAlertDlgClickListener;
+import com.zhaoyan.common.view.TableTitleView;
+import com.zhaoyan.common.view.TableTitleView.OnTableSelectChangeListener;
 import com.zhaoyan.gesture.R;
 import com.zhaoyan.gesture.activity.BaseActivity;
-import com.zhaoyan.gesture.image.ActionMenu.ActionMenuItem;
-import com.zhaoyan.gesture.image.ActionMenuInterface.OnMenuItemClickListener;
 import com.zhaoyan.gesture.image.FileDeleteHelper.OnDeleteListener;
 import com.zhaoyan.gesture.image.ZYConstant.Extra;
-import com.zhaoyan.gesture.image.ZyAlertDialog.OnZyAlertDlgClickListener;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.FragmentManager;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -25,6 +32,7 @@ import android.provider.MediaStore;
 import android.provider.MediaStore.MediaColumns;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
@@ -36,12 +44,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.AbsListView.OnScrollListener;
 
 public class ImageActivity extends BaseActivity implements OnScrollListener,
 		OnItemClickListener, OnItemLongClickListener, MenuBarInterface,
 		OnMenuItemClickListener {
 	private static final String TAG = "ImageActivity";
+
+	private View mImageLayout, mVideoLayout;
+	private TableTitleView mTableTitleView;
 
 	public static final String IMAGE_TYPE = "IMAGE_TYPE";
 	public static final int TYPE_PHOTO = 0;
@@ -169,16 +181,21 @@ public class ImageActivity extends BaseActivity implements OnScrollListener,
 		// mPictureItemInfoList);
 		mAdapter = new ImageGridAdapter(this, 0, mPictureItemInfoList);
 
-		if (false) {
-			mListView.setVisibility(View.VISIBLE);
-			mGridView.setVisibility(View.GONE);
-			mListView.setAdapter(mAdapter);
-		} else {
-			mListView.setVisibility(View.GONE);
-			mGridView.setVisibility(View.VISIBLE);
-			mGridView.setAdapter(mAdapter);
-		}
-
+		// if (false) {
+		// mListView.setVisibility(View.VISIBLE);
+		// mGridView.setVisibility(View.GONE);
+		// mListView.setAdapter(mAdapter);
+		// } else {
+		mListView.setVisibility(View.GONE);
+		mGridView.setVisibility(View.VISIBLE);
+		mGridView.setAdapter(mAdapter);
+		// }
+		mImageLayout = findViewById(R.id.image_grid_layout);
+		mVideoLayout = findViewById(R.id.video_grid_layout);
+		mTableTitleView = (TableTitleView) findViewById(R.id.ttv_sc_title);
+		mTableTitleView.initTitles(new String[] { getString(R.string.gallery),
+				getString(R.string.camera), getString(R.string.video) });
+		mTableTitleView.setOnTableSelectChangeListener(myOnClickListener);
 		initMenuBar();
 	}
 
@@ -304,12 +321,12 @@ public class ImageActivity extends BaseActivity implements OnScrollListener,
 			String url = mPictureItemInfoList.get(i).getPath();
 			urlList.add(url);
 		}
-		 Intent intent = new Intent(this, ImagePagerActivity.class);
+		Intent intent = new Intent(this, ImagePagerActivity.class);
 		// // Intent intent = new Intent(this, OtherActivithy.class);
-		 intent.putExtra(Extra.IMAGE_POSITION, position);
-		 intent.putStringArrayListExtra(Extra.IMAGE_INFO, (ArrayList<String>)
-		 urlList);
-		 startActivityForResult(intent, REQUEST_CODE_PAGER);
+		intent.putExtra(Extra.IMAGE_POSITION, position);
+		intent.putStringArrayListExtra(Extra.IMAGE_INFO,
+				(ArrayList<String>) urlList);
+		startActivityForResult(intent, REQUEST_CODE_PAGER);
 	}
 
 	@Override
@@ -333,7 +350,7 @@ public class ImageActivity extends BaseActivity implements OnScrollListener,
 			int position, long id) {
 		if (mAdapter.isMode(ActionMenu.MODE_EDIT)) {
 			// do nothing
-			 doCheckAll();
+			doCheckAll();
 			return true;
 		} else {
 			mAdapter.changeMode(ActionMenu.MODE_EDIT);
@@ -523,17 +540,17 @@ public class ImageActivity extends BaseActivity implements OnScrollListener,
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_PAGER) {
-			 List<Integer> deleteList = data
-			 .getIntegerArrayListExtra(ImagePagerActivity.DELETE_POSITION);
-			 int removePosition;
-			 for (int i = 0; i < deleteList.size(); i++) {
-			 // remove from the last item to the first item
-			 removePosition = deleteList.get(deleteList.size() - (i + 1));
-			 mPictureItemInfoList.remove(removePosition);
-			 mAdapter.notifyDataSetChanged();
-			
-			 updateTitleNum(-1, mPictureItemInfoList.size());
-			 }
+			List<Integer> deleteList = data
+					.getIntegerArrayListExtra(ImagePagerActivity.DELETE_POSITION);
+			int removePosition;
+			for (int i = 0; i < deleteList.size(); i++) {
+				// remove from the last item to the first item
+				removePosition = deleteList.get(deleteList.size() - (i + 1));
+				mPictureItemInfoList.remove(removePosition);
+				mAdapter.notifyDataSetChanged();
+
+				updateTitleNum(-1, mPictureItemInfoList.size());
+			}
 		}
 	}
 
@@ -572,5 +589,51 @@ public class ImageActivity extends BaseActivity implements OnScrollListener,
 				R.anim.slide_up_in));
 		mMenuBarManager.refreshMenus(mActionMenu);
 	}
+
+	private OnTableSelectChangeListener myOnClickListener = new TableTitleView.OnTableSelectChangeListener() {
+
+		@Override
+		public void onTableSelect(int position) {
+			// TODO Auto-generated method stub
+			switch (position) {
+			case 0:
+				if (mImageLayout.getVisibility() == View.GONE) {
+					mVideoLayout.setVisibility(View.GONE);
+					mImageLayout.setVisibility(View.VISIBLE);
+				}
+				queryFolderItem(GALLERY);
+				initTitle(R.string.gallery);
+				break;
+			case 1:
+				if (mImageLayout.getVisibility() == View.GONE) {
+					mVideoLayout.setVisibility(View.GONE);
+					mImageLayout.setVisibility(View.VISIBLE);
+				}
+				queryFolderItem(CAMERA);
+				initTitle(R.string.camera);
+				break;
+			case 2:
+				if (mVideoLayout.getVisibility() == View.GONE) {
+					mVideoLayout.setVisibility(View.VISIBLE);
+					mImageLayout.setVisibility(View.GONE);
+				}
+				FragmentManager ft = getFragmentManager();
+				VideoFragment video = (VideoFragment) ft
+						.findFragmentByTag(getString(R.string.video));
+				if (video == null) {
+					video = new VideoFragment();
+					ft.beginTransaction()
+							.add(R.id.video_grid_layout, video,
+									getString(R.string.video)).commit();
+				} else {
+					video.query();
+				}
+				initTitle(R.string.video);
+				break;
+			default:
+				break;
+			}
+		}
+	};
 
 }

@@ -84,7 +84,7 @@ public class BaseActivity extends Activity implements OnMenuItemClickListener,
 		mTitleNumView.setVisibility(visible ? View.VISIBLE : View.GONE);
 	}
 
-	protected void updateTitleNum(int selected, int count) {
+	public void updateTitleNum(int selected, int count) {
 		if (selected == -1) {
 			mTitleNumView.setText(getString(R.string.num_format, count));
 		} else {
