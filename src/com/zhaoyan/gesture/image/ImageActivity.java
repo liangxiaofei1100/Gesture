@@ -9,6 +9,7 @@ import com.zhaoyan.gesture.activity.BaseActivity;
 import com.zhaoyan.gesture.image.ActionMenu.ActionMenuItem;
 import com.zhaoyan.gesture.image.ActionMenuInterface.OnMenuItemClickListener;
 import com.zhaoyan.gesture.image.FileDeleteHelper.OnDeleteListener;
+import com.zhaoyan.gesture.image.ZYConstant.Extra;
 import com.zhaoyan.gesture.image.ZyAlertDialog.OnZyAlertDlgClickListener;
 
 import android.app.Dialog;
@@ -303,12 +304,12 @@ public class ImageActivity extends BaseActivity implements OnScrollListener,
 			String url = mPictureItemInfoList.get(i).getPath();
 			urlList.add(url);
 		}
-		// Intent intent = new Intent(this, ImagePagerActivity.class);
+		 Intent intent = new Intent(this, ImagePagerActivity.class);
 		// // Intent intent = new Intent(this, OtherActivithy.class);
-		// intent.putExtra(Extra.IMAGE_POSITION, position);
-		// intent.putStringArrayListExtra(Extra.IMAGE_INFO, (ArrayList<String>)
-		// urlList);
-		// startActivityForResult(intent, REQUEST_CODE_PAGER);
+		 intent.putExtra(Extra.IMAGE_POSITION, position);
+		 intent.putStringArrayListExtra(Extra.IMAGE_INFO, (ArrayList<String>)
+		 urlList);
+		 startActivityForResult(intent, REQUEST_CODE_PAGER);
 	}
 
 	@Override
@@ -522,17 +523,17 @@ public class ImageActivity extends BaseActivity implements OnScrollListener,
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_PAGER) {
-			// List<Integer> deleteList = data
-			// .getIntegerArrayListExtra(ImagePagerActivity.DELETE_POSITION);
-			// int removePosition;
-			// for (int i = 0; i < deleteList.size(); i++) {
-			// // remove from the last item to the first item
-			// removePosition = deleteList.get(deleteList.size() - (i + 1));
-			// mPictureItemInfoList.remove(removePosition);
-			// mAdapter.notifyDataSetChanged();
-			//
-			// updateTitleNum(-1, mPictureItemInfoList.size());
-			// }
+			 List<Integer> deleteList = data
+			 .getIntegerArrayListExtra(ImagePagerActivity.DELETE_POSITION);
+			 int removePosition;
+			 for (int i = 0; i < deleteList.size(); i++) {
+			 // remove from the last item to the first item
+			 removePosition = deleteList.get(deleteList.size() - (i + 1));
+			 mPictureItemInfoList.remove(removePosition);
+			 mAdapter.notifyDataSetChanged();
+			
+			 updateTitleNum(-1, mPictureItemInfoList.size());
+			 }
 		}
 	}
 

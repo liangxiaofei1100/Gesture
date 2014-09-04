@@ -458,5 +458,6 @@
     <string name="menu_more">更多</string>
     <string name="info">属性</string>
     <string name="hide">隐藏</string>
+    <string name="info_image_info">图片信息</string>
 	<!-- image end -->
 </resources>
