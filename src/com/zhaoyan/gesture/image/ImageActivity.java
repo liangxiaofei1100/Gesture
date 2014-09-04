@@ -4,13 +4,16 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.zhaoyan.common.dialog.ActionMenu;
+import com.zhaoyan.common.dialog.ActionMenuInflater;
+import com.zhaoyan.common.dialog.ZyDeleteDialog;
+import com.zhaoyan.common.dialog.ActionMenu.ActionMenuItem;
+import com.zhaoyan.common.dialog.ActionMenuInterface.OnMenuItemClickListener;
+import com.zhaoyan.common.dialog.ZyAlertDialog.OnZyAlertDlgClickListener;
 import com.zhaoyan.gesture.R;
 import com.zhaoyan.gesture.activity.BaseActivity;
-import com.zhaoyan.gesture.image.ActionMenu.ActionMenuItem;
-import com.zhaoyan.gesture.image.ActionMenuInterface.OnMenuItemClickListener;
 import com.zhaoyan.gesture.image.FileDeleteHelper.OnDeleteListener;
 import com.zhaoyan.gesture.image.ZYConstant.Extra;
-import com.zhaoyan.gesture.image.ZyAlertDialog.OnZyAlertDlgClickListener;
 
 import android.app.Dialog;
 import android.app.FragmentManager;

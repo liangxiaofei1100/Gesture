@@ -1,12 +1,12 @@
-package com.zhaoyan.gesture.image;
+package com.zhaoyan.common.dialog;
 
 import java.io.IOException;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
+import com.zhaoyan.common.dialog.ActionMenu.ActionMenuItem;
 import com.zhaoyan.gesture.R;
-import com.zhaoyan.gesture.image.ActionMenu.ActionMenuItem;
 
 
 import android.content.Context;

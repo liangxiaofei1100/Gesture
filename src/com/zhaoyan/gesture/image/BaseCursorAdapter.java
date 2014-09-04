@@ -11,6 +11,7 @@ import android.util.SparseBooleanArray;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.zhaoyan.common.dialog.ActionMenu;
 import com.zhaoyan.gesture.R;
 import com.zhaoyan.gesture.image.ZYConstant.Extra;
 

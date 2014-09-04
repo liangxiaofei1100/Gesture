@@ -1,4 +1,4 @@
-package com.zhaoyan.gesture.image;
+package com.zhaoyan.common.dialog;
 
 
 import com.zhaoyan.gesture.R;

@@ -1,8 +1,10 @@
-package com.zhaoyan.gesture.image;
+package com.zhaoyan.common.dialog;
 
 import java.io.File;
 import java.text.Collator;
 import java.util.Comparator;
+
+import com.zhaoyan.gesture.image.ZYUtils;
 
 
 import android.content.Context;

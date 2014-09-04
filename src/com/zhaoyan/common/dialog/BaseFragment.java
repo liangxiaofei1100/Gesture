@@ -1,8 +1,11 @@
-package com.zhaoyan.gesture.image;
+package com.zhaoyan.common.dialog;
 
+import com.zhaoyan.common.dialog.ActionMenu.ActionMenuItem;
+import com.zhaoyan.common.dialog.ActionMenuInterface.OnMenuItemClickListener;
+import com.zhaoyan.common.view.TransportAnimationView;
 import com.zhaoyan.gesture.R;
-import com.zhaoyan.gesture.image.ActionMenu.ActionMenuItem;
-import com.zhaoyan.gesture.image.ActionMenuInterface.OnMenuItemClickListener;
+import com.zhaoyan.gesture.image.ImageActivity;
+import com.zhaoyan.gesture.image.MenuBarManager;
 import com.zhaoyan.gesture.image.ZYConstant.Extra;
 
 import android.app.Activity;

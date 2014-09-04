@@ -1,4 +1,4 @@
-package com.zhaoyan.gesture.image;
+package com.zhaoyan.common.view;
 
 
 import android.content.Context;

@@ -3,10 +3,13 @@ package com.zhaoyan.gesture.image;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.zhaoyan.common.dialog.ActionMenu;
+import com.zhaoyan.common.dialog.BaseFragment;
+import com.zhaoyan.common.dialog.ZyDeleteDialog;
+import com.zhaoyan.common.dialog.ActionMenu.ActionMenuItem;
+import com.zhaoyan.common.dialog.ZyAlertDialog.OnZyAlertDlgClickListener;
 import com.zhaoyan.gesture.R;
-import com.zhaoyan.gesture.image.ActionMenu.ActionMenuItem;
 import com.zhaoyan.gesture.image.FileDeleteHelper.OnDeleteListener;
-import com.zhaoyan.gesture.image.ZyAlertDialog.OnZyAlertDlgClickListener;
 
 import android.app.Dialog;
 import android.content.AsyncQueryHandler;

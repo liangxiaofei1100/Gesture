@@ -1,6 +1,6 @@
-package com.zhaoyan.gesture.image;
+package com.zhaoyan.common.dialog;
 
-import com.zhaoyan.gesture.image.ActionMenu.ActionMenuItem;
+import com.zhaoyan.common.dialog.ActionMenu.ActionMenuItem;
 
 
 public interface ActionMenuInterface {

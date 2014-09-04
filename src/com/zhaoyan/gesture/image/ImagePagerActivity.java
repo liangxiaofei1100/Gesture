@@ -39,9 +39,10 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.zhaoyan.common.dialog.ZyDeleteDialog;
+import com.zhaoyan.common.dialog.ZyAlertDialog.OnZyAlertDlgClickListener;
 import com.zhaoyan.gesture.R;
 import com.zhaoyan.gesture.image.ZYConstant.Extra;
-import com.zhaoyan.gesture.image.ZyAlertDialog.OnZyAlertDlgClickListener;
 
 /**全屏查看图片*/
 public class ImagePagerActivity extends Activity implements OnClickListener, OnPageChangeListener {
