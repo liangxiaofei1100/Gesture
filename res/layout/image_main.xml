@@ -2,15 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rl_picture_main"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-   >
+    android:layout_height="fill_parent" >
 
-    <!--
-             <include
-            android:id="@+id/title"
-            layout="@layout/title" />
-    -->
-
+    <include
+        android:id="@+id/pager"
+        layout="@layout/image_pager_title" />
 
     <!-- <GridView -->
     <!-- android:id="@+id/gv_picture_folder" -->
@@ -23,49 +19,64 @@
     <!-- android:stretchMode="columnWidth" -->
     <!-- android:verticalSpacing="8dip" /> -->
 
-    <GridView
-        android:id="@+id/gv_picture_item"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_above="@+id/bottom"
-        android:fastScrollEnabled="true"
-        android:gravity="center"
-        android:horizontalSpacing="4dip"
-        android:listSelector="@drawable/list_selector"
-        android:numColumns="3"
-        android:padding="4dip"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="4dip"
-        android:visibility="visible" />
-
-    <ListView
-        android:id="@+id/lv_picture_item"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_above="@+id/bottom"
-        android:fastScrollEnabled="true"
-        android:listSelector="@drawable/list_selector"
-        android:visibility="gone" >
-    </ListView>
-
-    <ProgressBar
-        android:id="@+id/bar_loading_image"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_centerInParent="true"
-        android:indeterminateDrawable="@drawable/loading_progressbar"
-        android:visibility="gone" />
-
     <RelativeLayout
-        android:id="@+id/bottom"
+        android:id="@+id/image_grid_layout"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:visibility="visible" >
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/pager" >
 
-        <include
-            android:id="@+id/menubar_bottom"
-            layout="@layout/menubar_bottom" />
+        <GridView
+            android:id="@+id/gv_picture_item"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_above="@+id/bottom"
+            android:fastScrollEnabled="true"
+            android:gravity="center"
+            android:horizontalSpacing="4dip"
+            android:listSelector="@drawable/list_selector"
+            android:numColumns="3"
+            android:padding="4dip"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="4dip"
+            android:visibility="visible" />
+
+        <ListView
+            android:id="@+id/lv_picture_item"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_above="@+id/bottom"
+            android:fastScrollEnabled="true"
+            android:listSelector="@drawable/list_selector"
+            android:visibility="gone" >
+        </ListView>
+
+        <ProgressBar
+            android:id="@+id/bar_loading_image"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_centerInParent="true"
+            android:indeterminateDrawable="@drawable/loading_progressbar"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:id="@+id/bottom"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:visibility="visible" >
+
+            <include
+                android:id="@+id/menubar_bottom"
+                layout="@layout/menubar_bottom" />
+        </RelativeLayout>
     </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/video_grid_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/pager"
+        android:visibility="gone" >
+    </FrameLayout>
 
 </RelativeLayout>

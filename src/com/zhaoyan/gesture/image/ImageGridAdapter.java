@@ -3,6 +3,7 @@ package com.zhaoyan.gesture.image;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.zhaoyan.common.view.CheckableImageView;
 import com.zhaoyan.gesture.R;
 import com.zhaoyan.gesture.image.ZYConstant.Extra;
 

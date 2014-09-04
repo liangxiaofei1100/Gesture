@@ -3,9 +3,10 @@ package com.zhaoyan.gesture.image;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.zhaoyan.common.dialog.ActionMenu;
+import com.zhaoyan.common.dialog.ActionMenu.ActionMenuItem;
+import com.zhaoyan.common.dialog.ActionMenuInterface.OnMenuItemClickListener;
 import com.zhaoyan.gesture.R;
-import com.zhaoyan.gesture.image.ActionMenu.ActionMenuItem;
-import com.zhaoyan.gesture.image.ActionMenuInterface.OnMenuItemClickListener;
 
 import android.content.Context;
 import android.view.LayoutInflater;
