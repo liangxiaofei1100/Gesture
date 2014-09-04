@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2007 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.zhaoyan.gesture.music.ui;
 
 import android.app.ListActivity;
@@ -65,9 +49,12 @@ import com.zhaoyan.gesture.music.MusicConf;
 import com.zhaoyan.gesture.music.utils.MusicUtils;
 import com.zhaoyan.gesture.music.utils.MusicUtils.Defs;
 import com.zhaoyan.gesture.music.utils.MusicUtils.ServiceToken;
+import com.zhaoyan.gesture.util.ZyLog;
 
 public class AlbumBrowserActivity extends ListActivity implements
 		View.OnCreateContextMenuListener, MusicUtils.Defs, ServiceConnection {
+	private static final String TAG = AlbumBrowserActivity.class.getSimpleName();
+	
 	private String mCurrentAlbumId;
 	private String mCurrentAlbumName;
 	private String mCurrentArtistNameForAlbum;
@@ -212,7 +199,7 @@ public class AlbumBrowserActivity extends ListActivity implements
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			getListView().invalidateViews();
-			MusicUtils.updateNowPlaying(AlbumBrowserActivity.this);
+//			MusicUtils.updateNowPlaying(AlbumBrowserActivity.this);
 		}
 	};
 	private BroadcastReceiver mScanListener = new BroadcastReceiver() {
@@ -745,6 +732,7 @@ public class AlbumBrowserActivity extends ListActivity implements
 	private String mArtistId;
 
 	public void onServiceConnected(ComponentName name, IBinder service) {
+		ZyLog.d(TAG, "onServiceConnected");
 		MusicUtils.updateNowPlaying(this);
 	}
 

@@ -108,7 +108,7 @@
         </activity>
         <receiver android:name="com.zhaoyan.gesture.music.MediaButtonIntentReceiver">
             <intent-filter>
-                <!-- <action android:name="android.intent.action.BOOT_COMPLETED" /> -->
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
                 <action android:name="android.media.AUDIO_BECOMING_NOISY" />
             </intent-filter>
@@ -379,16 +379,6 @@
         <activity android:name="com.zhaoyan.gesture.activity.GestureShowActivity"
             android:theme="@style/SlideTheme"></activity>
         <!-- base end -->
-        
-        <activity 
-            android:name="com.zhaoyan.gesture.activity.TestActivity"
-            android:theme="@android:style/Theme.Holo.Light"
-            >
-            <intent-filter>
-                <action  android:name="com.zhaoyan.gesutre.test"  />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>

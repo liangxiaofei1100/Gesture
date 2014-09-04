@@ -217,7 +217,8 @@ public class ArtistAlbumBrowserActivity extends ExpandableListActivity
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			getExpandableListView().invalidateViews();
-			MusicUtils.updateNowPlaying(ArtistAlbumBrowserActivity.this);
+			//let bottomActionBarFragment do it
+//			MusicUtils.updateNowPlaying(ArtistAlbumBrowserActivity.this);
 		}
 	};
 	private BroadcastReceiver mScanListener = new BroadcastReceiver() {

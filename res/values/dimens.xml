@@ -33,4 +33,13 @@
     <dimen name="audio_player_controls_height">56dp</dimen>
     <dimen name="audio_player_seek_bar_padding">10dp</dimen>
     <dimen name="audio_player_button_container_padding">2dp</dimen>
+    
+    <!-- Bottom ActionBar -->
+    <dimen name="bottom_action_bar_height">48dp</dimen>
+    <dimen name="bottom_action_bar_padding_left">4dp</dimen>
+    <dimen name="bottom_action_bar_item_width">56dp</dimen>
+    <dimen name="bottom_action_bar_item_padding_left_right">12dp</dimen>
+    <dimen name="bottom_action_bar_album_art_width_height">30dp</dimen>
+    <dimen name="bottom_action_bar_divider_height">2dp</dimen>
+    <dimen name="bottom_action_bar_info_padding_left">5dp</dimen>
 </resources>

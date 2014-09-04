@@ -239,7 +239,7 @@ public class PlaylistBrowserActivity extends ListActivity implements
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			getListView().invalidateViews();
-			MusicUtils.updateNowPlaying(PlaylistBrowserActivity.this);
+//			MusicUtils.updateNowPlaying(PlaylistBrowserActivity.this);
 		}
 	};
 

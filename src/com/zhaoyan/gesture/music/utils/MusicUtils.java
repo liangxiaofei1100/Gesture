@@ -86,6 +86,8 @@ import com.zhaoyan.gesture.music.MusicConf;
 import com.zhaoyan.gesture.music.ui.MediaPlaybackActivity;
 import com.zhaoyan.gesture.music.ui.MediaPlaybackActivity2;
 import com.zhaoyan.gesture.music.ui.ScanningProgress;
+import com.zhaoyan.gesture.music.views.BottomActionBar;
+import com.zhaoyan.gesture.util.ZyLog;
 
 public class MusicUtils {
 
@@ -1375,14 +1377,19 @@ public class MusicUtils {
         a.overridePendingTransition(0, 0);
     }
     
-    public static void updateNowPlaying(Activity a) {
-        View nowPlayingView = a.findViewById(R.id.nowplaying);
+    public static void updateNowPlaying(Activity activity) {
+    	ZyLog.d(TAG, "updateNowPlaying:" + activity);
+    	
+        BottomActionBar bottomActionBar = new BottomActionBar(activity);
+        bottomActionBar.updateBottomActionBar(activity);
+        
+        View nowPlayingView = activity.findViewById(R.id.nowplaying);
         if (nowPlayingView == null) {
             return;
         }
         try {
             boolean withtabs = false;
-            Intent intent = a.getIntent();
+            Intent intent = activity.getIntent();
             if (intent != null) {
                 withtabs = intent.getBooleanExtra("withtabs", false);
             }
@@ -1392,7 +1399,7 @@ public class MusicUtils {
                 title.setText(MusicUtils.sService.getTrackName());
                 String artistName = MusicUtils.sService.getArtistName();
                 if (MediaStore.UNKNOWN_STRING.equals(artistName)) {
-                    artistName = a.getString(R.string.unknown_artist_name);
+                    artistName = activity.getString(R.string.unknown_artist_name);
                 }
                 artist.setText(artistName);
                 //mNowPlayingView.setOnFocusChangeListener(mFocuser);

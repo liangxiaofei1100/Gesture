@@ -1,7 +1,5 @@
 package com.zhaoyan.gesture.music;
 
-import com.zhaoyan.gesture.music.ui.MusicBrowserActivity;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +8,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
+
+import com.zhaoyan.gesture.music.ui.MusicBrowserActivity;
+import com.zhaoyan.gesture.service.CommonService;
 
 /**
  * 
@@ -47,9 +48,11 @@ public class MediaButtonIntentReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         String intentAction = intent.getAction();
         if (Intent.ACTION_BOOT_COMPLETED.equals(intentAction)) {
-            Intent i = new Intent(context, MediaPlaybackService.class);
-            i.setAction(intentAction);
-            context.startService(i);
+//            Intent i = new Intent(context, MediaPlaybackService.class);
+//            i.setAction(intentAction);
+//            context.startService(i);
+        	Intent i = new Intent(context, CommonService.class);
+        	context.startService(i);
         } else if (AudioManager.ACTION_AUDIO_BECOMING_NOISY.equals(intentAction)) {
             Intent i = new Intent(context, MediaPlaybackService.class);
             i.setAction(MediaPlaybackService.SERVICECMD);

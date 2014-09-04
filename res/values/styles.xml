@@ -125,4 +125,24 @@
     <style name="dialog_untran" parent="dialog_tran">
         <item name="android:backgroundDimEnabled">true</item>
     </style>
+    
+     <!-- ImageButton in the bottom bar -->
+    <style name="BottomActionBarItem">
+        <item name="android:layout_width">@dimen/bottom_action_bar_item_width</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:paddingLeft">@dimen/bottom_action_bar_item_padding_left_right</item>
+        <item name="android:paddingRight">@dimen/bottom_action_bar_item_padding_left_right</item>
+        <item name="android:background">@drawable/kk_theme_selector</item>
+        <item name="android:gravity">center|right</item>
+    </style>
+
+    <!-- TextView in the bottom bar -->
+    <style name="BottomActionBarText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">top|left|center</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
 </resources>

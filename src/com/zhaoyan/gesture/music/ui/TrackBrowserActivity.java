@@ -639,7 +639,7 @@ public class TrackBrowserActivity extends ListActivity implements
 		public void onReceive(Context context, Intent intent) {
 			getListView().invalidateViews();
 			if (!mEditMode) {
-				MusicUtils.updateNowPlaying(TrackBrowserActivity.this);
+//				MusicUtils.updateNowPlaying(TrackBrowserActivity.this);
 			}
 		}
 	};
