@@ -33,4 +33,9 @@
     <dimen name="audio_player_controls_height">56dp</dimen>
     <dimen name="audio_player_seek_bar_padding">10dp</dimen>
     <dimen name="audio_player_button_container_padding">2dp</dimen>
+    
+    <!-- image -->
+    <dimen name="dialog_left_margin">20dp</dimen>
+    <dimen name="dialog_right_margin">20dp</dimen>
+    <dimen name="dialog_title_height">60dp</dimen>
 </resources>
