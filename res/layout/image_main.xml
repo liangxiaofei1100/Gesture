@@ -2,15 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rl_picture_main"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-   >
+    android:layout_height="fill_parent" >
 
-    <!--
-             <include
-            android:id="@+id/title"
-            layout="@layout/title" />
-    -->
-
+    <include
+        android:id="@+id/pager"
+        layout="@layout/image_pager_title" />
 
     <!-- <GridView -->
     <!-- android:id="@+id/gv_picture_folder" -->
@@ -28,6 +24,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_above="@+id/bottom"
+        android:layout_below="@+id/pager"
         android:fastScrollEnabled="true"
         android:gravity="center"
         android:horizontalSpacing="4dip"
@@ -43,6 +40,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_above="@+id/bottom"
+        android:layout_below="@+id/pager"
         android:fastScrollEnabled="true"
         android:listSelector="@drawable/list_selector"
         android:visibility="gone" >

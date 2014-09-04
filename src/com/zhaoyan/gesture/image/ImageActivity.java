@@ -25,6 +25,7 @@ import android.provider.MediaStore;
 import android.provider.MediaStore.MediaColumns;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
@@ -36,6 +37,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.AbsListView.OnScrollListener;
 
 public class ImageActivity extends BaseActivity implements OnScrollListener,
@@ -43,6 +45,8 @@ public class ImageActivity extends BaseActivity implements OnScrollListener,
 		OnMenuItemClickListener {
 	private static final String TAG = "ImageActivity";
 
+	private TextView mGalleryTv,mCameraTv;
+	
 	public static final String IMAGE_TYPE = "IMAGE_TYPE";
 	public static final int TYPE_PHOTO = 0;
 	public static final int TYPE_GALLERY = 1;
@@ -169,15 +173,19 @@ public class ImageActivity extends BaseActivity implements OnScrollListener,
 		// mPictureItemInfoList);
 		mAdapter = new ImageGridAdapter(this, 0, mPictureItemInfoList);
 
-		if (false) {
-			mListView.setVisibility(View.VISIBLE);
-			mGridView.setVisibility(View.GONE);
-			mListView.setAdapter(mAdapter);
-		} else {
+//		if (false) {
+//			mListView.setVisibility(View.VISIBLE);
+//			mGridView.setVisibility(View.GONE);
+//			mListView.setAdapter(mAdapter);
+//		} else {
 			mListView.setVisibility(View.GONE);
 			mGridView.setVisibility(View.VISIBLE);
 			mGridView.setAdapter(mAdapter);
-		}
+//		}
+		mGalleryTv=(TextView) findViewById(R.id.gallery_image);
+		mCameraTv=(TextView) findViewById(R.id.camera_image);
+		mGalleryTv.setOnClickListener(myOnClickListener);
+		mCameraTv.setOnClickListener(myOnClickListener);
 
 		initMenuBar();
 	}
@@ -573,4 +581,23 @@ public class ImageActivity extends BaseActivity implements OnScrollListener,
 		mMenuBarManager.refreshMenus(mActionMenu);
 	}
 
+	private OnClickListener myOnClickListener=new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+			switch (v.getId()) {
+			case R.id.gallery_image:
+				queryFolderItem(GALLERY);
+				initTitle(R.string.gallery);
+				break;
+			case R.id.camera_image:
+				queryFolderItem(CAMERA);
+				initTitle(R.string.camera);
+				break;
+			default:
+				break;
+			}
+		}
+	};
 }
