@@ -19,4 +19,21 @@
     
      <color name="dialog_bg">#fff9f0f0</color>
       <color name="divider_color">#11000000</color>
+     <!--image start  -->
+     <color name="holo_blue_light">#ff33b5e5</color>
+    <color name="holo_blue_light_transparent">#3f33b5e5</color>
+    <color name="holo_blue_light_transparent2">#7f33b5e5</color>
+    <color name="list_item_bg_normal">@android:color/transparent</color>
+    <color name="list_item_bg_checked">@color/holo_blue_light</color>
+    <color name="list_item_bg_pressed">@color/holo_blue_light_transparent2</color>
+    <color name="gray2">#A1A1A1</color>
+    <drawable name="listselector_pressed">@color/holo_blue_light_transparent2</drawable>
+    <drawable name="listselector_selected">@color/holo_blue_light</drawable>
+    <drawable name="listselector_normal">@android:color/transparent</drawable>
+    <color name="black">#000000</color>
+    <color name="header_normal">#ffe74c3c</color>
+    <color name="header_pressed">#ffc0392b</color>
+     <color name="gray">#696969</color>
+     <color name="white">#ffffff</color>
+      <!--image end  -->
 </resources>

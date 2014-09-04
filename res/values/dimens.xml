@@ -42,4 +42,9 @@
     <dimen name="bottom_action_bar_album_art_width_height">30dp</dimen>
     <dimen name="bottom_action_bar_divider_height">2dp</dimen>
     <dimen name="bottom_action_bar_info_padding_left">5dp</dimen>
+
+    <!-- image -->
+    <dimen name="dialog_left_margin">20dp</dimen>
+    <dimen name="dialog_right_margin">20dp</dimen>
+    <dimen name="dialog_title_height">60dp</dimen>
 </resources>

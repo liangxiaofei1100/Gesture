@@ -379,6 +379,14 @@
         <activity android:name="com.zhaoyan.gesture.activity.GestureShowActivity"
             android:theme="@style/SlideTheme"></activity>
         <!-- base end -->
+        
+        <activity android:name="com.zhaoyan.gesture.image.ImageActivity"
+            android:theme="@style/SlideTheme"></activity>
+        <activity
+            android:name="com.zhaoyan.gesture.image.ImagePagerActivity"
+            android:theme="@style/SlideTheme" >
+        </activity>
+
     </application>
 
 </manifest>
