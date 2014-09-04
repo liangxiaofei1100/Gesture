@@ -13,6 +13,7 @@ import com.zhaoyan.gesture.image.ZYConstant.Extra;
 import com.zhaoyan.gesture.image.ZyAlertDialog.OnZyAlertDlgClickListener;
 
 import android.app.Dialog;
+import android.app.FragmentManager;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -45,8 +46,9 @@ public class ImageActivity extends BaseActivity implements OnScrollListener,
 		OnMenuItemClickListener {
 	private static final String TAG = "ImageActivity";
 
-	private TextView mGalleryTv,mCameraTv;
-	
+	private TextView mGalleryTv, mCameraTv, mVideoTv;
+	private View mImageLayout, mVideoLayout;
+
 	public static final String IMAGE_TYPE = "IMAGE_TYPE";
 	public static final int TYPE_PHOTO = 0;
 	public static final int TYPE_GALLERY = 1;
@@ -173,19 +175,23 @@ public class ImageActivity extends BaseActivity implements OnScrollListener,
 		// mPictureItemInfoList);
 		mAdapter = new ImageGridAdapter(this, 0, mPictureItemInfoList);
 
-//		if (false) {
-//			mListView.setVisibility(View.VISIBLE);
-//			mGridView.setVisibility(View.GONE);
-//			mListView.setAdapter(mAdapter);
-//		} else {
-			mListView.setVisibility(View.GONE);
-			mGridView.setVisibility(View.VISIBLE);
-			mGridView.setAdapter(mAdapter);
-//		}
-		mGalleryTv=(TextView) findViewById(R.id.gallery_image);
-		mCameraTv=(TextView) findViewById(R.id.camera_image);
+		// if (false) {
+		// mListView.setVisibility(View.VISIBLE);
+		// mGridView.setVisibility(View.GONE);
+		// mListView.setAdapter(mAdapter);
+		// } else {
+		mListView.setVisibility(View.GONE);
+		mGridView.setVisibility(View.VISIBLE);
+		mGridView.setAdapter(mAdapter);
+		// }
+		mImageLayout = findViewById(R.id.image_grid_layout);
+		mVideoLayout = findViewById(R.id.video_grid_layout);
+		mGalleryTv = (TextView) findViewById(R.id.gallery_image);
+		mCameraTv = (TextView) findViewById(R.id.camera_image);
+		mVideoTv = (TextView) findViewById(R.id.video_image);
 		mGalleryTv.setOnClickListener(myOnClickListener);
 		mCameraTv.setOnClickListener(myOnClickListener);
+		mVideoTv.setOnClickListener(myOnClickListener);
 
 		initMenuBar();
 	}
@@ -312,12 +318,12 @@ public class ImageActivity extends BaseActivity implements OnScrollListener,
 			String url = mPictureItemInfoList.get(i).getPath();
 			urlList.add(url);
 		}
-		 Intent intent = new Intent(this, ImagePagerActivity.class);
+		Intent intent = new Intent(this, ImagePagerActivity.class);
 		// // Intent intent = new Intent(this, OtherActivithy.class);
-		 intent.putExtra(Extra.IMAGE_POSITION, position);
-		 intent.putStringArrayListExtra(Extra.IMAGE_INFO, (ArrayList<String>)
-		 urlList);
-		 startActivityForResult(intent, REQUEST_CODE_PAGER);
+		intent.putExtra(Extra.IMAGE_POSITION, position);
+		intent.putStringArrayListExtra(Extra.IMAGE_INFO,
+				(ArrayList<String>) urlList);
+		startActivityForResult(intent, REQUEST_CODE_PAGER);
 	}
 
 	@Override
@@ -341,7 +347,7 @@ public class ImageActivity extends BaseActivity implements OnScrollListener,
 			int position, long id) {
 		if (mAdapter.isMode(ActionMenu.MODE_EDIT)) {
 			// do nothing
-			 doCheckAll();
+			doCheckAll();
 			return true;
 		} else {
 			mAdapter.changeMode(ActionMenu.MODE_EDIT);
@@ -531,17 +537,17 @@ public class ImageActivity extends BaseActivity implements OnScrollListener,
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_PAGER) {
-			 List<Integer> deleteList = data
-			 .getIntegerArrayListExtra(ImagePagerActivity.DELETE_POSITION);
-			 int removePosition;
-			 for (int i = 0; i < deleteList.size(); i++) {
-			 // remove from the last item to the first item
-			 removePosition = deleteList.get(deleteList.size() - (i + 1));
-			 mPictureItemInfoList.remove(removePosition);
-			 mAdapter.notifyDataSetChanged();
-			
-			 updateTitleNum(-1, mPictureItemInfoList.size());
-			 }
+			List<Integer> deleteList = data
+					.getIntegerArrayListExtra(ImagePagerActivity.DELETE_POSITION);
+			int removePosition;
+			for (int i = 0; i < deleteList.size(); i++) {
+				// remove from the last item to the first item
+				removePosition = deleteList.get(deleteList.size() - (i + 1));
+				mPictureItemInfoList.remove(removePosition);
+				mAdapter.notifyDataSetChanged();
+
+				updateTitleNum(-1, mPictureItemInfoList.size());
+			}
 		}
 	}
 
@@ -581,23 +587,50 @@ public class ImageActivity extends BaseActivity implements OnScrollListener,
 		mMenuBarManager.refreshMenus(mActionMenu);
 	}
 
-	private OnClickListener myOnClickListener=new OnClickListener() {
-		
+	private OnClickListener myOnClickListener = new OnClickListener() {
+
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
 			switch (v.getId()) {
 			case R.id.gallery_image:
+				if (mImageLayout.getVisibility() == View.GONE) {
+					mVideoLayout.setVisibility(View.GONE);
+					mImageLayout.setVisibility(View.VISIBLE);
+				}
 				queryFolderItem(GALLERY);
 				initTitle(R.string.gallery);
 				break;
 			case R.id.camera_image:
+				if (mImageLayout.getVisibility() == View.GONE) {
+					mVideoLayout.setVisibility(View.GONE);
+					mImageLayout.setVisibility(View.VISIBLE);
+				}
 				queryFolderItem(CAMERA);
 				initTitle(R.string.camera);
+				break;
+			case R.id.video_image:
+				if (mVideoLayout.getVisibility() == View.GONE) {
+					mVideoLayout.setVisibility(View.VISIBLE);
+					mImageLayout.setVisibility(View.GONE);
+				}
+				FragmentManager ft = getFragmentManager();
+				VideoFragment video = (VideoFragment) ft
+						.findFragmentByTag(getString(R.string.video));
+				if (video == null) {
+					video = new VideoFragment();
+					ft.beginTransaction()
+							.add(R.id.video_grid_layout, video,
+									getString(R.string.video)).commit();
+				} else {
+					video.query();
+				}
+				initTitle(R.string.video);
 				break;
 			default:
 				break;
 			}
 		}
 	};
+
 }

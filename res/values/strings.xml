@@ -431,6 +431,7 @@
     <string name="camera">相机</string>
     <string name="gallery">图库</string>
     <string name="image">图片</string>
+    <string name="video">视频</string>
     <string name="info_filename">文件名称:</string>
     <string name="info_musicname">歌曲名称:</string>
     <string name="info_imagename">图片名称:</string>
@@ -441,7 +442,9 @@
      <string name="deleting">正在删除...</string>
      <string name="delete_file_confirm_msg">确定要删除“%1$s”？</string>
      <string name="delete_image">删除图片</string>
+     <string name="delete_video">删除视频</string>
      <string name="delete_file_confirm_msg_image">确定要删除这%1$s个图片？</string>
+     <string name="delete_file_confirm_msg_video">确定要删除这%1$s个视频？</string>
       <string name="menu_delete">删除</string>
       <string name="select_all">全选</string>
     <string name="unselect_all">取消全选</string>
@@ -459,5 +462,12 @@
     <string name="info">属性</string>
     <string name="hide">隐藏</string>
     <string name="info_image_info">图片信息</string>
+     <string name="dialog_type_text">文本</string>
+     <string name="open_file_fail">找不到打开该文件的应用</string>
+      <string name="dialog_select_type">选择文件类型</string>
+      <string name="dialog_type_audio">音频</string>
+    <string name="dialog_type_video">视频</string>
+    <string name="dialog_type_image">图像</string>
+    <string name="info_video_info">视频信息</string>
 	<!-- image end -->
 </resources>

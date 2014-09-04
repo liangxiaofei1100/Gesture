@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:zhaoyan="http://schemas.android.com/apk/res/com.zhaoyan.gesture"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:title="@string/menu_delete"
+        zhaoyan:zyEnabled="true"
+        zhaoyan:zyIconDisable="@drawable/ic_action_delete_disable"
+        zhaoyan:zyIconEnable="@drawable/ic_action_delete_enable"
+        zhaoyan:zyId="@+id/menu_delete"
+        zhaoyan:zyTitle="@string/menu_delete"/>
+    <item
+        android:title="@string/menu_info"
+        zhaoyan:zyEnabled="true"
+        zhaoyan:zyIconDisable="@drawable/ic_action_info_disable"
+        zhaoyan:zyIconEnable="@drawable/ic_action_info_enable"
+        zhaoyan:zyId="@+id/menu_info"
+        zhaoyan:zyTitle="@string/menu_info"/>
+    <item
+        android:title="@string/select_all"
+        zhaoyan:zyEnabled="true"
+        zhaoyan:zyIconDisable="@drawable/ic_aciton_select"
+        zhaoyan:zyIconEnable="@drawable/ic_aciton_select"
+        zhaoyan:zyId="@+id/menu_select"
+        zhaoyan:zyTitle="@string/select_all"/>
+
+</menu>
