@@ -27,18 +27,22 @@ public class CameraGuesture implements GestureHandler {
 		gestures.add(mContext.getString(R.string.gesture_camera));
 		return gestures;
 	}
+	
+	private void handleGesture() {
+		Intent intent = new Intent(Intent.ACTION_CAMERA_BUTTON);
+		mContext.sendBroadcast(intent);
+	}
+	
+	@Override
+	public void handleSystemGesture(String gestureName) {
+		handleGesture();
+	}
 
 	@Override
 	public void handleGesture(Gesture gesture, Prediction prediction) {
 		Log.d(TAG, "handleGesture name = " + prediction.name + ", score = "
 				+ prediction.score + ", length = " + gesture.getLength());
-		Toast.makeText(
-				mContext,
-				"handleGesture name = " + prediction.name + ", score = "
-						+ prediction.score + ", length = "
-						+ gesture.getLength(), Toast.LENGTH_SHORT).show();
-		Intent intent = new Intent(Intent.ACTION_CAMERA_BUTTON);
-		mContext.sendBroadcast(intent);
+		handleGesture();
 	}
 
 	@Override
