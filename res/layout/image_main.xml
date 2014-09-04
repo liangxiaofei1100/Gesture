@@ -4,9 +4,10 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
-    <include
-        android:id="@+id/pager"
-        layout="@layout/image_pager_title" />
+    <com.zhaoyan.common.view.TableTitleView
+        android:id="@+id/ttv_sc_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <!-- <GridView -->
     <!-- android:id="@+id/gv_picture_folder" -->
@@ -23,7 +24,7 @@
         android:id="@+id/image_grid_layout"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@+id/pager" >
+        android:layout_below="@+id/ttv_sc_title" >
 
         <GridView
             android:id="@+id/gv_picture_item"
@@ -75,7 +76,7 @@
         android:id="@+id/video_grid_layout"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@+id/pager"
+        android:layout_below="@+id/ttv_sc_title"
         android:visibility="gone" >
     </FrameLayout>
 
