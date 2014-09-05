@@ -3,9 +3,11 @@ package com.zhaoyan.gesture.image;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.zhaoyan.common.adapter.CheckableCursorAdapter;
+import com.zhaoyan.common.utils.Utils;
 import com.zhaoyan.gesture.R;
+import com.zhaoyan.gesture.common.ZYConstant.Extra;
 import com.zhaoyan.gesture.image.AsyncVideoLoader.ILoadVideoCallback;
-import com.zhaoyan.gesture.image.ZYConstant.Extra;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -18,11 +20,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-public class VideoCursorAdapter extends BaseCursorAdapter {
+public class VideoCursorAdapter extends CheckableCursorAdapter {
 	private static final String TAG = "VideoCursorAdapter";
 	private LayoutInflater mInflater = null;
 	private AsyncVideoLoader asyncVideoLoader;
 	private boolean mIdleFlag = true;
+	
+	private int mViewType = 0;
 
 	public VideoCursorAdapter(Context context) {
 		super(context, null, true);
@@ -108,8 +112,8 @@ public class VideoCursorAdapter extends BaseCursorAdapter {
 			}
 			
 			holder.nameView.setText(name);
-			holder.timeView.setText(ZYUtils.mediaTimeFormat(duration) + "  "
-					+ ZYUtils.getFormatSize(size));
+			holder.timeView.setText(Utils.mediaTimeFormat(duration) + "  "
+					+ Utils.getFormatSize(size));
 			
 			boolean isSelected = isChecked(cursor.getPosition());
 			updateViewBackground(isSelected, cursor.getPosition(), view);

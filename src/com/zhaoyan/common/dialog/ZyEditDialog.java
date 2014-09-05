@@ -1,8 +1,9 @@
 package com.zhaoyan.common.dialog;
 
 
+import com.zhaoyan.common.utils.Utils;
 import com.zhaoyan.gesture.R;
-import com.zhaoyan.gesture.image.ZYUtils;
+import com.zhaoyan.gesture.common.ZYUtils;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -49,7 +50,7 @@ public class ZyEditDialog extends ZyAlertDialog {
 			mEditText.selectAll();
 		}
 		
-		ZYUtils.onFocusChange(mEditText, showIME);
+		Utils.onFocusChange(mEditText, showIME);
 		
 		setCustomView(view);
 		super.onCreate(savedInstanceState);

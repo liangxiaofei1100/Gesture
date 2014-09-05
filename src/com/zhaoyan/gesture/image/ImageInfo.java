@@ -2,6 +2,8 @@ package com.zhaoyan.gesture.image;
 
 import java.io.File;
 
+import com.zhaoyan.common.utils.Utils;
+
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -101,12 +103,12 @@ public class ImageInfo implements Parcelable{
 	}
 	
 	public String getFormatDate(){
-		return ZYUtils.getFormatDate(getDate());
+		return Utils.getFormatDate(getDate());
 	}
 	
 	public String getFormatSize(){
 		long size = new File(path).length();
-		return ZYUtils.getFormatSize(size);
+		return Utils.getFormatSize(size);
 	}
 
 	@Override

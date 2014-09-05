@@ -19,8 +19,8 @@ import android.widget.TextView;
 
 import com.zhaoyan.common.dialog.BaseFragment;
 import com.zhaoyan.gesture.R;
-import com.zhaoyan.gesture.image.ZYConstant;
-import com.zhaoyan.gesture.image.ZYConstant.Extra;
+import com.zhaoyan.gesture.common.ZYConstant;
+import com.zhaoyan.gesture.common.ZYConstant.Extra;
 
 public class WoFragment extends BaseFragment implements OnClickListener {
 	private static final String TAG = "WoFragment";

@@ -1,6 +1,7 @@
 package com.zhaoyan.gesture.image;
 
 import com.zhaoyan.common.dialog.ZyAlertDialog;
+import com.zhaoyan.common.utils.Utils;
 import com.zhaoyan.gesture.R;
 
 import android.R.bool;
@@ -67,7 +68,7 @@ public class InfoDialog extends ZyAlertDialog {
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
 			case MSG_UPDATEUI_MULTI:
-				String sizeInfo = ZYUtils.getFormatSize(mTotalSize);
+				String sizeInfo = Utils.getFormatSize(mTotalSize);
 				mSizeView.setText(sizeInfo);
 				int folderNum = mFolderNum;
 //				if (0 != mFolderNum) {
@@ -93,9 +94,9 @@ public class InfoDialog extends ZyAlertDialog {
 				
 				mTypeView.setText(mFileFormatStr);
 				mNameView.setText(mFileName);
-				mSizeView.setText(ZYUtils.getFormatSize(mTotalSize));
+				mSizeView.setText(Utils.getFormatSize(mTotalSize));
 				mLoacationView.setText(mFilePath);
-				mDateView.setText(ZYUtils.getFormatDate(mDate));
+				mDateView.setText(Utils.getFormatDate(mDate));
 				break;
 			case MSG_UPDATE_TITLE:
 				mTitleView.setText(mTitle);
@@ -169,9 +170,9 @@ public class InfoDialog extends ZyAlertDialog {
 			
 			mTypeView.setText(mFileFormatStr);
 			mNameView.setText(mFileName);
-			mSizeView.setText(ZYUtils.getFormatSize(mTotalSize));
+			mSizeView.setText(Utils.getFormatSize(mTotalSize));
 			mLoacationView.setText(mFilePath);
-			mDateView.setText(ZYUtils.getFormatDate(mDate));
+			mDateView.setText(Utils.getFormatDate(mDate));
 		}
 		
 		setCanceledOnTouchOutside(true);

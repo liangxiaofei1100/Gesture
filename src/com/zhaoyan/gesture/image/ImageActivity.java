@@ -4,20 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.zhaoyan.common.dialog.ActionMenu;
-import com.zhaoyan.common.dialog.ActionMenuInflater;
-import com.zhaoyan.common.dialog.ZyDeleteDialog;
-import com.zhaoyan.common.dialog.ActionMenu.ActionMenuItem;
-import com.zhaoyan.common.dialog.ActionMenuInterface.OnMenuItemClickListener;
-import com.zhaoyan.common.dialog.ZyAlertDialog.OnZyAlertDlgClickListener;
-import com.zhaoyan.common.view.TableTitleView;
-import com.zhaoyan.common.view.TableTitleView.OnTableSelectChangeListener;
-import com.zhaoyan.gesture.R;
-import com.zhaoyan.gesture.activity.BaseActivity;
-import com.zhaoyan.gesture.image.FileDeleteHelper.OnDeleteListener;
-import com.zhaoyan.gesture.image.ZYConstant.Extra;
-
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.FragmentManager;
 import android.content.AsyncQueryHandler;
@@ -32,24 +18,33 @@ import android.provider.MediaStore;
 import android.provider.MediaStore.MediaColumns;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.AbsListView.OnScrollListener;
+
+import com.zhaoyan.common.actionmenu.ActionMenu;
+import com.zhaoyan.common.actionmenu.ActionMenu.ActionMenuItem;
+import com.zhaoyan.common.actionmenu.MenuBarInterface;
+import com.zhaoyan.common.dialog.ZyAlertDialog.OnZyAlertDlgClickListener;
+import com.zhaoyan.common.dialog.ZyDeleteDialog;
+import com.zhaoyan.common.utils.FileManager;
+import com.zhaoyan.common.utils.Utils;
+import com.zhaoyan.common.view.TableTitleView;
+import com.zhaoyan.common.view.TableTitleView.OnTableSelectChangeListener;
+import com.zhaoyan.gesture.R;
+import com.zhaoyan.gesture.activity.BaseActivity;
+import com.zhaoyan.gesture.common.ZYConstant;
+import com.zhaoyan.gesture.common.ZYConstant.Extra;
+import com.zhaoyan.gesture.image.FileDeleteHelper.OnDeleteListener;
 
 public class ImageActivity extends BaseActivity implements OnScrollListener,
-		OnItemClickListener, OnItemLongClickListener, MenuBarInterface,
-		OnMenuItemClickListener {
+		OnItemClickListener, OnItemLongClickListener, MenuBarInterface {
 	private static final String TAG = "ImageActivity";
 
 	private View mImageLayout, mVideoLayout;
@@ -65,13 +60,6 @@ public class ImageActivity extends BaseActivity implements OnScrollListener,
 
 	private ProgressBar mLoadingBar;
 	private ViewGroup mViewGroup;
-	// menubar
-	protected View mMenuBarView;
-	protected LinearLayout mMenuHolder;
-	protected MenuBarManager mMenuBarManager;
-	protected ActionMenu mActionMenu;
-
-	private ActionMenuInflater mActionMenuInflater;
 
 	// private ImageAdapter mAdapter;
 	private ImageGridAdapter mAdapter;
@@ -164,6 +152,9 @@ public class ImageActivity extends BaseActivity implements OnScrollListener,
 	}
 
 	private void initView() {
+		mMenuBarView = findViewById(R.id.bottom);
+		mMenuBarView.setVisibility(View.GONE);
+		
 		mViewGroup = (ViewGroup) findViewById(R.id.rl_picture_main);
 		mGridView = (GridView) findViewById(R.id.gv_picture_item);
 		mGridView.setOnScrollListener(this);
@@ -196,7 +187,8 @@ public class ImageActivity extends BaseActivity implements OnScrollListener,
 		mTableTitleView.initTitles(new String[] { getString(R.string.gallery),
 				getString(R.string.camera), getString(R.string.video) });
 		mTableTitleView.setOnTableSelectChangeListener(myOnClickListener);
-		initMenuBar();
+		
+		initMenuBar(mMenuBarView);
 	}
 
 	public void query(int token, String selection, String[] selectionArgs,
@@ -350,7 +342,7 @@ public class ImageActivity extends BaseActivity implements OnScrollListener,
 			int position, long id) {
 		if (mAdapter.isMode(ActionMenu.MODE_EDIT)) {
 			// do nothing
-			doCheckAll();
+//			doCheckAll();
 			return true;
 		} else {
 			mAdapter.changeMode(ActionMenu.MODE_EDIT);
@@ -363,7 +355,7 @@ public class ImageActivity extends BaseActivity implements OnScrollListener,
 		mActionMenu = new ActionMenu(getApplicationContext());
 		getActionMenuInflater().inflate(R.menu.image_menu, mActionMenu);
 
-		startMenuBar();
+		startMenuBar(mMenuBarView);
 		return true;
 	}
 
@@ -410,7 +402,7 @@ public class ImageActivity extends BaseActivity implements OnScrollListener,
 
 				dialog.setFileType(InfoDialog.IMAGE, imageType);
 				dialog.setFileName(displayName);
-				dialog.setFilePath(ZYUtils.getParentPath(url));
+				dialog.setFilePath(Utils.getParentPath(url));
 				dialog.setModifyDate(date);
 				dialog.setFileSize(size);
 
@@ -509,10 +501,8 @@ public class ImageActivity extends BaseActivity implements OnScrollListener,
 	}
 
 	public void destroyMenuBar() {
-		mMenuBarView.setVisibility(View.GONE);
-		mMenuBarView.clearAnimation();
-		mMenuBarView.startAnimation(AnimationUtils.loadAnimation(this,
-				R.anim.slide_down_out));
+		destroyMenuBar(mMenuBarView);
+		
 		updateTitleNum(-1, mAdapter.getCount());
 
 		mAdapter.changeMode(ActionMenu.MODE_NORMAL);
@@ -568,32 +558,6 @@ public class ImageActivity extends BaseActivity implements OnScrollListener,
 			intent.putExtra(IMAGE_TYPE, TYPE_PHOTO);
 			super.onCreate(savedInstanceState);
 		}
-	}
-
-	protected ActionMenuInflater getActionMenuInflater() {
-		if (null == mActionMenuInflater) {
-			mActionMenuInflater = new ActionMenuInflater(
-					getApplicationContext());
-		}
-		return mActionMenuInflater;
-	}
-
-	protected void initMenuBar() {
-		mMenuBarView = findViewById(R.id.menubar_bottom);
-		mMenuBarView.setVisibility(View.GONE);
-		mMenuHolder = (LinearLayout) findViewById(R.id.ll_menutabs_holder);
-
-		mMenuBarManager = new MenuBarManager(getApplicationContext(),
-				mMenuHolder);
-		mMenuBarManager.setOnMenuItemClickListener(this);
-	}
-
-	public void startMenuBar() {
-		mMenuBarView.setVisibility(View.VISIBLE);
-		mMenuBarView.clearAnimation();
-		mMenuBarView.startAnimation(AnimationUtils.loadAnimation(this,
-				R.anim.slide_up_in));
-		mMenuBarManager.refreshMenus(mActionMenu);
 	}
 
 	private OnTableSelectChangeListener myOnClickListener = new TableTitleView.OnTableSelectChangeListener() {

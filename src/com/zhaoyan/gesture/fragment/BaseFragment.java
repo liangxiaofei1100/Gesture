@@ -11,7 +11,7 @@ import com.zhaoyan.common.fragment.LibBaseFragment;
 import com.zhaoyan.common.utils.SharedPreferenceUtil;
 import com.zhaoyan.common.view.TransportAnimationView;
 import com.zhaoyan.gesture.R;
-import com.zhaoyan.gesture.image.ZYConstant.Extra;
+import com.zhaoyan.gesture.common.ZYConstant.Extra;
 
 public class BaseFragment extends LibBaseFragment{
 	protected boolean mIsSelectAll = false;

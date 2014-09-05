@@ -1,5 +1,6 @@
 package com.zhaoyan.gesture.image;
 
+import com.zhaoyan.common.utils.Utils;
 import com.zhaoyan.gesture.R;
 
 import android.content.Context;
@@ -68,7 +69,7 @@ public class VideoGridItem extends RelativeLayout implements Checkable {
 	}
 	
 	public void setVideoTime(long time){
-		String timeStr = ZYUtils.mediaTimeFormat(time);
+		String timeStr = Utils.mediaTimeFormat(time);
 		mTimeView.setText(timeStr);
 	}
 
