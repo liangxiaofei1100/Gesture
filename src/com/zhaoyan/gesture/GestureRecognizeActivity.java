@@ -49,8 +49,8 @@ public class GestureRecognizeActivity extends Activity implements
 		mGestureOverlayView = (GestureOverlayView) findViewById(R.id.gestures_overlay);
 		mGestureOverlayView.addOnGestureListener(this);
 
-		mGestureManager = new GestureManager();
-		mGestureManager.init(this);
+		GestureApplication application = (GestureApplication) getApplication();
+		mGestureManager = application.getGestureManager();
 	}
 
 	@Override
