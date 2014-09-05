@@ -484,6 +484,14 @@
 	<string name="view_default">默认视图</string>
     <string name="view_list">列表视图</string>
     <string name="view_grid">网格视图</string>
+    <string name="account_setting_head_image">头像</string>
+    <string name="account_setting_name">名字</string>
+    <string name="account_info">账号信息</string>
+    <string name="signature">个性签名</string>
+    <string name="sound">声音</string>
+    <string name="transmit_directory">保存路径</string>
+    <string name="clear_transmit_files">清空传输文件</string>
+    <string name="account_setting_account_zhaoyan">朝颜账号</string>
 	
 	<!-- more end -->
 </resources>

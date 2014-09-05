@@ -8,10 +8,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.util.Log;
 
-import com.zhaoyan.common.util.Log;
 import com.zhaoyan.communication.UserHelper;
-import com.zhaoyan.juyou.provider.JuyouData;
 
 public class AccountHelper {
 	private static final String TAG = "AccountHelper";

@@ -14,10 +14,9 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.zhaoyan.juyou.AccountHelper;
-import com.zhaoyan.juyou.AccountInfo;
-import com.zhaoyan.juyou.R;
-import com.zhaoyan.juyou.common.ZYConstant;
+import com.zhaoyan.gesture.R;
+import com.zhaoyan.gesture.activity.BaseActivity;
+import com.zhaoyan.gesture.image.ZYConstant;
 
 public class AccountSettingActivity extends BaseActivity implements
 		OnClickListener {
