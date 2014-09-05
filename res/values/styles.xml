@@ -105,7 +105,33 @@
         <item name="android:background">@drawable/kk_theme_selector</item>
         <item name="android:gravity">center|right</item>
     </style>
-
+	<!-- account start -->
+	<style name="edit_text_signature">
+        <item name="android:textSize">16.0sp</item>
+        <item name="android:textColor">#ff59616b</item>
+        <item name="android:textColorHint">#ffb0b0b0</item>
+        <item name="android:background">@null</item>
+        <item name="android:focusable">true</item>
+        <item name="android:gravity">top</item>
+        <item name="android:singleLine">false</item>
+    </style>
+    <style name="edit_text">
+        <item name="android:textSize">16.0sp</item>
+        <item name="android:textColor">#ff59616b</item>
+        <item name="android:textColorHint">#ffb0b0b0</item>
+        <item name="android:background">@drawable/login_edittext_selector</item>
+        <item name="android:paddingLeft">10.0dip</item>
+        <item name="android:paddingRight">10.0dip</item>
+        <item name="android:focusable">true</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">40.0dip</item>
+        <item name="android:singleLine">true</item>
+    </style>
+       <style name="edit_text_input_limit">
+        <item name="android:textSize">14.0sp</item>
+        <item name="android:textColor">#ff59616b</item>
+    </style>
+	<!-- account end -->
     <!-- TextView in the bottom bar -->
     <style name="BottomActionBarText">
         <item name="android:layout_width">wrap_content</item>
@@ -130,4 +156,13 @@
      <style name="MultiChoiceAdapter_DefaultCheckableImageViewStyle">
         <item name="android:foreground">@drawable/gallery_selector</item>
     </style>
+    
+    <!-- app launcher start-->
+    <style name="AppLauncherTheme" parent="AppBaseTheme">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+    <!-- app launcher end -->
+
 </resources>

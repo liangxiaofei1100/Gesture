@@ -123,15 +123,20 @@ public class AccountSettingActivity extends BaseActivity implements
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		/*
-		 * case R.id.rl_as_head: openActivity(AccountSettingHeadActivity.class);
-		 * break; case R.id.rl_as_name:
-		 * openActivity(AccountSettingNameActivity.class); break; case
-		 * R.id.rl_as_account_info:
-		 * openActivity(AccountSettingAccountInfoActivity.class); break; case
-		 * R.id.rl_as_signature:
-		 * openActivity(AccountSettingSignatureActivity.class); break;
-		 */
+
+		case R.id.rl_as_head:
+			openActivity(AccountSettingHeadActivity.class);
+			break;
+		case R.id.rl_as_name:
+			openActivity(AccountSettingNameActivity.class);
+			break;
+		case R.id.rl_as_account_info:
+			openActivity(AccountSettingAccountInfoActivity.class);
+			break;
+		case R.id.rl_as_signature:
+			openActivity(AccountSettingSignatureActivity.class);
+			break;
+
 		default:
 			break;
 		}

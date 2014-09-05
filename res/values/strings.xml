@@ -496,5 +496,31 @@
 	<string name="account_setting_not_set">未设置</string>
 	<string name="wo">我</string>
 	<string name="wo_account_tourist">游客登录</string>
+	<string name="select_head">选择头像</string>
+    <string name="capture_head">拍照</string>
+    <string name="account_setting_signature_hint">请输入个性签名</string>
+    <string name="register">注册</string>
+    <string name="nick_name_label">昵称：</string>
+    <string name="nick_name_input_hint">请输入昵称</string>
+    <string name="save">保存</string>
+    <string name="Cancel">取消</string>
+    <string name="account_setting_head_title">设置头像</string>
+    <string name="account_setting_name_titile">设置名字</string>
+    <string name="account_setting_account_info_title">设置账号信息</string>
+    <string name="account_setting_signature_title">设置签名</string>
+    <string name="capture_picture">拍摄新照片</string>
+    <string name="choose_picture">选择照片</string>
+    <string name="customize_head">自定义头像</string>
+    <string name="account_setting_account_phone">手机号</string>
+    <string name="account_setting_account_email">邮件地址</string>
+    <string name="account_setting_account_qq">QQ号</string>
+    <string name="account_setting_account_renren">人人账号</string>
+    <string name="account_setting_account_weibo_sina">新浪微博</string>
+    <string name="account_setting_account_weibo_tencent">腾讯微博</string>
+    <string name="account_setting_account_zhaoyan_input_limit">支持%1$d到%2$d个字母、数字、下划线，必须以字母开头</string>
+    <string name="hint_asai_zhaoyan">请输入朝颜账号</string>
+    <string name="account_setting_account_zhaoyan_title">设置朝颜账号</string>
+    <string name="zhaoyan_account_edit_message_too_short">账号长度至少6位</string>
+    <string name="zhaoyan_account_edit_message_begin_with_letter">账号必须以字母开头</string>
 	<!-- more end -->
 </resources>
