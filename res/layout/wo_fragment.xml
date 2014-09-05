@@ -119,6 +119,7 @@
                 android:layout_marginTop="5dp"
                 android:background="@drawable/setting_item_bg_top"
                 android:clickable="true"
+                android:visibility="gone"
                 android:padding="10dp" >
 
                 <ImageView
@@ -159,7 +160,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/setting_item_bg_bottom"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/setting_item_bg"
                 android:clickable="true"
                 android:padding="10dp" >
 
@@ -335,6 +337,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:visibility="gone"
                 android:background="@drawable/setting_item_bg_top"
                 android:clickable="true"
                 android:gravity="center_vertical"
@@ -376,10 +379,11 @@
             <!-- Quit -->
 
             <LinearLayout
+                android:layout_marginTop="5dp"
                 android:id="@+id/ll_wo_quit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/setting_item_bg_bottom"
+                android:background="@drawable/setting_item_bg"
                 android:clickable="true"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
