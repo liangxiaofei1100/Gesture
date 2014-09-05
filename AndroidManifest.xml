@@ -367,6 +367,7 @@
         <activity 
             android:name="com.zhaoyan.gesture.activity.MessageSettingActivity"
             android:theme="@style/SlideTheme"
+            android:windowSoftInputMode="adjustPan" 
             >
         </activity>
         <activity 
@@ -404,6 +405,40 @@
             android:name="com.zhaoyan.gesture.image.ImagePagerActivity"
             android:theme="@style/SlideTheme" >
         </activity>
+        <activity
+            android:name="com.zhaoyan.gesture.more.SettingsActivity"
+            android:theme="@style/SlideTheme" >
+        </activity>
+        <activity
+            android:name="com.zhaoyan.gesture.more.AccountSettingActivity"
+            android:theme="@style/SlideTheme" >
+        </activity>
+		<activity
+		    android:name="com.zhaoyan.gesture.more.AccountSettingAccountInfoActivity"
+		    android:theme="@style/SlideTheme" >
+		</activity>
+		<activity
+		    android:name="com.zhaoyan.gesture.more.AccountSettingAccountZhaoyanActivity"
+		    android:theme="@style/SlideTheme" >
+		</activity>
+		<activity
+		    android:name="com.zhaoyan.gesture.more.AccountSettingHeadActivity"
+		    android:theme="@style/SlideTheme" >
+		</activity>
+		<activity
+		    android:name="com.zhaoyan.gesture.more.AccountSettingNameActivity"
+		    android:theme="@style/SlideTheme" >
+		</activity>
+		<activity
+		    android:name="com.zhaoyan.gesture.more.AccountSettingSignatureActivity"
+		    android:theme="@style/SlideTheme" >
+		</activity>
+
+        <provider
+            android:name="com.zhaoyan.gesture.more.JuyouProvider"
+            android:authorities="com.zhaoyan.gesture.provider.JuyouProvider"
+            android:exported="false" >
+        </provider>
 
     </application>
 

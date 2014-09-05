@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -49,11 +50,13 @@ public class IntroductionView extends RelativeLayout implements OnClickListener 
 		case R.id.introduction_layout:
 			if (mIntroductionTv.getVisibility() == View.GONE) {
 				mIntroductionTv.setVisibility(View.VISIBLE);
+				mIntroductionTv.setAnimation((AnimationUtils.loadAnimation(mContext,R.anim.slide_down_in)));
 				if (mIntroductionText != null)
 					mIntroductionTv.setText(mIntroductionText);
 				mImageView.setImageResource(R.drawable.setting_item_arrow_up);
 			} else {
 				mIntroductionTv.setVisibility(View.GONE);
+//				mIntroductionTv.setAnimation((AnimationUtils.loadAnimation(mContext,R.anim.slide_up_out)));
 				mImageView.setImageResource(R.drawable.setting_item_arrow_down);
 			}
 			break;

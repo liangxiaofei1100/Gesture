@@ -67,13 +67,13 @@ public class BaseFragment extends Fragment implements OnMenuItemClickListener{
 		setHasOptionsMenu(true);
 	}
 	
-/*	protected void initTitle(View view, int title_resId){
+	protected void initTitle(View view, int title_resId){
 		mViewGroup = (ViewGroup) view;
 		mTitleNameView = (TextView) view.findViewById(R.id.tv_title_name);
 		mTitleNameView.setText(title_resId);
 		mTitleNumView = (TextView) view.findViewById(R.id.tv_title_num);
 		mTitleNumView.setVisibility(View.VISIBLE);
-	}*/
+	}
 	
 	protected void initMenuBar(View view){
 		mMenuBarView = view.findViewById(R.id.menubar_bottom);
