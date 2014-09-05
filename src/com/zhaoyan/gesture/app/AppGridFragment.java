@@ -3,6 +3,7 @@ package com.zhaoyan.gesture.app;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Intent;
 import android.content.Loader;
@@ -17,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -30,6 +32,7 @@ import android.widget.Toast;
 import com.zhaoyan.common.actionmenu.ActionMenu;
 import com.zhaoyan.common.actionmenu.ActionMenu.ActionMenuItem;
 import com.zhaoyan.common.actionmenu.MenuBarInterface;
+import com.zhaoyan.common.utils.AppUtil;
 import com.zhaoyan.common.utils.Log;
 import com.zhaoyan.gesture.R;
 import com.zhaoyan.gesture.app.AppLauncherActivity.AppListLoader;
@@ -61,6 +64,11 @@ public class AppGridFragment extends BaseFragment implements android.view.View.O
 	
 	private AppLauncherActivity mActivity;
 	
+	private AppDialog mAppDialog = null;
+	private List<String> mUninstallList = null;
+	
+	private static final int REQUEST_CODE_UNINSTALL = 0x11;
+	
 	@Override
 	public void onAttach(Activity activity) {
 		// TODO Auto-generated method stub
@@ -82,7 +90,6 @@ public class AppGridFragment extends BaseFragment implements android.view.View.O
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		View rootView = inflater.inflate(R.layout.layout_app_main, null);
 		
 		mGridView = (GridView) rootView.findViewById(R.id.app_gridview);
@@ -128,10 +135,6 @@ public class AppGridFragment extends BaseFragment implements android.view.View.O
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
-		// Give some text to display if there is no data. In a real
-		// application this would come from a resource.
-		// setEmptyText("No applications");
 
 		// We have a menu item to show in action bar.
 		setHasOptionsMenu(true);
@@ -186,8 +189,6 @@ public class AppGridFragment extends BaseFragment implements android.view.View.O
 
 	@Override
 	public Loader<List<AppEntry>> onCreateLoader(int id, Bundle args) {
-		// This is called when a new Loader needs to be created. This
-		// sample only has one Loader with no arguments, so it is simple.
 		return new AppListLoader(getActivity());
 	}
 
@@ -201,12 +202,6 @@ public class AppGridFragment extends BaseFragment implements android.view.View.O
 		
 		mGridAdapter.setData(data);
 		mLoadingBar.setVisibility(View.GONE);
-		// The list should now be shown.
-		// if (isResumed()) {
-		// setListShown(true);
-		// } else {
-		// setListShownNoAnimation(true);
-		// }
 	}
 
 	@Override
@@ -221,7 +216,10 @@ public class AppGridFragment extends BaseFragment implements android.view.View.O
 		if (mIsSelectMode) {
 			mGridAdapter.setSelect(position);
 			mOkBtn.setEnabled(true);
-		} else if (mGridAdapter.isMode(ActionMenu.MODE_EDIT)) {
+			return;
+		} 
+			
+		if (mGridAdapter.isMode(ActionMenu.MODE_EDIT)) {
 			mGridAdapter.setChecked(position);
 			mGridAdapter.notifyDataSetChanged();
 			updateMenuBar();
@@ -271,10 +269,8 @@ public class AppGridFragment extends BaseFragment implements android.view.View.O
 		return version;
 	}
 	
-	@Override
-	public void destroyMenuBar(View view) {
-		// TODO Auto-generated method stub
-		super.destroyMenuBar(view);
+	public void destroyMenuBar() {
+		destroyMenuBar(mBottomView);
 		
 		mActivity.updateTitleNum(-1, count);
 		
@@ -285,7 +281,7 @@ public class AppGridFragment extends BaseFragment implements android.view.View.O
 	
 	public boolean onBackPressed(){
 		if (null != mGridAdapter && mGridAdapter.isMode(ActionMenu.MODE_EDIT)) {
-			destroyMenuBar(mBottomView);
+			destroyMenuBar();
 			return false;
 		}
 		return true;
@@ -342,11 +338,15 @@ public class AppGridFragment extends BaseFragment implements android.view.View.O
 			//wait for relize
 			break;
 		case R.id.menu_uninstall:
+			mUninstallList = mGridAdapter.getCheckedPkgList();
+			showUninstallDialog();
+			uninstallApp();
+			destroyMenuBar();
 			break;
 		case R.id.menu_app_info:
-//			String packageName = mGridAdapter.getCheckedPkgList().get(0);
-//			showInstalledAppDetails(packageName);
-//			destroyMenuBar(mBottomView);
+			String packageName = mGridAdapter.getCheckedPkgList().get(0);
+			showInstalledAppDetails(packageName);
+			destroyMenuBar();
 			break;
 		case R.id.menu_select:
 			doCheckAll();
@@ -370,6 +370,51 @@ public class AppGridFragment extends BaseFragment implements android.view.View.O
 			intent.putExtra("pkg", packageName);
 		}
 		startActivity(intent);
+	}
+	
+	protected void showUninstallDialog(){
+    	mAppDialog = new AppDialog(getActivity(), mUninstallList.size());
+		mAppDialog.setDialogTitle("卸载应用");
+		mAppDialog.setButtonClick(Dialog.BUTTON1, "取消", new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (null != mUninstallList) {
+					mUninstallList.clear();
+					mUninstallList = null;
+				}
+				mAppDialog.dismiss();
+			}
+		});
+		mAppDialog.show();
+    }
+	
+	protected void uninstallApp(){
+		if (mUninstallList.size() <= 0) {
+			mUninstallList = null;
+			
+			if (null != mAppDialog) {
+				mAppDialog.cancel();
+				mAppDialog = null;
+			}
+			return;
+		}
+		String uninstallPkg = mUninstallList.get(0);
+		mAppDialog.updateUI(mAppDialog.getMax() - mUninstallList.size() + 1, 
+				AppUtil.getAppLabel(uninstallPkg, getActivity().getPackageManager()));
+		Uri packageUri = Uri.parse("package:" + uninstallPkg);
+		Intent deleteIntent = new Intent();
+		deleteIntent.setAction(Intent.ACTION_DELETE);
+		deleteIntent.setData(packageUri);
+		startActivityForResult(deleteIntent, REQUEST_CODE_UNINSTALL);
+		mUninstallList.remove(0);
+	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (REQUEST_CODE_UNINSTALL == requestCode) {
+			uninstallApp();
+		}
 	}
 
 }

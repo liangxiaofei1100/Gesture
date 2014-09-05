@@ -1,8 +1,10 @@
 package com.zhaoyan.gesture.app;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zhaoyan.common.adapter.CheckableBaseAdapter;
+import com.zhaoyan.common.utils.Log;
 import com.zhaoyan.gesture.R;
 
 public class AppGridAdapter extends CheckableBaseAdapter {
@@ -38,6 +41,23 @@ public class AppGridAdapter extends CheckableBaseAdapter {
 	
 	public AppEntry getSelectEntry(){
 		return (AppEntry) getItem(mCurrentSelectPosition);
+	}
+	
+	
+	/**
+	 * get Select item pakcageName list
+	 * @return
+	 */
+	public List<String> getCheckedPkgList(){
+		Log.d(TAG, "getSelectedPkgList");
+		List<String> list = new ArrayList<String>();
+		for (int i = 0; i < mCheckArray.size(); i++) {
+			if (mCheckArray.valueAt(i)) {
+				String packagename = mList.get(i).getPackageName();
+				list.add(packagename);
+			}
+		}
+		return list;
 	}
 	
 	@Override
@@ -81,9 +101,8 @@ public class AppGridAdapter extends CheckableBaseAdapter {
 			view.setBackgroundResource(R.color.kk_theme_color);
 		} else {
 			view.setBackgroundColor(Color.TRANSPARENT);
+			updateViewBackground(position, view);
 		}
-		
-		updateViewBackground(position, view);
 		
 		return view;
 	}

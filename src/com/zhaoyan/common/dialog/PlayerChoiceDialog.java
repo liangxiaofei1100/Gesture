@@ -46,7 +46,7 @@ public class PlayerChoiceDialog extends ZyDialogBuilder implements OnItemClickLi
 		mListView.setOnItemClickListener(this);
 		
 		setDuration(0);
-		setEffect(Effectstype.FadeIn);
+		setEffect(Effectstype.SlideBottom);
 		setMessage(null);
 		setCustomView(customView, context);
 	}
