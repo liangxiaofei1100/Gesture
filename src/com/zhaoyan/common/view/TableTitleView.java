@@ -52,7 +52,7 @@ public class TableTitleView extends LinearLayout implements OnClickListener {
 		tableTitleParams.gravity = Gravity.CENTER;
 
 		TextView tableTitleTextView;
-		final int paddingTop = ViewUtil.dp2px(mContext, 20);
+		final int paddingTop = ViewUtil.dp2px(mContext, 10);
 		final int paddingBottom = paddingTop;
 		for (String title : tableTitles) {
 			tableTitleTextView = new TextView(mContext);

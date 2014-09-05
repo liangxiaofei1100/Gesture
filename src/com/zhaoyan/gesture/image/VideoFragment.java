@@ -197,6 +197,7 @@ public class VideoFragment extends BaseFragment implements OnItemClickListener, 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		if (mAdapter.isMode(ActionMenu.MODE_NORMAL)) {
+			
 			Cursor cursor = mAdapter.getCursor();
 			cursor.moveToPosition(position);
 			String url = cursor.getString(cursor
@@ -217,7 +218,7 @@ public class VideoFragment extends BaseFragment implements OnItemClickListener, 
 	public boolean onItemLongClick(AdapterView<?> parent, final View view, final int position, long id) {
 		if (mAdapter.isMode(ActionMenu.MODE_EDIT)) {
 			//do nothing
-			//doCheckAll();
+			doCheckAll();
 			return true;
 		} else {
 			mAdapter.changeMode(ActionMenu.MODE_EDIT);
