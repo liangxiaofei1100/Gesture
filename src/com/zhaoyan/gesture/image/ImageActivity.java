@@ -373,6 +373,12 @@ public class ImageActivity extends BaseActivity implements OnScrollListener,
 			destroyMenuBar();
 			return false;
 		} else {
+			if(mVideoLayout.getVisibility()==View.VISIBLE){
+				FragmentManager ft = getFragmentManager();
+				VideoFragment video = (VideoFragment) ft
+						.findFragmentByTag(getString(R.string.video));
+			return	video.onBackPressed();
+			}
 			return true;
 		}
 	}
