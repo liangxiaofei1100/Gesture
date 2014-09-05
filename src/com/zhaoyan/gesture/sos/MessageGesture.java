@@ -17,6 +17,11 @@ public class MessageGesture implements GestureHandler {
 	public MessageGesture(Context context) {
 		mContext = context;
 	}
+	
+	@Override
+	public void handleSystemGesture(String gestureName) {
+		MessageSender.sendMessage(mContext);
+	}
 
 	@Override
 	public void handleGesture(Gesture gesture, Prediction prediction) {

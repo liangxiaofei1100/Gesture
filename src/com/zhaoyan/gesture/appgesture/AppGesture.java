@@ -21,6 +21,12 @@ public class AppGesture implements GestureHandler {
 	}
 
 	@Override
+	public void handleSystemGesture(String gestureName) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
 	public void handleGesture(Gesture gesture, Prediction prediction) {
 		// TODO Auto-generated method stub
 	}
@@ -34,7 +40,7 @@ public class AppGesture implements GestureHandler {
 	@Override
 	public void release() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

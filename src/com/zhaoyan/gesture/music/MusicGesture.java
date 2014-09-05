@@ -36,6 +36,38 @@ public class MusicGesture implements GestureHandler{
 		list.add(mContext.getString(R.string.gesture_up_song));
 		return list;
 	}
+	
+	@Override
+	public void handleSystemGesture(String gestureName) {
+		String name = gestureName;
+		Intent intent = new Intent();
+		intent.setAction(Intent.ACTION_MEDIA_BUTTON);
+		KeyEvent  keyEvent = null;
+		if ("music_play".equals(name)) {
+			if (mIsMusicOn) {
+				Log.d(TAG, "handleGesture.playpause");
+				keyEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
+			} else {
+				Log.d(TAG, "handleGesture.open");
+				keyEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PLAY);
+				mIsMusicOn = true;
+			}
+		} else if ("music_pre".equals(name)) {
+			Log.d(TAG, "handleGesture.previous");
+			keyEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PREVIOUS);
+		} else if ("music_next".equals(name)) {
+			Log.d(TAG, "handleGesture.next");
+			keyEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_NEXT);
+		}
+		long time = SystemClock.uptimeMillis();
+		Log.d(TAG, "handleGesture.package:" + packageName);
+		KeyEvent.changeTimeRepeat(keyEvent, time, 0);
+		intent.putExtra(Intent.EXTRA_KEY_EVENT, keyEvent);
+		intent.setPackage(packageName);
+		mContext.sendBroadcast(intent);
+		
+		keyup();
+	}
 
 	@Override
 	public void handleGesture(Gesture gesture, Prediction prediction) {

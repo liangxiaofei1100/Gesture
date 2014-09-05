@@ -16,7 +16,7 @@ public class FlashLightGuestrue implements GestureHandler {
 	private Context mContext;
 
 	private FlashLightManager mFlashLightManager;
-	
+
 	public FlashLightGuestrue(Context context) {
 		mContext = context;
 		mFlashLightManager = new FlashLightManager();
@@ -30,15 +30,24 @@ public class FlashLightGuestrue implements GestureHandler {
 		return list;
 	}
 
+	private void handleGesture() {
+		if (!mFlashLightManager.isFlashOn()) {
+			mFlashLightManager.openFlashlight();
+		} else {
+			mFlashLightManager.closeFlashlight();
+		}
+	}
+
+	@Override
+	public void handleSystemGesture(String gestureName) {
+		handleGesture();
+	}
+
 	@Override
 	public void handleGesture(Gesture gesture, Prediction prediction) {
 		// TODO Auto-generated method stub
 		if (prediction.score > 3) {
-			if (!mFlashLightManager.isFlashOn()) {
-				mFlashLightManager.openFlashlight();
-			} else {
-				mFlashLightManager.closeFlashlight();
-			}
+			handleGesture();
 		}
 	}
 
@@ -47,7 +56,6 @@ public class FlashLightGuestrue implements GestureHandler {
 		// TODO Auto-generated method stub
 		return true;
 	}
-
 
 	@Override
 	public void release() {
