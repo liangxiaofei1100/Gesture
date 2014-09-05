@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.zhaoyan.gesture.R;
 import com.zhaoyan.gesture.GestureManager.GestureHandler;
+import com.zhaoyan.gesture.activity.AppLauncherFromKeyguard;
+import com.zhaoyan.gesture.util.WakeupUtil;
 
 public class CameraGuesture implements GestureHandler {
 	private static final String TAG = CameraGuesture.class.getSimpleName();
@@ -29,8 +31,8 @@ public class CameraGuesture implements GestureHandler {
 	}
 	
 	private void handleGesture() {
-		Intent intent = new Intent(Intent.ACTION_CAMERA_BUTTON);
-		mContext.sendBroadcast(intent);
+		WakeupUtil.wakeup(mContext);
+		AppLauncherFromKeyguard.launchByBroadcast(mContext,Intent.ACTION_CAMERA_BUTTON);
 	}
 	
 	@Override
