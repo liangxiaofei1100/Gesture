@@ -160,4 +160,13 @@
      <style name="MultiChoiceAdapter_DefaultCheckableImageViewStyle">
         <item name="android:foreground">@drawable/gallery_selector</item>
     </style>
+    
+    <!-- app launcher start-->
+    <style name="AppLauncherTheme" parent="AppBaseTheme">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+    <!-- app launcher end -->
+
 </resources>
