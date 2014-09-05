@@ -3,31 +3,30 @@ package com.zhaoyan.gesture;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.zhaoyan.gesture.service.CommonUtils;
-import com.zhaoyan.gesture.service.CommonUtils.ServiceToken;
-
 import android.app.Activity;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.GridView;
-import android.widget.ListAdapter;
-import android.widget.RemoteViews;
-import android.widget.SimpleAdapter;
 import android.widget.AbsListView.LayoutParams;
+import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.SimpleAdapter;
+
+import com.zhaoyan.common.bitmaps.BitmapUtilities;
+import com.zhaoyan.gesture.service.CommonUtils;
 
 public class MainActivity extends Activity implements OnItemClickListener,
 		OnClickListener {
@@ -52,11 +51,15 @@ public class MainActivity extends Activity implements OnItemClickListener,
 		initLaunchers();
 		initView();
 		
+		ImageView imageView = (ImageView) findViewById(R.id.iv_head);
+		Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.def_head1);
+		imageView.setImageBitmap(BitmapUtilities.toRoundBitmap(bitmap));
+		
 		//when app start,start Common Service
 		//and the service do not stop,when app destroy
 		CommonUtils.bindToService(this);
 	}
-
+	
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {

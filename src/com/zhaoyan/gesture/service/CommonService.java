@@ -1,5 +1,6 @@
 package com.zhaoyan.gesture.service;
 
+import com.zhaoyan.common.utils.Utils;
 import com.zhaoyan.gesture.R;
 import com.zhaoyan.gesture.activity.MusicActivity;
 import com.zhaoyan.gesture.appgesture.FlashLightManager;
@@ -7,7 +8,6 @@ import com.zhaoyan.gesture.music.MediaPlaybackService;
 import com.zhaoyan.gesture.music.MusicConf;
 import com.zhaoyan.gesture.music.ui.MusicBrowserActivity;
 import com.zhaoyan.gesture.sos.MessageSender;
-import com.zhaoyan.gesture.util.Utils;
 
 import android.annotation.TargetApi;
 import android.app.Notification;

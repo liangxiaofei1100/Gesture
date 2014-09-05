@@ -6,8 +6,8 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.graphics.drawable.Drawable;
 
+import com.zhaoyan.common.utils.Utils;
 import com.zhaoyan.gesture.app.AppLauncherActivity.AppListLoader;
-import com.zhaoyan.gesture.util.Utils;
 
 public class AppEntry {
 
@@ -17,7 +17,6 @@ public class AppEntry {
 	private String mLabel;
 	private Drawable mIcon;
 	private boolean mMounted;
-	private String packageName;
 
 	public AppEntry(AppListLoader loader, ApplicationInfo info) {
 		mLoader = loader;

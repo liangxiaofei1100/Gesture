@@ -25,9 +25,9 @@ import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.zhaoyan.common.utils.Log;
 import com.zhaoyan.gesture.R;
 import com.zhaoyan.gesture.app.AppLauncherActivity.AppListLoader;
-import com.zhaoyan.gesture.util.ZyLog;
 
 public class AppGridFragment extends Fragment implements android.view.View.OnClickListener, OnItemLongClickListener, 
 	OnItemClickListener, LoaderCallbacks<List<AppEntry>> {
@@ -175,7 +175,7 @@ public class AppGridFragment extends Fragment implements android.view.View.OnCli
 	public void onLoadFinished(Loader<List<AppEntry>> loader,
 			List<AppEntry> data) {
 		// Set the new data in the adapter.
-		ZyLog.d(TAG, "onLoadFinished:" + data.size());
+		Log.d(TAG, "onLoadFinished:" + data.size());
 		
 		mGridAdapter.setData(data);
 		mLoadingBar.setVisibility(View.GONE);

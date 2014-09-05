@@ -7,13 +7,15 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content" 
+         android:background="@drawable/main_bg_top" 
+        >
 
-        <com.zhaoyan.common.view.AspectRatioImageView
-            android:id="@+id/iv_main_bg_top"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/main_bg_top" />
+<!--         <com.zhaoyan.common.view.AspectRatioImageView -->
+<!--             android:id="@+id/iv_main_bg_top" -->
+<!--             android:layout_width="wrap_content" -->
+<!--             android:layout_height="wrap_content" -->
+<!--             android:src="@drawable/main_bg_top" /> -->
 
         <RelativeLayout
             android:id="@+id/relativeLayout1"
@@ -47,6 +49,21 @@
             android:textColor="#ddfb43"
             android:textSize="12sp"
             android:visibility="gone" />
+        
+        <ImageView 
+            android:id="@+id/iv_head_frame"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/head_frame"
+            />
+        
+        <ImageView 
+            android:id="@+id/iv_head"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true"
+            />
     </RelativeLayout>
 
     <LinearLayout

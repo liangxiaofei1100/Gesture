@@ -12,10 +12,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.zhaoyan.common.utils.Log;
 import com.zhaoyan.gesture.R;
 import com.zhaoyan.gesture.music.ui.MediaPlaybackActivity2;
 import com.zhaoyan.gesture.music.utils.MusicUtils;
-import com.zhaoyan.gesture.util.ZyLog;
 
 public class BottomActionBar extends LinearLayout implements OnClickListener,
 		OnLongClickListener {
@@ -42,7 +42,7 @@ public class BottomActionBar extends LinearLayout implements OnClickListener,
 	 * @throws RemoteException
 	 */
 	public void updateBottomActionBar(Activity activity) {
-		ZyLog.d(TAG, "updateBottomActionBar:" + activity);
+		Log.d(TAG, "updateBottomActionBar:" + activity);
 		View bottomActionBar = activity.findViewById(R.id.bottom_action_bar);
 		if (bottomActionBar == null) {
 			return;
@@ -83,7 +83,7 @@ public class BottomActionBar extends LinearLayout implements OnClickListener,
 						.findViewById(R.id.bottom_action_bar_info_divider);
 
 			} else {
-				ZyLog.e(TAG, "updateBottomActionBar service is null");
+				Log.e(TAG, "updateBottomActionBar service is null");
 			}
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
