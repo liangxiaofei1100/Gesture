@@ -357,6 +357,7 @@
         <activity 
             android:name="com.zhaoyan.gesture.activity.MessageSettingActivity"
             android:theme="@style/SlideTheme"
+            android:windowSoftInputMode="adjustPan" 
             >
         </activity>
         <activity 
