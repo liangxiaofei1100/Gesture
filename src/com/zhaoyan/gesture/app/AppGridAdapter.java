@@ -2,18 +2,18 @@ package com.zhaoyan.gesture.app;
 
 import java.util.List;
 
-import com.zhaoyan.gesture.R;
-
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class AppGridAdapter extends BaseAdapter {
+import com.zhaoyan.common.adapter.CheckableBaseAdapter;
+import com.zhaoyan.gesture.R;
+
+public class AppGridAdapter extends CheckableBaseAdapter {
 	private static final String TAG = AppGridAdapter.class.getSimpleName();
 	
 	private List<AppEntry> mList;
@@ -22,6 +22,7 @@ public class AppGridAdapter extends BaseAdapter {
 	private int mCurrentSelectPosition = -1;
 
 	public AppGridAdapter(Context context){
+		super(context);
 		mInflater = LayoutInflater.from(context);
 	}
 	
@@ -81,6 +82,8 @@ public class AppGridAdapter extends BaseAdapter {
 		} else {
 			view.setBackgroundColor(Color.TRANSPARENT);
 		}
+		
+		updateViewBackground(position, view);
 		
 		return view;
 	}

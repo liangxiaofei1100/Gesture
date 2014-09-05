@@ -177,4 +177,8 @@
     <string name="exit">"退出"</string>
     <string name="exit_message">"确定要退出音乐播放器吗？"</string>
     <!-- music end -->
+    
+    <!-- menu -->
+    <string name="menu_app_info">应用信息</string>
+    <string name="menu_uninstall">卸载</string>
 </resources>

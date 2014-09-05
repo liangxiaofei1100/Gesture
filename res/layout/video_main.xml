@@ -55,7 +55,7 @@
 
             <include
                 android:id="@+id/menubar_bottom"
-                layout="@layout/menubar_bottom" />
+                layout="@layout/layout_actionmenu_bar" />
         </RelativeLayout>
     </RelativeLayout>
 </com.zhaoyan.common.view.RightSlideLayout>

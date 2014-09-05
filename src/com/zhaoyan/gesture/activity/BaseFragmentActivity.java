@@ -1,8 +1,9 @@
 package com.zhaoyan.gesture.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.KeyEvent;
@@ -16,13 +17,12 @@ import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.zhaoyan.common.utils.Log;
 import com.zhaoyan.common.view.IntroductionView;
 import com.zhaoyan.gesture.R;
 
-public class BaseActivity extends Activity implements OnMenuItemClickListener,
+public class BaseFragmentActivity extends FragmentActivity implements OnMenuItemClickListener,
 		OnGestureListener {
-	private static final String TAG = "BaseActivity";
+	private static final String TAG = BaseFragmentActivity.class.getSimpleName();
 	// title view
 	protected View mCustomTitleView;
 	protected TextView mTitleNameView;
@@ -85,7 +85,6 @@ public class BaseActivity extends Activity implements OnMenuItemClickListener,
 	}
 
 	public void updateTitleNum(int selected, int count) {
-		Log.d(TAG, "updateTitleNum,selected:" + selected + ",count:" + count);
 		if (selected == -1) {
 			mTitleNumView.setText(getString(R.string.num_format, count));
 		} else {
@@ -206,7 +205,7 @@ public class BaseActivity extends Activity implements OnMenuItemClickListener,
 		try {
 			return (E) findViewById(id);
 		} catch (ClassCastException ex) {
-			Log.e(TAG, "Could not cast View to concrete class:" + ex);
+			Log.e(TAG, "Could not cast View to concrete class.", ex);
 			throw ex;
 		}
 	}

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:zhaoyan="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+      <item 
+         android:title="@string/menu_backup"
+        zhaoyan:id="@+id/menu_backup"
+        zhaoyan:title="@string/menu_backup"
+        zhaoyan:iconEnable="@drawable/ic_action_backup_enable"
+        zhaoyan:iconDisable="@drawable/ic_action_backup_disable"
+        zhaoyan:zyEnabled="false"
+        />
+    <item
+        android:title="@string/menu_uninstall"
+        zhaoyan:enable="true"
+        zhaoyan:iconDisable="@drawable/ic_aciton_uninstall_disable"
+        zhaoyan:iconEnable="@drawable/ic_aciton_uninstall_enable"
+        zhaoyan:id="@+id/menu_uninstall"
+        zhaoyan:title="@string/menu_uninstall"/>
+    <item
+        android:title="@string/menu_app_info"
+        zhaoyan:enable="true"
+        zhaoyan:iconDisable="@drawable/ic_action_app_info_disbale"
+        zhaoyan:iconEnable="@drawable/ic_action_app_info_enable"
+        zhaoyan:id="@+id/menu_app_info"
+        zhaoyan:title="@string/menu_app_info"/>
+    <item
+        android:title="@string/select_all"
+        zhaoyan:enable="true"
+        zhaoyan:iconDisable="@drawable/ic_aciton_select"
+        zhaoyan:iconEnable="@drawable/ic_aciton_select"
+        zhaoyan:id="@+id/menu_select"
+        zhaoyan:title="@string/select_all"/>
+
+</menu>

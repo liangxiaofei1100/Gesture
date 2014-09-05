@@ -44,9 +44,9 @@
         android:visibility="visible" >
 
         <include
-            android:id="@+id/menubar_bottom"
-            layout="@layout/menubar_bottom"
-            android:visibility="gone" />
+            android:id="@+id/layout_actionmenu"
+            layout="@layout/layout_actionmenu_bar"
+            />
 
         <LinearLayout
             android:id="@+id/button_layout"
