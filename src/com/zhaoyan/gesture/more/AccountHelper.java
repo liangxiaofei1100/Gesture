@@ -3,6 +3,8 @@ package com.zhaoyan.gesture.more;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.zhaoyan.gesture.R;
+
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -10,11 +12,9 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
 
-import com.zhaoyan.communication.UserHelper;
-
 public class AccountHelper {
 	private static final String TAG = "AccountHelper";
-	public static final int[] HEAD_IMAGES = UserHelper.HEAD_IMAGES;
+	public static final int[] HEAD_IMAGES =UserHelper.HEAD_IMAGES;
 
 	private static final String[] PROJECTION = { JuyouData.Account._ID,
 			JuyouData.Account.USER_NAME, JuyouData.Account.HEAD_ID,

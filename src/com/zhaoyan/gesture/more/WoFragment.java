@@ -1,13 +1,10 @@
 package com.zhaoyan.gesture.more;
 
-import android.R.integer;
-import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,10 +17,7 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.zhaoyan.common.dialog.ActionMenu;
 import com.zhaoyan.common.dialog.BaseFragment;
-import com.zhaoyan.common.dialog.SingleChoiceDialog;
-import com.zhaoyan.common.dialog.ZyAlertDialog;
 import com.zhaoyan.gesture.R;
 import com.zhaoyan.gesture.image.ZYConstant;
 import com.zhaoyan.gesture.image.ZYConstant.Extra;
@@ -139,10 +133,10 @@ public class WoFragment extends BaseFragment implements OnClickListener {
 		case R.id.rl_wo_head_name:
 			openActivity(AccountSettingActivity.class);
 			break;
-		case R.id.rl_wo_traffic_statistics:
+	/*	case R.id.rl_wo_traffic_statistics:
 			openActivity(TrafficStatisticsActivity.class);
 			break;
-	/*	case R.id.rl_wo_view_setting:
+		case R.id.rl_wo_view_setting:
 			final Editor editor = sp.edit();
 			ActionMenu actionMenu = new ActionMenu(mContext.getApplicationContext());
 			actionMenu.addItem(1, 0, R.string.view_default);

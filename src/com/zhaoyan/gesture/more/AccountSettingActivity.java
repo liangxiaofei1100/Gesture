@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -43,6 +44,7 @@ public class AccountSettingActivity extends BaseActivity implements
 		setContentView(R.layout.account_setting);
 
 		initTitle(R.string.account_setting);
+		mBaseIntroductionView.setVisibility(View.GONE);
 		initView();
 
 		loadCurrentAccount();
@@ -64,15 +66,18 @@ public class AccountSettingActivity extends BaseActivity implements
 		} else {
 			releaseHeadBitmap();
 			mHeadBitmap = accountInfo.getHeadBitmap();
-			mHeadImageView.setImageBitmap(mHeadBitmap);
+			if (mHeadBitmap == null) {
+				mHeadImageView.setImageBitmap(mHeadBitmap);
+			} else
+				mHeadImageView.setImageResource(R.drawable.head1);
 		}
 
 		mNameTextView.setText(accountInfo.getUserName());
-		
+
 		String signature = accountInfo.getSignature();
 		if (!TextUtils.isEmpty(signature)) {
 			mSignatureTextView.setText(signature);
-		}else {
+		} else {
 			mSignatureTextView.setText(R.string.account_setting_not_set);
 		}
 	}
@@ -118,18 +123,15 @@ public class AccountSettingActivity extends BaseActivity implements
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.rl_as_head:
-			openActivity(AccountSettingHeadActivity.class);
-			break;
-		case R.id.rl_as_name:
-			openActivity(AccountSettingNameActivity.class);
-			break;
-		case R.id.rl_as_account_info:
-			openActivity(AccountSettingAccountInfoActivity.class);
-			break;
-		case R.id.rl_as_signature:
-			openActivity(AccountSettingSignatureActivity.class);
-			break;
+		/*
+		 * case R.id.rl_as_head: openActivity(AccountSettingHeadActivity.class);
+		 * break; case R.id.rl_as_name:
+		 * openActivity(AccountSettingNameActivity.class); break; case
+		 * R.id.rl_as_account_info:
+		 * openActivity(AccountSettingAccountInfoActivity.class); break; case
+		 * R.id.rl_as_signature:
+		 * openActivity(AccountSettingSignatureActivity.class); break;
+		 */
 		default:
 			break;
 		}

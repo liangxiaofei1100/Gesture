@@ -37,5 +37,6 @@
      <color name="white">#ffffff</color>
      <color name="table_title_selected">#5d91be</color>
     <color name="table_title_unselected">#696969</color>
+    <color name="white_gray">#ff888888</color>
       <!--image end  -->
 </resources>

@@ -7,7 +7,7 @@ public class JuyouData {
 	public static final String DATABASE_NAME = "juyou.db";
 	public static final int DATABASE_VERSION = 6;
 
-	public static final String AUTHORITY = "com.zhaoyan.juyou.provider.JuyouProvider";
+	public static final String AUTHORITY = "com.zhaoyan.gesture.provider.JuyouProvider";
 
 	/**
 	 * table history

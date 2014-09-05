@@ -394,6 +394,20 @@
             android:name="com.zhaoyan.gesture.image.ImagePagerActivity"
             android:theme="@style/SlideTheme" >
         </activity>
+        <activity
+            android:name="com.zhaoyan.gesture.more.SettingsActivity"
+            android:theme="@style/SlideTheme" >
+        </activity>
+        <activity
+            android:name="com.zhaoyan.gesture.more.AccountSettingActivity"
+            android:theme="@style/SlideTheme" >
+        </activity>
+
+        <provider
+            android:name="com.zhaoyan.gesture.more.JuyouProvider"
+            android:authorities="com.zhaoyan.gesture.provider.JuyouProvider"
+            android:exported="false" >
+        </provider>
 
     </application>
 

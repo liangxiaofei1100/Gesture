@@ -3,11 +3,12 @@ package com.zhaoyan.gesture.more;
 import java.util.Arrays;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 public class AccountInfo {
 	private int _id;
 	private String userName;
-	public final static int HEAD_ID_NOT_PRE_INSTALL = 0;
+	public final static int HEAD_ID_NOT_PRE_INSTALL = -1;
 	private int headId;
 	private byte[] headData;
 	private String accountZhaoyan;
