@@ -470,4 +470,20 @@
     <string name="dialog_type_image">图像</string>
     <string name="info_video_info">视频信息</string>
 	<!-- image end -->
+	<!-- more start -->
+	<string name="quit">退出</string>
+	<string name="account_management">账号管理</string>
+	<string name="help_about">关于我们</string>
+	<string name="help_check_update">检查更新</string>
+	<string name="view_switch">切换浏览视图</string>
+	<string name="help_suggestion">意见反馈</string>
+	<string name="help_introduction">新手指南</string>
+	<string name="traffic_statistics">流量统计</string>
+	<string name="settings_user_info">昵称</string>
+	<string name="account">账号</string>
+	<string name="view_default">默认视图</string>
+    <string name="view_list">列表视图</string>
+    <string name="view_grid">网格视图</string>
+	
+	<!-- more end -->
 </resources>
