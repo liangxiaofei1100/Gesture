@@ -10,7 +10,7 @@ public class LightActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.light_setting_layout);
+		setContentView(0);
 		initTitle(R.string.main_light);
 		mBaseIntroductionView.setIntentExtraName(getString(R.string.main_light));
 		mBaseIntroductionView.setIntroductionText(getString(R.string.introduction_light));
