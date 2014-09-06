@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.gesture.Gesture;
 import android.gesture.Prediction;
+import android.graphics.Camera;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -29,12 +30,15 @@ public class CameraGuesture implements GestureHandler {
 		gestures.add(mContext.getString(R.string.gesture_camera));
 		return gestures;
 	}
-	
+
 	private void handleGesture() {
 		WakeupUtil.wakeup(mContext);
-		AppLauncherFromKeyguard.launchByBroadcast(mContext,Intent.ACTION_CAMERA_BUTTON);
+		String cameraPackage = CameraSetting.getCameraAppPackageName(mContext);
+		Intent intent = CameraSetting
+				.getCameraActivity(mContext, cameraPackage);
+		AppLauncherFromKeyguard.launchByActivity(mContext, intent);
 	}
-	
+
 	@Override
 	public void handleSystemGesture(String gestureName) {
 		handleGesture();

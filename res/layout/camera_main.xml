@@ -13,7 +13,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="15dp" >
+            android:paddingBottom="10dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="10dp" >
 
             <RelativeLayout
                 android:id="@+id/rl_open_musicplayer"
@@ -21,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/setting_item_bg"
                 android:clickable="true"
-                android:onClick="openMusicPlayer"
+                android:onClick="openCamera"
                 android:padding="10dp" >
 
                 <TextView
@@ -40,7 +43,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/setting_item_bg"
                 android:clickable="true"
-                android:onClick="setMusicPlayer"
+                android:onClick="setCamera"
                 android:padding="10dp" >
 
                 <ImageView
