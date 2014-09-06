@@ -51,7 +51,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_toLeftOf="@id/iv_as_head_arrow"
-                    android:src="@drawable/head1" />
+                    android:src="@drawable/def_head1" />
             </RelativeLayout>
             <!-- Name -->
 
