@@ -1,4 +1,4 @@
-package com.zhaoyan.gesture.image;
+package com.zhaoyan.gesture.common;
 
 import java.io.File;
 

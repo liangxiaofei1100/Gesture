@@ -18,16 +18,20 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 
 import com.zhaoyan.gesture.R;
 import com.zhaoyan.gesture.activity.BaseActivity;
+import com.zhaoyan.gesture.activity.BaseFragmentActivity;
 
 /**
  * Demonstration of the implementation of a custom Loader.
  */
 public class AppLauncherActivity extends BaseActivity {
-
+	private static final String TAG = AppLauncherActivity.class.getSimpleName();
+	
+	private AppGridFragment mFragment;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -37,17 +41,19 @@ public class AppLauncherActivity extends BaseActivity {
 		Bundle bundle = getIntent().getExtras();
 		if (bundle == null) {
 			initTitle(R.string.main_app_manager);
+			setTitleNumVisible(true);
 		} else {
 			initTitle(bundle.getString("title"));
+			setTitleNumVisible(false);
 		}
 		mBaseIntroductionView.setVisibility(View.GONE);
 		FragmentManager fm = getFragmentManager();
 
 		// Create the list fragment and add it as our sole content.
 		if (fm.findFragmentById(R.id.fl_app_main) == null) {
-			AppGridFragment list = new AppGridFragment();
-			list.setArguments(bundle);
-			fm.beginTransaction().add(R.id.fl_app_main, list).commit();
+			mFragment = new AppGridFragment();
+			mFragment.setArguments(bundle);
+			fm.beginTransaction().add(R.id.fl_app_main, mFragment).commit();
 		}
 	}
 
@@ -290,6 +296,13 @@ public class AppLauncherActivity extends BaseActivity {
 			// For a simple List<> there is nothing to do. For something
 			// like a Cursor, we would close it here.
 		}
+	}
+	
+	@Override
+	public boolean onBackKeyPressed() {
+		// TODO Auto-generated method stub
+		boolean ret = mFragment.onBackPressed();
+		return ret;
 	}
 
 }

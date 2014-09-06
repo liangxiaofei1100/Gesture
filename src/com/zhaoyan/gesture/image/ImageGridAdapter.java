@@ -3,9 +3,10 @@ package com.zhaoyan.gesture.image;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.zhaoyan.common.adapter.CheckableBaseAdapter;
 import com.zhaoyan.common.view.CheckableImageView;
 import com.zhaoyan.gesture.R;
-import com.zhaoyan.gesture.image.ZYConstant.Extra;
+import com.zhaoyan.gesture.common.ZYConstant.Extra;
 
 import android.app.Activity;
 import android.content.Context;
@@ -22,8 +23,8 @@ import android.widget.TextView;
 import android.widget.RelativeLayout.LayoutParams;
 
 
-public class ImageGridAdapter extends BaseAdapter implements SelectInterface{
-	private static final String TAG = "ImageGridAdapter";
+public class ImageGridAdapter extends CheckableBaseAdapter{
+	private static final String TAG = ImageGridAdapter.class.getSimpleName();
 	private LayoutInflater mInflater = null;
 	private List<ImageInfo> mDataList;
 	
@@ -41,6 +42,7 @@ public class ImageGridAdapter extends BaseAdapter implements SelectInterface{
 	private Context mContext;
 
 	public ImageGridAdapter(Context context, int viewType, List<ImageInfo> itemList){
+		super(context);
 		mContext = context;
 		
 		mInflater = LayoutInflater.from(context);
@@ -260,7 +262,6 @@ public class ImageGridAdapter extends BaseAdapter implements SelectInterface{
 		return list;
 	}
 
-	@Override
 	public void setIdleFlag(boolean flag) {
 		this.mIdleFlag = flag;
 	}

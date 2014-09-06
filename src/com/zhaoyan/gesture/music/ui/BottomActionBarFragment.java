@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.RemoteException;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,11 +16,11 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.zhaoyan.common.utils.Log;
 import com.zhaoyan.gesture.R;
 import com.zhaoyan.gesture.music.MediaPlaybackService;
 import com.zhaoyan.gesture.music.utils.MusicUtils;
 import com.zhaoyan.gesture.music.views.BottomActionBar;
-import com.zhaoyan.gesture.util.ZyLog;
 
 
 /**The Button Fragment ,use to do the music play \next or more**/
@@ -43,7 +42,7 @@ public class BottomActionBarFragment extends Fragment {
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    	ZyLog.d(TAG, "onCreatView");
+    	Log.d(TAG, "onCreatView");
     	View root = inflater.inflate(R.layout.bottom_action_bar, container);
         mBottomActionBar = new BottomActionBar(getActivity());
         mBottomActionBar.updateBottomActionBar(getActivity());

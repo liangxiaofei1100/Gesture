@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.zhaoyan.common.dialog.ZyProgressDialog;
+import com.zhaoyan.common.utils.FileManager;
 import com.zhaoyan.gesture.R;
 
 

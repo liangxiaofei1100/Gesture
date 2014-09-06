@@ -42,14 +42,13 @@ import android.widget.SectionIndexer;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
+import com.zhaoyan.common.utils.Log;
 import com.zhaoyan.gesture.R;
 import com.zhaoyan.gesture.music.MediaPlaybackService;
 import com.zhaoyan.gesture.music.MusicAlphabetIndexer;
 import com.zhaoyan.gesture.music.MusicConf;
 import com.zhaoyan.gesture.music.utils.MusicUtils;
-import com.zhaoyan.gesture.music.utils.MusicUtils.Defs;
 import com.zhaoyan.gesture.music.utils.MusicUtils.ServiceToken;
-import com.zhaoyan.gesture.util.ZyLog;
 
 public class AlbumBrowserActivity extends ListActivity implements
 		View.OnCreateContextMenuListener, MusicUtils.Defs, ServiceConnection {
@@ -732,7 +731,7 @@ public class AlbumBrowserActivity extends ListActivity implements
 	private String mArtistId;
 
 	public void onServiceConnected(ComponentName name, IBinder service) {
-		ZyLog.d(TAG, "onServiceConnected");
+		Log.d(TAG, "onServiceConnected");
 		MusicUtils.updateNowPlaying(this);
 	}
 

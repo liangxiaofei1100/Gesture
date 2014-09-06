@@ -1,22 +1,20 @@
-package com.zhaoyan.common.dialog;
+package com.zhaoyan.gesture.fragment;
 
-import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.zhaoyan.common.fragment.LibBaseFragment;
+import com.zhaoyan.common.utils.SharedPreferenceUtil;
 import com.zhaoyan.common.view.TransportAnimationView;
 import com.zhaoyan.gesture.R;
 import com.zhaoyan.gesture.common.ZYConstant.Extra;
 
-
-public class BaseFragment extends Fragment{
+public class BaseFragment extends LibBaseFragment{
 	protected boolean mIsSelectAll = false;
-	protected Context mContext = null;
 	
 	//title
 	protected TextView mTitleNameView,mTitleNumView;
@@ -30,25 +28,24 @@ public class BaseFragment extends Fragment{
 	//视图模式
 	protected int mViewType = Extra.VIEW_TYPE_DEFAULT;
 	
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mContext = getActivity();
 		
 		//get View Type
-		mViewType =  Extra.VIEW_TYPE_DEFAULT;
+		SharedPreferences sp = SharedPreferenceUtil
+				.getSharedPreference(getActivity().getApplicationContext());
+		mViewType = sp.getInt(Extra.View_TYPE, Extra.VIEW_TYPE_DEFAULT);
 				
-		setHasOptionsMenu(true);
 	}
 	
-	protected void initTitle(View view, int title_resId){
-		mViewGroup = (ViewGroup) view;
-		mTitleNameView = (TextView) view.findViewById(R.id.tv_title_name);
-		mTitleNameView.setText(title_resId);
-		mTitleNumView = (TextView) view.findViewById(R.id.tv_title_num);
-		mTitleNumView.setVisibility(View.VISIBLE);
-	}
+//	protected void initTitle(View view, int title_resId){
+//		mViewGroup = (ViewGroup) view;
+//		mTitleNameView = (TextView) view.findViewById(R.id.tv_title_name);
+//		mTitleNameView.setText(title_resId);
+//		mTitleNumView = (TextView) view.findViewById(R.id.tv_title_num);
+//		mTitleNumView.setVisibility(View.VISIBLE);
+//	}
 	
 	/**
 	 * Show transport animation.
@@ -99,4 +96,5 @@ public class BaseFragment extends Fragment{
 	protected boolean isListView(){
 		return Extra.VIEW_TYPE_LIST == mViewType;
 	}
+
 }

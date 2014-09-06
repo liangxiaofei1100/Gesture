@@ -1,15 +1,6 @@
 package com.zhaoyan.gesture.image;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import com.zhaoyan.common.dialog.ActionMenu;
-import com.zhaoyan.common.dialog.BaseFragment;
-import com.zhaoyan.common.dialog.ZyDeleteDialog;
-import com.zhaoyan.common.dialog.ActionMenu.ActionMenuItem;
-import com.zhaoyan.common.dialog.ZyAlertDialog.OnZyAlertDlgClickListener;
-import com.zhaoyan.gesture.R;
-import com.zhaoyan.gesture.image.FileDeleteHelper.OnDeleteListener;
 
 import android.app.Dialog;
 import android.content.AsyncQueryHandler;
@@ -31,9 +22,21 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+
+import com.zhaoyan.common.actionmenu.ActionMenu;
+import com.zhaoyan.common.actionmenu.ActionMenu.ActionMenuItem;
+import com.zhaoyan.common.actionmenu.MenuBarInterface;
+import com.zhaoyan.common.dialog.ZyAlertDialog.OnZyAlertDlgClickListener;
+import com.zhaoyan.common.dialog.ZyDeleteDialog;
+import com.zhaoyan.common.utils.FileManager;
+import com.zhaoyan.common.utils.IntentBuilder;
+import com.zhaoyan.common.utils.Utils;
+import com.zhaoyan.gesture.R;
+import com.zhaoyan.gesture.common.ZYConstant;
+import com.zhaoyan.gesture.fragment.BaseFragment;
+import com.zhaoyan.gesture.image.FileDeleteHelper.OnDeleteListener;
 
 
 public class VideoFragment extends BaseFragment implements OnItemClickListener, OnItemLongClickListener, 
@@ -61,16 +64,22 @@ public class VideoFragment extends BaseFragment implements OnItemClickListener, 
 			case MSG_UPDATE_UI:
 				int size = msg.arg1;
 				count = size;
-				updateTitleNum(-1);
+				mActivity.updateTitleNum(-1, count);
 				break;
 			case MSG_DELETE_OVER:
 				count = mAdapter.getCount();
-				updateTitleNum(-1);
+				mActivity.updateTitleNum(-1, count);
 				break;
 			default:
 				break;
 			}
 		};
+	};
+	
+	private ImageActivity mActivity;
+	public void onAttach(android.app.Activity activity) {
+		super.onAttach(activity);
+		mActivity = (ImageActivity) activity;
 	};
 	
 	public void onCreate(Bundle savedInstanceState) {
@@ -106,7 +115,7 @@ public class VideoFragment extends BaseFragment implements OnItemClickListener, 
 		
 		mLoadingBar = (ProgressBar) rootView.findViewById(R.id.bar_video_loading);
 		mAdapter = new VideoCursorAdapter(mContext);
-		mAdapter.setCurrentViewType(mViewType);
+//		mAdapter.setCurrentViewType(mViewType);
 		if (isListView()) {
 			mListView.setVisibility(View.VISIBLE);
 			mGridView.setVisibility(View.GONE);
@@ -118,7 +127,8 @@ public class VideoFragment extends BaseFragment implements OnItemClickListener, 
 		}
 		
 //		initTitle(rootView.findViewById(R.id.rl_video_main), R.string.video);
-		initMenuBar(rootView);
+		mMenuBarView = rootView.findViewById(R.id.bottom);
+		initMenuBar(mMenuBarView);
 		
 		return rootView;
 	}
@@ -208,7 +218,7 @@ public class VideoFragment extends BaseFragment implements OnItemClickListener, 
 			mAdapter.notifyDataSetChanged();
 			
 			int selectedCount = mAdapter.getCheckedCount();
-			updateTitleNum(selectedCount);
+			mActivity.updateTitleNum(selectedCount, count);
 			updateMenuBar();
 			mMenuBarManager.refreshMenus(mActionMenu);
 		}
@@ -222,7 +232,7 @@ public class VideoFragment extends BaseFragment implements OnItemClickListener, 
 			return true;
 		} else {
 			mAdapter.changeMode(ActionMenu.MODE_EDIT);
-			updateTitleNum(1);
+			mActivity.updateTitleNum(1, count);
 		}
 		
 		boolean isChecked = mAdapter.isChecked(position);
@@ -232,7 +242,7 @@ public class VideoFragment extends BaseFragment implements OnItemClickListener, 
 		mActionMenu = new ActionMenu(getActivity().getApplicationContext());
 		getActionMenuInflater().inflate(R.menu.video_menu, mActionMenu);
 		
-		startMenuBar();
+		startMenuBar(mMenuBarView);
 		return true;
 	}
 	
@@ -369,7 +379,7 @@ public class VideoFragment extends BaseFragment implements OnItemClickListener, 
 				
 				dialog.setFileType(InfoDialog.VIDEO, videoType);
 				dialog.setFileName(name);
-				dialog.setFilePath(ZYUtils.getParentPath(url));
+				dialog.setFilePath(Utils.getParentPath(url));
 				dialog.setFileSize(size);
 				dialog.setModifyDate(date);
 				
@@ -406,10 +416,9 @@ public class VideoFragment extends BaseFragment implements OnItemClickListener, 
 		mAdapter.notifyDataSetChanged();
 	}
 	
-	@Override
 	public void destroyMenuBar() {
-		super.destroyMenuBar();
-		updateTitleNum(-1);
+		destroyMenuBar(mMenuBarView);
+		mActivity.updateTitleNum(-1,count);
 		
 		mAdapter.changeMode(ActionMenu.MODE_NORMAL);
 		mAdapter.checkedAll(false);
@@ -419,7 +428,7 @@ public class VideoFragment extends BaseFragment implements OnItemClickListener, 
 	@Override
 	public void updateMenuBar(){
 		int selectCount = mAdapter.getCheckedCount();
-		updateTitleNum(selectCount);
+		mActivity.updateTitleNum(selectCount, count);
 
 		ActionMenuItem selectItem = mActionMenu.findItem(R.id.menu_select);
 		if (mAdapter.getCount() == selectCount) {

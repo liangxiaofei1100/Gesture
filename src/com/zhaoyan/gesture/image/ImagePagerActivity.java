@@ -41,8 +41,10 @@ import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.zhaoyan.common.dialog.ZyDeleteDialog;
 import com.zhaoyan.common.dialog.ZyAlertDialog.OnZyAlertDlgClickListener;
+import com.zhaoyan.common.utils.FileManager;
+import com.zhaoyan.common.utils.Utils;
 import com.zhaoyan.gesture.R;
-import com.zhaoyan.gesture.image.ZYConstant.Extra;
+import com.zhaoyan.gesture.common.ZYConstant.Extra;
 
 /**全屏查看图片*/
 public class ImagePagerActivity extends Activity implements OnClickListener, OnPageChangeListener {
@@ -313,7 +315,7 @@ public class ImagePagerActivity extends Activity implements OnClickListener, OnP
 		
 		infoDialog.setFileType(InfoDialog.IMAGE, imageType);
 		infoDialog.setFileName(name);
-		infoDialog.setFilePath(ZYUtils.getParentPath(url));
+		infoDialog.setFilePath(Utils.getParentPath(url));
 		infoDialog.setModifyDate(date);
 		infoDialog.setFileSize(size);
 		infoDialog.show();

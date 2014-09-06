@@ -1,19 +1,22 @@
 package com.zhaoyan.gesture.app;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import com.zhaoyan.gesture.R;
-
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class AppGridAdapter extends BaseAdapter {
+import com.zhaoyan.common.adapter.CheckableBaseAdapter;
+import com.zhaoyan.common.utils.Log;
+import com.zhaoyan.gesture.R;
+
+public class AppGridAdapter extends CheckableBaseAdapter {
 	private static final String TAG = AppGridAdapter.class.getSimpleName();
 	
 	private List<AppEntry> mList;
@@ -22,6 +25,7 @@ public class AppGridAdapter extends BaseAdapter {
 	private int mCurrentSelectPosition = -1;
 
 	public AppGridAdapter(Context context){
+		super(context);
 		mInflater = LayoutInflater.from(context);
 	}
 	
@@ -37,6 +41,23 @@ public class AppGridAdapter extends BaseAdapter {
 	
 	public AppEntry getSelectEntry(){
 		return (AppEntry) getItem(mCurrentSelectPosition);
+	}
+	
+	
+	/**
+	 * get Select item pakcageName list
+	 * @return
+	 */
+	public List<String> getCheckedPkgList(){
+		Log.d(TAG, "getSelectedPkgList");
+		List<String> list = new ArrayList<String>();
+		for (int i = 0; i < mCheckArray.size(); i++) {
+			if (mCheckArray.valueAt(i)) {
+				String packagename = mList.get(i).getPackageName();
+				list.add(packagename);
+			}
+		}
+		return list;
 	}
 	
 	@Override
@@ -80,6 +101,7 @@ public class AppGridAdapter extends BaseAdapter {
 			view.setBackgroundResource(R.color.kk_theme_color);
 		} else {
 			view.setBackgroundColor(Color.TRANSPARENT);
+			updateViewBackground(position, view);
 		}
 		
 		return view;
