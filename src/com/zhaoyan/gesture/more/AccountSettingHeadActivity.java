@@ -2,14 +2,6 @@ package com.zhaoyan.gesture.more;
 
 import java.io.File;
 
-import com.zhaoyan.common.dialog.ActionMenu;
-import com.zhaoyan.common.dialog.ActionMenu.ActionMenuItem;
-import com.zhaoyan.common.dialog.ActionMenuInterface.OnMenuItemClickListener;
-import com.zhaoyan.gesture.R;
-import com.zhaoyan.gesture.activity.BaseActivity;
-import com.zhaoyan.gesture.image.ZYConstant;
-
-
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -22,11 +14,18 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.AdapterView.OnItemClickListener;
+
+import com.zhaoyan.common.actionmenu.ActionMenu;
+import com.zhaoyan.common.actionmenu.ActionMenu.ActionMenuItem;
+import com.zhaoyan.common.actionmenu.ActionMenuInterface.OnMenuItemClickListener;
+import com.zhaoyan.gesture.R;
+import com.zhaoyan.gesture.activity.BaseActivity;
+import com.zhaoyan.gesture.common.ZYConstant;
 
 public class AccountSettingHeadActivity extends BaseActivity implements
 		OnClickListener, OnItemClickListener {
