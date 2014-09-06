@@ -32,6 +32,7 @@ public class MusicActivity extends BaseActivity {
 	
 	private String packageName = "";
 	private PackageManager mPackageManager;
+	private View mChoose0,mChoose1;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -42,6 +43,10 @@ public class MusicActivity extends BaseActivity {
 		mBaseIntroductionView.setIntroductionText(getString(R.string.introduction_music));
 		mSetPlayerSummary = getView(R.id.tv_player_label);
 		mLogoView = getView(R.id.iv_player_logo);
+		mChoose0 = findViewById(R.id.gestrue_try_0);
+		mChoose1 = findViewById(R.id.gestrue_try_1);
+		mChoose0.setOnClickListener(myClickListener);
+		mChoose1.setOnClickListener(myClickListener);
 		
 		packageName = MusicConf.getStringPref(getApplicationContext(), "package", "com.zhaoyan.gesture");
 		
@@ -197,5 +202,29 @@ public class MusicActivity extends BaseActivity {
 		}
 	}
 	
+	private OnClickListener myClickListener = new OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+			switch (v.getId()) {
+			case R.id.gestrue_try_0:
+				Intent intent = new Intent();
+				intent.setClass(MusicActivity.this, GestureShowActivity.class);
+				intent.putExtra("name", "上一首");
+				MusicActivity.this.startActivity(intent);
+				break;
+			case R.id.gestrue_try_1:
+				 intent = new Intent();
+				intent.setClass(MusicActivity.this, GestureShowActivity.class);
+				intent.putExtra("name", "下一首");
+				MusicActivity.this.startActivity(intent);
+				break;
+
+			default:
+				break;
+			}
+		}
+	};
 
 }

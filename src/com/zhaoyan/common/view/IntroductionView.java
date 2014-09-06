@@ -17,7 +17,7 @@ import android.widget.TextView;
 public class IntroductionView extends RelativeLayout implements OnClickListener {
 	private Context mContext;
 	private View mClkView, mTryGestrueView;
-	private TextView mIntroductionTv;
+	private TextView mIntroductionTv, mGestureName;
 	private Intent intent;
 	private String mIntroductionText;
 	private ImageView mImageView;
@@ -50,13 +50,14 @@ public class IntroductionView extends RelativeLayout implements OnClickListener 
 		case R.id.introduction_layout:
 			if (mIntroductionTv.getVisibility() == View.GONE) {
 				mIntroductionTv.setVisibility(View.VISIBLE);
-				mIntroductionTv.setAnimation((AnimationUtils.loadAnimation(mContext,R.anim.slide_down_in)));
+				mIntroductionTv.setAnimation((AnimationUtils.loadAnimation(
+						mContext, R.anim.slide_down_in)));
 				if (mIntroductionText != null)
 					mIntroductionTv.setText(mIntroductionText);
 				mImageView.setImageResource(R.drawable.setting_item_arrow_up);
 			} else {
 				mIntroductionTv.setVisibility(View.GONE);
-//				mIntroductionTv.setAnimation((AnimationUtils.loadAnimation(mContext,R.anim.slide_up_out)));
+				// mIntroductionTv.setAnimation((AnimationUtils.loadAnimation(mContext,R.anim.slide_up_out)));
 				mImageView.setImageResource(R.drawable.setting_item_arrow_down);
 			}
 			break;
@@ -83,13 +84,14 @@ public class IntroductionView extends RelativeLayout implements OnClickListener 
 		mIntroductionTv.setText(introdunction);
 	}
 
-	/** @deprecated use  {@link #setIntentExtraName(String)} */
+	/** @deprecated use {@link #setIntentExtraName(String)} */
 	public void setShowGestureIntent(Intent intent) {
 		this.intent = intent;
 	}
 
 	public void setIntentExtraName(String name) {
 		extraString = name;
+		mGestureName.setText(extraString + "手势练习");
 	}
 
 	private void initView(String introdunction) {
@@ -99,6 +101,7 @@ public class IntroductionView extends RelativeLayout implements OnClickListener 
 		mTryGestrueView = findViewById(R.id.gestrue_try);
 		mImageView = (ImageView) findViewById(R.id.iv_wo_ts_arrow);
 		mIntroductionTv = (TextView) findViewById(R.id.introduction_tv);
+		mGestureName = (TextView) findViewById(R.id.gesture_name);
 		mClkView.setOnClickListener(this);
 		mTryGestrueView.setOnClickListener(this);
 		mIntroductionTv.setText(introdunction);
