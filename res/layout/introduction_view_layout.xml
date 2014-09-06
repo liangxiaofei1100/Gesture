@@ -60,7 +60,7 @@
         android:id="@+id/gestrue_try"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dip"
+        android:layout_marginTop="10dip"
         android:background="@drawable/setting_item_bg"
         android:clickable="true"
         android:padding="10dp" >

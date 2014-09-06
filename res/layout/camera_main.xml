@@ -7,17 +7,13 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/title"
         android:scrollbars="none" >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp">
+            android:padding="15dp" >
 
             <RelativeLayout
                 android:id="@+id/rl_open_musicplayer"
@@ -27,12 +23,13 @@
                 android:clickable="true"
                 android:onClick="openMusicPlayer"
                 android:padding="10dp" >
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:text="打开音乐播放器"
+                    android:text="打开照相机"
                     android:textSize="16sp" />
             </RelativeLayout>
 
@@ -40,14 +37,14 @@
                 android:id="@+id/rl_set_musicplayer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/setting_item_bg"
                 android:layout_marginTop="10dp"
+                android:background="@drawable/setting_item_bg"
                 android:clickable="true"
                 android:onClick="setMusicPlayer"
                 android:padding="10dp" >
 
                 <ImageView
-                    android:id="@+id/iv_wo_head_name_arrow"
+                    android:id="@+id/iv_arrow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -55,13 +52,13 @@
                     android:src="@drawable/setting_item_arrow" />
 
                 <ImageView
-                    android:id="@+id/iv_player_logo"
+                    android:id="@+id/iv_camera_logo"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="15dp"
-                    android:layout_toLeftOf="@+id/iv_wo_head_name_arrow"
+                    android:layout_toLeftOf="@+id/iv_arrow"
                     android:src="@drawable/ic_launcher" />
 
                 <LinearLayout
@@ -69,67 +66,24 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@id/iv_player_logo"
+                    android:layout_toLeftOf="@id/iv_camera_logo"
                     android:orientation="vertical" >
 
                     <TextView
-                        android:id="@+id/tv_wo_nick_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="设置默认音乐播放器"
+                        android:text="设置默认照相机"
                         android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/tv_player_label"
+                        android:id="@+id/tv_camera_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="指尖随听"
+                        android:text="相机"
                         android:textColor="@android:color/darker_gray"
                         android:textSize="12sp" />
                 </LinearLayout>
             </RelativeLayout>
-
-<!--             <RelativeLayout -->
-<!--                 android:id="@+id/rl_set_playlist" -->
-<!--                 android:layout_width="match_parent" -->
-<!--                 android:layout_height="wrap_content" -->
-<!--                 android:layout_marginTop="5dp" -->
-<!--                 android:background="@drawable/setting_item_bg" -->
-<!--                 android:clickable="true" -->
-<!--                 android:onClick="setPlayList" -->
-<!--                 android:padding="10dp" > -->
-
-<!--                 <ImageView -->
-<!--                     android:id="@+id/iv_wo_nh_arrow" -->
-<!--                     android:layout_width="wrap_content" -->
-<!--                     android:layout_height="wrap_content" -->
-<!--                     android:layout_alignParentRight="true" -->
-<!--                     android:layout_centerVertical="true" -->
-<!--                     android:src="@drawable/setting_item_arrow" /> -->
-
-<!--                 <LinearLayout -->
-<!--                     android:layout_width="wrap_content" -->
-<!--                     android:layout_height="wrap_content" -->
-<!--                     android:layout_alignParentLeft="true" -->
-<!--                     android:layout_centerVertical="true" -->
-<!--                     android:orientation="vertical" > -->
-
-<!--                     <TextView -->
-<!--                         android:layout_width="wrap_content" -->
-<!--                         android:layout_height="wrap_content" -->
-<!--                         android:text="设置播放列表" -->
-<!--                         android:textSize="16sp" /> -->
-
-<!--                     <TextView -->
-<!--                         android:id="@+id/tv_playlist_name" -->
-<!--                         android:layout_width="wrap_content" -->
-<!--                         android:layout_height="wrap_content" -->
-<!--                         android:layout_marginTop="2dp" -->
-<!--                         android:text="点击设置播放列表" -->
-<!--                         android:textColor="@android:color/darker_gray" -->
-<!--                         android:textSize="12sp" /> -->
-<!--                 </LinearLayout> -->
-<!--             </RelativeLayout> -->
         </LinearLayout>
     </ScrollView>
 
