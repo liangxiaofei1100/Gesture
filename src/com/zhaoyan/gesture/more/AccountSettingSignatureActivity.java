@@ -1,9 +1,5 @@
 package com.zhaoyan.gesture.more;
 
-import com.zhaoyan.gesture.R;
-import com.zhaoyan.gesture.activity.BaseActivity;
-import com.zhaoyan.gesture.image.ZYConstant;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +11,10 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.zhaoyan.gesture.R;
+import com.zhaoyan.gesture.activity.BaseActivity;
+import com.zhaoyan.gesture.common.ZYConstant;
 
 public class AccountSettingSignatureActivity extends BaseActivity implements
 		OnClickListener {

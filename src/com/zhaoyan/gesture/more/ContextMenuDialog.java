@@ -1,12 +1,6 @@
 package com.zhaoyan.gesture.more;
 
 
-import com.zhaoyan.common.dialog.ActionMenu;
-import com.zhaoyan.common.dialog.ActionMenu.ActionMenuItem;
-import com.zhaoyan.common.dialog.ActionMenuInterface.OnMenuItemClickListener;
-import com.zhaoyan.common.dialog.ZyAlertDialog;
-import com.zhaoyan.gesture.R;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +11,12 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.zhaoyan.common.actionmenu.ActionMenu;
+import com.zhaoyan.common.actionmenu.ActionMenu.ActionMenuItem;
+import com.zhaoyan.common.actionmenu.ActionMenuInterface.OnMenuItemClickListener;
+import com.zhaoyan.common.dialog.ZyAlertDialog;
+import com.zhaoyan.gesture.R;
 
 public class ContextMenuDialog extends ZyAlertDialog implements OnItemClickListener {
 
