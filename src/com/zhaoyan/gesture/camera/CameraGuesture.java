@@ -44,7 +44,8 @@ public class CameraGuesture implements GestureHandler {
 	public void handleGesture(Gesture gesture, Prediction prediction) {
 		Log.d(TAG, "handleGesture name = " + prediction.name + ", score = "
 				+ prediction.score + ", length = " + gesture.getLength());
-		handleGesture();
+		Intent intent = new Intent(Intent.ACTION_CAMERA_BUTTON);
+		mContext.sendBroadcast(intent);
 	}
 
 	@Override
