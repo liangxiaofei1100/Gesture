@@ -4,14 +4,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,6 +30,9 @@ import android.widget.ListAdapter;
 import android.widget.SimpleAdapter;
 
 import com.zhaoyan.common.bitmaps.BitmapUtilities;
+import com.zhaoyan.gesture.common.ZYConstant;
+import com.zhaoyan.gesture.more.AccountHelper;
+import com.zhaoyan.gesture.more.AccountInfo;
 import com.zhaoyan.gesture.service.CommonUtils;
 
 public class MainActivity extends Activity implements OnItemClickListener,
@@ -40,6 +47,10 @@ public class MainActivity extends Activity implements OnItemClickListener,
 	private final String KEY_ITEM_ICON = "icon";
 	private final String KEY_ITEM_TEXT = "text";
 	private final String KEY_ITEM_CLASS_NAME = "class";
+	private AccountInfoBroadcastReceiver mReceiver;
+	private static final int MSG_UPDATE_ACCOUNT_INFO = 1;
+	private ImageView userIconIv;
+	private Bitmap mHeadBitmap;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,13 +58,15 @@ public class MainActivity extends Activity implements OnItemClickListener,
 		Log.d(TAG, "onCreate()");
 		setContentView(R.layout.activity_main);
 		mContext = this;
-
+		mReceiver = new AccountInfoBroadcastReceiver();
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction(ZYConstant.CURRENT_ACCOUNT_CHANGED_ACTION);
+		registerReceiver(mReceiver, intentFilter);
 		initLaunchers();
 		initView();
 		
-		ImageView imageView = (ImageView) findViewById(R.id.iv_head);
-		Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.def_head1);
-		imageView.setImageBitmap(BitmapUtilities.toRoundBitmap(bitmap));
+		 userIconIv = (ImageView) findViewById(R.id.iv_head);
+		 loadUserIcon();
 		
 		//when app start,start Common Service
 		//and the service do not stop,when app destroy
@@ -169,6 +182,74 @@ public class MainActivity extends Activity implements OnItemClickListener,
 		intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
 		intent.setClassName(context, className);
 		return intent;
+	}
+	
+	private Handler mHandler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			super.handleMessage(msg);
+			if (msg.what == MSG_UPDATE_ACCOUNT_INFO) {
+				loadUserIcon();
+			}
+		}
+
+	};
+
+	private void loadUserIcon() {
+		AccountInfo accountInfo = AccountHelper
+				.getCurrentAccount(MainActivity.this);
+		if (accountInfo == null) {
+			mHeadBitmap = BitmapFactory.decodeResource(getResources(),
+					R.drawable.def_head1);
+			userIconIv.setImageBitmap(BitmapUtilities
+					.toRoundBitmap(mHeadBitmap));
+			return;
+		}
+		int headId = accountInfo.getHeadId();
+		if (headId != AccountInfo.HEAD_ID_NOT_PRE_INSTALL) {
+			mHeadBitmap = BitmapFactory.decodeResource(getResources(),
+					AccountHelper.getHeadImageResource(headId));
+			userIconIv.setImageBitmap(BitmapUtilities
+					.toRoundBitmap(mHeadBitmap));
+		} else {
+			releaseHeadBitmap();
+			mHeadBitmap = accountInfo.getHeadBitmap();
+			if (mHeadBitmap == null) {
+				userIconIv.setImageBitmap(BitmapUtilities
+						.toRoundBitmap(mHeadBitmap));
+			} else
+				mHeadBitmap = BitmapFactory.decodeResource(getResources(),
+						R.drawable.def_head1);
+			userIconIv.setImageBitmap(BitmapUtilities
+					.toRoundBitmap(mHeadBitmap));
+		}
+
+	}
+
+	private void releaseHeadBitmap() {
+		if (mHeadBitmap != null) {
+			userIconIv.setImageDrawable(null);
+			mHeadBitmap.recycle();
+			mHeadBitmap = null;
+		}
+	}
+
+	private class AccountInfoBroadcastReceiver extends BroadcastReceiver {
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			mHandler.obtainMessage(MSG_UPDATE_ACCOUNT_INFO).sendToTarget();
+		}
+	}
+	
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		releaseHeadBitmap();
+		this.unregisterReceiver(mReceiver);
 	}
 
 }

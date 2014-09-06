@@ -18,8 +18,81 @@
             android:paddingRight="15dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp">
+            <RelativeLayout
+                android:id="@+id/gestrue_try_0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:background="@drawable/setting_item_bg"
+                android:clickable="true"
+                android:padding="10dp" >
+
+                <ImageView
+                    android:id="@+id/iv_w_0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/setting_item_arrow" />
+
+                <ImageView
+                    android:id="@+id/iv_wo_1_0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/newer_help"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/gesture_name_0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="上一首手势练习"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/gestrue_try_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:background="@drawable/setting_item_bg"
+                android:clickable="true"
+                android:padding="10dp" >
+
+                <ImageView
+                    android:id="@+id/iv_w_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/setting_item_arrow" />
+
+                <ImageView
+                    android:id="@+id/iv_wo_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/newer_help"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/gesture_name_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="下一首手势练习"
+                    android:textSize="16sp" />
+            </RelativeLayout>
 
             <RelativeLayout
+                android:layout_marginTop="10dp"
                 android:id="@+id/rl_open_musicplayer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

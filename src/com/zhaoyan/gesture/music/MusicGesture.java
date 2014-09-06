@@ -31,7 +31,7 @@ public class MusicGesture implements GestureHandler{
 	@Override
 	public List<String> getGesterNames() {
 		List<String> list = new ArrayList<String>();
-		list.add(mContext.getString(R.string.gesture_music));
+		list.add(mContext.getString(R.string.main_music));
 		list.add(mContext.getString(R.string.gesture_next_song));
 		list.add(mContext.getString(R.string.gesture_up_song));
 		return list;
@@ -43,6 +43,7 @@ public class MusicGesture implements GestureHandler{
 		Intent intent = new Intent();
 		intent.setAction(Intent.ACTION_MEDIA_BUTTON);
 		KeyEvent  keyEvent = null;
+		packageName = MusicConf.getStringPref(mContext, "package", "com.zhaoyan.gesture");
 		if ("music_play".equals(name)) {
 			if (mIsMusicOn) {
 				Log.d(TAG, "handleGesture.playpause");
@@ -72,12 +73,13 @@ public class MusicGesture implements GestureHandler{
 	@Override
 	public void handleGesture(Gesture gesture, Prediction prediction) {
 		Log.d(TAG, "handleGesture.name:" + prediction.name + ",score:" + prediction.score);
-		if (prediction.score > 3) {
+		packageName = MusicConf.getStringPref(mContext, "package", "com.zhaoyan.gesture");
+//		if (prediction.score > 3) {
 			String name = prediction.name;
 			Intent intent = new Intent();
 			intent.setAction(Intent.ACTION_MEDIA_BUTTON);
 			KeyEvent  keyEvent = null;
-			if ("音乐".equals(name)) {
+			if ("轻舞随听".equals(name)) {
 				if (mIsMusicOn) {
 					Log.d(TAG, "handleGesture.playpause");
 					keyEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
@@ -101,7 +103,7 @@ public class MusicGesture implements GestureHandler{
 			mContext.sendBroadcast(intent);
 			
 			keyup();
-		}
+//		}
 	}
 	
 	public void keyup(){
@@ -112,7 +114,7 @@ public class MusicGesture implements GestureHandler{
 		System.out.println(time);
 		KeyEvent.changeTimeRepeat(keyEvent, time, 0);
 		intent.putExtra(Intent.EXTRA_KEY_EVENT, keyEvent);
-		intent.setPackage("com.zhaoyan.gesture");
+		intent.setPackage(packageName);
 		mContext.sendBroadcast(intent);
 	}
 	
