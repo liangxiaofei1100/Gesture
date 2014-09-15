@@ -213,13 +213,11 @@ public class ImageActivity extends BaseActivity implements OnScrollListener,
 		String selection;
 		// do not load png image
 		if (GALLERY.equals(bucketName)) {
-			selection = MediaStore.Images.Media.BUCKET_DISPLAY_NAME + "!=?"
-					+ " and " + MediaStore.Images.Media.MIME_TYPE + "!=?";
+			selection = MediaStore.Images.Media.BUCKET_DISPLAY_NAME + "!=?";
 		} else {
-			selection = MediaStore.Images.Media.BUCKET_DISPLAY_NAME + "=?"
-					+ " and " + MediaStore.Images.Media.MIME_TYPE + "!=?";
+			selection = MediaStore.Images.Media.BUCKET_DISPLAY_NAME + "=?";
 		}
-		String selectionArgs[] = { CAMERA, MIMETYPE_PNG };
+		String selectionArgs[] = { CAMERA };
 		mPictureItemInfoList.clear();
 		query(QUERY_TOKEN_ITEM, selection, selectionArgs, SORT_ORDER_DATE);
 	}

@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.zhaoyan.gesture.R;
 import com.zhaoyan.gesture.activity.BaseActivity;
-import com.zhaoyan.gesture.image.ZYConstant;
+import com.zhaoyan.gesture.common.ZYConstant;
 
 public class AccountSettingAccountInfoActivity extends BaseActivity implements
 		OnClickListener {
