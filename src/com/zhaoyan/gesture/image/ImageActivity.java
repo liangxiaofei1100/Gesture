@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.provider.MediaStore.Images.Media;
 import android.provider.MediaStore.MediaColumns;
 import android.util.Log;
 import android.view.View;
@@ -77,6 +78,8 @@ public class ImageActivity extends BaseActivity implements OnScrollListener,
 			MediaColumns._ID, MediaColumns.DATE_MODIFIED, MediaColumns.SIZE,
 			MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME,
 			MediaColumns.DATA, MediaColumns.DISPLAY_NAME, "width", "height" };
+	
+	public static final int LIMIT_SIZE = 11 * 1024;//if a image size below than 10K,we do not show it
 
 	/** order by date_modified DESC */
 	public static final String SORT_ORDER_DATE = MediaColumns.DATE_MODIFIED
@@ -211,13 +214,13 @@ public class ImageActivity extends BaseActivity implements OnScrollListener,
 	 */
 	public void queryFolderItem(String bucketName) {
 		String selection;
-		// do not load png image
 		if (GALLERY.equals(bucketName)) {
 			selection = MediaStore.Images.Media.BUCKET_DISPLAY_NAME + "!=?";
 		} else {
 			selection = MediaStore.Images.Media.BUCKET_DISPLAY_NAME + "=?";
 		}
 		String selectionArgs[] = { CAMERA };
+		
 		mPictureItemInfoList.clear();
 		query(QUERY_TOKEN_ITEM, selection, selectionArgs, SORT_ORDER_DATE);
 	}
@@ -250,6 +253,11 @@ public class ImageActivity extends BaseActivity implements OnScrollListener,
 											.getColumnIndex(MediaStore.MediaColumns.DATA));
 							String name = cursor.getString(cursor
 									.getColumnIndex(MediaColumns.DISPLAY_NAME));
+							
+							long size = cursor.getLong(cursor.getColumnIndex(MediaColumns.SIZE));
+							if (size <= LIMIT_SIZE) {
+								continue;
+							}
 
 							imageInfo.setImageId(id);
 							imageInfo.setPath(url);
