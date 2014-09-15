@@ -444,7 +444,11 @@
      <string name="delete_image">删除图片</string>
      <string name="delete_video">删除视频</string>
      <string name="delete_file_confirm_msg_image">确定要删除这%1$s个图片？</string>
+     <string name="delete_one_image_tip">将删除该图片。</string>
+     <string name="delete_some_images_tip">将删除选中的%1$s张图片。</string>
      <string name="delete_file_confirm_msg_video">确定要删除这%1$s个视频？</string>
+     <string name="delete_one_video_tip">将删除该视频。</string>
+     <string name="delete_some_videos_tip">将删除选中的%1$s张视频。</string>
       <string name="menu_delete">删除</string>
       <string name="select_all">全选</string>
     <string name="unselect_all">取消全选</string>

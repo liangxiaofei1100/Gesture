@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.zhaoyan.common.adapter.CheckableCursorAdapter;
+import com.zhaoyan.common.imageloader.AsyncVideoLoader;
+import com.zhaoyan.common.imageloader.AsyncVideoLoader.ILoadVideoCallback;
 import com.zhaoyan.common.utils.Utils;
 import com.zhaoyan.gesture.R;
 import com.zhaoyan.gesture.common.ZYConstant.Extra;
-import com.zhaoyan.gesture.image.AsyncVideoLoader.ILoadVideoCallback;
 
 import android.content.Context;
 import android.database.Cursor;

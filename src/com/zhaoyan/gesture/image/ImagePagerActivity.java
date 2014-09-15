@@ -6,7 +6,6 @@ import java.util.List;
 
 import uk.co.senab.photoview.PhotoViewAttacher;
 import uk.co.senab.photoview.PhotoViewAttacher.OnViewTapListener;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -22,9 +21,9 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.animation.AnimationUtils;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -40,7 +39,7 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.zhaoyan.common.dialog.ZyDeleteDialog;
-import com.zhaoyan.common.dialog.ZyAlertDialog.OnZyAlertDlgClickListener;
+import com.zhaoyan.common.dialog.ZyDialogBuilder.onZyDialogClickListener;
 import com.zhaoyan.common.utils.FileManager;
 import com.zhaoyan.common.utils.Utils;
 import com.zhaoyan.gesture.R;
@@ -298,8 +297,9 @@ public class ImagePagerActivity extends Activity implements OnClickListener, OnP
 	}
 	
 	private void showInfo(){
-		InfoDialog infoDialog = new InfoDialog(this, InfoDialog.SINGLE_FILE);
-		infoDialog.setTitle(R.string.info_image_info);
+		InfoDialog infoDialog = new InfoDialog(this);
+		infoDialog.setType(InfoDialog.SINGLE_FILE);
+		infoDialog.setDialogTitle(R.string.info_image_info);
 		int position = pager.getCurrentItem();
 		String url = imageList.get(position);
 		int index = url.lastIndexOf("/");
@@ -333,10 +333,10 @@ public class ImagePagerActivity extends Activity implements OnClickListener, OnP
 		String name = url.substring(index + 1, url.length());
 		
     	ZyDeleteDialog deleteDialog = new ZyDeleteDialog(this);
-		deleteDialog.setTitle(R.string.delete_image);
+		deleteDialog.setDialogTitle(R.string.delete_image);
 		String msg = getString(R.string.delete_file_confirm_msg, name);
 		deleteDialog.setMessage(msg);
-		deleteDialog.setPositiveButton(R.string.menu_delete, new OnZyAlertDlgClickListener() {
+		deleteDialog.setPositiveButton(R.string.menu_delete, new onZyDialogClickListener() {
 			@Override
 			public void onClick(Dialog dialog) {
 				FileManager.deleteFileInMediaStore(getApplicationContext(), 

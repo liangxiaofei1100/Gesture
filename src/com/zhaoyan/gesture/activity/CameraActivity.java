@@ -3,29 +3,30 @@ package com.zhaoyan.gesture.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.zhaoyan.common.dialog.ZyDialogBuilder;
-import com.zhaoyan.gesture.R;
-import com.zhaoyan.gesture.app.AppLauncherActivity;
-import com.zhaoyan.gesture.camera.AppChooseDialog;
-import com.zhaoyan.gesture.camera.AppInfo;
-import com.zhaoyan.gesture.camera.CameraSetting;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.zhaoyan.common.dialog.DefaultAppInfo;
+import com.zhaoyan.common.dialog.DefaultAppChoiceDialog;
+import com.zhaoyan.common.dialog.DefaultAppChoiceDialog.OnLoadMoreListener;
+import com.zhaoyan.common.dialog.ZyDialogBuilder;
+import com.zhaoyan.common.dialog.ZyDialogBuilder.onZyDialogClickListener;
+import com.zhaoyan.gesture.R;
+import com.zhaoyan.gesture.app.AppLauncherActivity;
+import com.zhaoyan.gesture.camera.CameraSetting;
 
 public class CameraActivity extends BaseActivity {
 	private static final String TAG = CameraActivity.class.getSimpleName();
@@ -84,21 +85,23 @@ public class CameraActivity extends BaseActivity {
 		final List<ResolveInfo> resolveInfos = CameraSetting
 				.getAllCameraApp(mContext);
 
-		List<AppInfo> appInfos = new ArrayList<AppInfo>();
+		List<DefaultAppInfo> appInfos = new ArrayList<DefaultAppInfo>();
+		DefaultAppInfo appInfo = null;
 		for (ResolveInfo resolveInfo : resolveInfos) {
-			AppInfo appInfo = new AppInfo();
-			appInfo.packageName = resolveInfo.activityInfo.packageName;
-			appInfo.label = resolveInfo.activityInfo.loadLabel(mPackageManager)
-					.toString();
-			appInfo.logo = resolveInfo.activityInfo.loadIcon(mPackageManager);
+			appInfo = new DefaultAppInfo();
+			appInfo.setPackageName(resolveInfo.activityInfo.packageName);
+			appInfo.setLabel(resolveInfo.activityInfo.loadLabel(mPackageManager)
+					.toString());
+			appInfo.setLogo(resolveInfo.activityInfo.loadIcon(mPackageManager));
 			appInfos.add(appInfo);
 		}
 
 		int currentChoicePostion = -1;
 		for (int i = 0; i < appInfos.size(); i++) {
-			AppInfo info = appInfos.get(i);
-			if (info.packageName.equals(mCameraPackageName)) {
+			DefaultAppInfo info = appInfos.get(i);
+			if (info.getPackageName().equals(mCameraPackageName)) {
 				currentChoicePostion = i;
+				info.setChoice(true);
 				break;
 			}
 		}
@@ -109,34 +112,27 @@ public class CameraActivity extends BaseActivity {
 			currentChoicePostion = 0;
 		}
 
-		final AppChooseDialog dialog = new AppChooseDialog(this, appInfos);
-		dialog.setCurrentChoice(currentChoicePostion);
-		dialog.setDialogTitle("设置默认相机");
-		dialog.setButtonClick(Dialog.BUTTON1, "取消", new OnClickListener() {
+		final DefaultAppChoiceDialog chooseDialog = new DefaultAppChoiceDialog(this, appInfos);
+		chooseDialog.setDialogTitle("设置默认相机");
+		chooseDialog.setNegativeButton(R.string.cancel, null);
+		chooseDialog.setPositiveButton(android.R.string.ok, new onZyDialogClickListener() {
 			@Override
-			public void onClick(View v) {
-				dialog.cancel();
+			public void onClick(Dialog dialog) {
+				DefaultAppInfo appInfo = chooseDialog.getChoiceItem();
+
+				mCameraPackageName = appInfo.getPackageName();
+
+				CameraSetting
+						.setCameraApp(mContext, mCameraPackageName);
+
+				updateApp();
+				dialog.dismiss();
 			}
 		});
-
-		dialog.setButtonClick(ZyDialogBuilder.BUTTON2, "确定",
-				new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						AppInfo appInfo = dialog.getCurrentChoice();
-
-						mCameraPackageName = appInfo.packageName;
-
-						CameraSetting
-								.setCameraApp(mContext, mCameraPackageName);
-
-						updateApp();
-						dialog.dismiss();
-					}
-				});
-		dialog.setLoadMoreClick(new OnClickListener() {
+		chooseDialog.setLoadMoreClick(new OnLoadMoreListener() {
+			
 			@Override
-			public void onClick(View v) {
+			public void onLoadMore(ZyDialogBuilder dialogBuilder) {
 				Intent intent = new Intent();
 				intent.setClass(mContext, AppLauncherActivity.class);
 
@@ -147,14 +143,14 @@ public class CameraActivity extends BaseActivity {
 				intent.putExtras(bundle);
 
 				startActivityForResult(intent, REQUEST_GET_CAMERA);
-				dialog.dismiss();
+				dialogBuilder.dismiss();
 			}
 		});
-		dialog.show();
+		chooseDialog.show();
 	}
 
-	private AppInfo getCurrentCameraAppInfo() {
-		AppInfo appInfo = new AppInfo();
+	private DefaultAppInfo getCurrentCameraAppInfo() {
+		DefaultAppInfo appInfo = new DefaultAppInfo();
 		String preLabel = "";
 		Drawable preDrawable = null;
 		try {
@@ -175,9 +171,10 @@ public class CameraActivity extends BaseActivity {
 				preDrawable = applicationInfo.loadIcon(mPackageManager);
 			}
 
-			appInfo.packageName = mCameraPackageName;
-			appInfo.label = preLabel;
-			appInfo.logo = preDrawable;
+			appInfo.setPackageName(mCameraPackageName);
+			appInfo.setLabel(preLabel);
+			appInfo.setLogo(preDrawable);
+			appInfo.setChoice(true);
 			return appInfo;
 		} catch (NameNotFoundException e) {
 			e.printStackTrace();

@@ -28,15 +28,16 @@ import android.widget.ProgressBar;
 import com.zhaoyan.common.actionmenu.ActionMenu;
 import com.zhaoyan.common.actionmenu.ActionMenu.ActionMenuItem;
 import com.zhaoyan.common.actionmenu.MenuBarInterface;
-import com.zhaoyan.common.dialog.ZyAlertDialog.OnZyAlertDlgClickListener;
 import com.zhaoyan.common.dialog.ZyDeleteDialog;
+import com.zhaoyan.common.dialog.ZyDialogBuilder.onZyDialogClickListener;
+import com.zhaoyan.common.file.FileDeleteHelper;
+import com.zhaoyan.common.file.FileDeleteHelper.OnDeleteListener;
 import com.zhaoyan.common.utils.FileManager;
 import com.zhaoyan.common.utils.IntentBuilder;
 import com.zhaoyan.common.utils.Utils;
 import com.zhaoyan.gesture.R;
 import com.zhaoyan.gesture.common.ZYConstant;
 import com.zhaoyan.gesture.fragment.BaseFragment;
-import com.zhaoyan.gesture.image.FileDeleteHelper.OnDeleteListener;
 
 
 public class VideoFragment extends BaseFragment implements OnItemClickListener, OnItemLongClickListener, 
@@ -128,6 +129,7 @@ public class VideoFragment extends BaseFragment implements OnItemClickListener, 
 		
 //		initTitle(rootView.findViewById(R.id.rl_video_main), R.string.video);
 		mMenuBarView = rootView.findViewById(R.id.bottom);
+		mMenuBarView.setVisibility(View.GONE);
 		initMenuBar(mMenuBarView);
 		
 		return rootView;
@@ -253,8 +255,8 @@ public class VideoFragment extends BaseFragment implements OnItemClickListener, 
     public void showDeleteDialog() {
     	List<String> deleteNameList = mAdapter.getCheckedNameList();
     	
-    	ZyDeleteDialog deleteDialog = new ZyDeleteDialog(mContext);
-		deleteDialog.setTitle(R.string.delete_video);
+    	final ZyDeleteDialog deleteDialog = new ZyDeleteDialog(mContext);
+    	deleteDialog.setDialogTitle(getString(R.string.delete_video));
 		String msg = "";
 		if (deleteNameList.size() == 1) {
 			msg = mContext.getString(R.string.delete_file_confirm_msg, deleteNameList.get(0));
@@ -262,7 +264,10 @@ public class VideoFragment extends BaseFragment implements OnItemClickListener, 
 			msg = mContext.getString(R.string.delete_file_confirm_msg_video, deleteNameList.size());
 		}
 		deleteDialog.setMessage(msg);
-		deleteDialog.setPositiveButton(R.string.menu_delete, new OnZyAlertDlgClickListener() {
+		deleteDialog.setCanceledOnTouchOutside(true);
+		deleteDialog.setDuration(ZYConstant.DEFAULT_DIALOG_DURATION);
+		deleteDialog.setNegativeButton(R.string.cancel, null);
+		deleteDialog.setPositiveButton(R.string.menu_delete, new onZyDialogClickListener() {
 			@Override
 			public void onClick(Dialog dialog) {
 				List<String> deleteList = mAdapter.getCheckedPathList();
@@ -282,7 +287,6 @@ public class VideoFragment extends BaseFragment implements OnItemClickListener, 
 				dialog.dismiss();
 			}
 		});
-		deleteDialog.setNegativeButton(R.string.cancel, null);
 		deleteDialog.show();
     }
     
@@ -357,10 +361,10 @@ public class VideoFragment extends BaseFragment implements OnItemClickListener, 
 			break;
 		case R.id.menu_info:
 			List<Integer> list = mAdapter.getCheckedPosList();
-			InfoDialog dialog = null;
+			InfoDialog dialog = new InfoDialog(getActivity());
+			dialog.setDialogTitle(R.string.info_video_info);
 			if (1 == list.size()) {
-				dialog = new InfoDialog(mContext,InfoDialog.SINGLE_FILE);
-				dialog.setTitle(R.string.info_video_info);
+				dialog.setType(InfoDialog.SINGLE_FILE);
 				Cursor cursor = mAdapter.getCursor();
 				cursor.moveToPosition(list.get(0));
 				
@@ -384,8 +388,7 @@ public class VideoFragment extends BaseFragment implements OnItemClickListener, 
 				dialog.setModifyDate(date);
 				
 			}else {
-				dialog = new InfoDialog(mContext,InfoDialog.MULTI);
-				dialog.setTitle(R.string.info_video_info);
+				dialog.setType(InfoDialog.MULTI);
 				int fileNum = list.size();
 				long size = getTotalSize(list);
 				dialog.updateUI(size, fileNum, 0);

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.zhaoyan.common.adapter.CheckableBaseAdapter;
+import com.zhaoyan.common.imageloader.ImageLoadAsync;
+import com.zhaoyan.common.imageloader.MediaAsync;
 import com.zhaoyan.common.view.CheckableImageView;
 import com.zhaoyan.gesture.R;
 import com.zhaoyan.gesture.common.ZYConstant.Extra;

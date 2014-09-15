@@ -2,6 +2,8 @@ package com.zhaoyan.gesture.more;
 
 import java.util.Arrays;
 
+import com.zhaoyan.common.bitmaps.BitmapUtilities;
+
 import android.graphics.Bitmap;
 import android.util.Log;
 

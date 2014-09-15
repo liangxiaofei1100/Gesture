@@ -16,12 +16,14 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.zhaoyan.common.dialog.PlayerChoiceDialog;
+import com.zhaoyan.common.dialog.DefaultAppInfo;
+import com.zhaoyan.common.dialog.DefaultAppChoiceDialog;
+import com.zhaoyan.common.dialog.DefaultAppChoiceDialog.OnLoadMoreListener;
 import com.zhaoyan.common.dialog.ZyDialogBuilder;
+import com.zhaoyan.common.dialog.ZyDialogBuilder.onZyDialogClickListener;
 import com.zhaoyan.gesture.R;
 import com.zhaoyan.gesture.app.AppLauncherActivity;
 import com.zhaoyan.gesture.music.MusicConf;
-import com.zhaoyan.gesture.music.PlayerAppInfo;
 import com.zhaoyan.gesture.music.ui.MusicBrowserActivity;
 
 public class MusicActivity extends BaseActivity {
@@ -66,32 +68,25 @@ public class MusicActivity extends BaseActivity {
 	}
 	
 	public void setMusicPlayer(View view){
-		final List<PlayerAppInfo> apps = getMusicApps();
-		
-		
-		final PlayerChoiceDialog choiceDialog = new PlayerChoiceDialog(this, apps);
+		final List<DefaultAppInfo> apps = getMusicApps();
+
+		final DefaultAppChoiceDialog choiceDialog = new DefaultAppChoiceDialog(this, apps);
 		choiceDialog.setDialogTitle("设置默认音乐播放器");
-		choiceDialog.setButtonClick(Dialog.BUTTON1, "取消", new OnClickListener() {
+		choiceDialog.setNegativeButton(R.string.cancel, null);
+		choiceDialog.setPositiveButton(R.string.ok, new onZyDialogClickListener() {
 			@Override
-			public void onClick(View v) {
-				choiceDialog.cancel();
-			}
-		});
-		
-		choiceDialog.setButtonClick(ZyDialogBuilder.BUTTON2, "确定", new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				PlayerAppInfo info = choiceDialog.getChoiceItem();
+			public void onClick(Dialog dialog) {
+				DefaultAppInfo info = choiceDialog.getChoiceItem();
 				packageName = info.getPackageName();
 				MusicConf.setStringPref(getApplicationContext(), "package", packageName);
 				updatePlayer();
 				
-				choiceDialog.cancel();
+				dialog.cancel();
 			}
 		});
-		choiceDialog.setLoadMoreClick(new OnClickListener() {
+		choiceDialog.setLoadMoreClick(new OnLoadMoreListener() {
 			@Override
-			public void onClick(View v) {
+			public void onLoadMore(ZyDialogBuilder dialogBuilder) {
 				Intent intent = new Intent();
 				intent.setClass(MusicActivity.this, AppLauncherActivity.class);
 				
@@ -103,16 +98,15 @@ public class MusicActivity extends BaseActivity {
 				
 				startActivityForResult(intent, 0);
 				
-				choiceDialog.cancel();
+				dialogBuilder.cancel();
 			}
 		});
 		choiceDialog.show();
-		
 	}
 	
 	private boolean exist = false;
-	private List<PlayerAppInfo> getMusicApps() {
-		List<PlayerAppInfo> infoList = new ArrayList<PlayerAppInfo>();
+	private List<DefaultAppInfo> getMusicApps() {
+		List<DefaultAppInfo> infoList = new ArrayList<DefaultAppInfo>();
 		
 		Intent intent = new Intent(Intent.ACTION_MAIN, null);
 		intent.setAction("android.intent.action.MUSIC_PLAYER");
@@ -123,9 +117,9 @@ public class MusicActivity extends BaseActivity {
 		String packagename = "";
 		String label = "";
 		Drawable logo = null;
-		PlayerAppInfo info = null;
+		DefaultAppInfo info = null;
 		for (int i = 0; i < apps.size(); i++) {
-			info = new PlayerAppInfo();
+			info = new DefaultAppInfo();
 			packagename = apps.get(i).activityInfo.packageName;
 			label = (String) apps.get(i).loadLabel(mPackageManager);
 			logo = apps.get(i).loadIcon(mPackageManager);
@@ -152,7 +146,7 @@ public class MusicActivity extends BaseActivity {
 				e.printStackTrace();
 			}
 			
-			info = new PlayerAppInfo();
+			info = new DefaultAppInfo();
 			info.setPackageName(packageName);
 			info.setLabel(preLabel);
 			info.setLogo(preDrawable);

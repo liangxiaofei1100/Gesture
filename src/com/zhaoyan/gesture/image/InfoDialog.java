@@ -1,11 +1,14 @@
 package com.zhaoyan.gesture.image;
 
-import com.zhaoyan.common.dialog.ZyAlertDialog;
+import com.zhaoyan.common.dialog.ZyDialogBuilder;
 import com.zhaoyan.common.utils.Utils;
 import com.zhaoyan.gesture.R;
+import com.zhaoyan.gesture.common.ZYConstant;
 
 import android.R.bool;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Display;
@@ -16,14 +19,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 
-public class InfoDialog extends ZyAlertDialog {
+public class InfoDialog extends ZyDialogBuilder {
 	
 	public static final int IMAGE = 0;
 	public static final int MUSIC = 1;
 	public static final int VIDEO = 2;
 	public static final int FILE = 3;
 	public static final int FOLDER = 4;
-	private TextView mTitleView;
 	private TextView mNameView;
 	private TextView mNameExtView;
 	private TextView mTypeView,mLoacationView,mSizeView,mIncludeView,mDateView;
@@ -34,9 +36,6 @@ public class InfoDialog extends ZyAlertDialog {
 	private LinearLayout mLocationLayout;
 	private LinearLayout mIncludeLayout;
 	private LinearLayout mDateLayout;
-	
-	
-	private ProgressBar mLoadingInfoBar;
 	
 	private long mTotalSize;
 	private int mFileNum;
@@ -78,7 +77,7 @@ public class InfoDialog extends ZyAlertDialog {
 				mIncludeView.setText(mContext.getResources().getString(R.string.info_include_files, mFileNum, folderNum));
 				break;
 			case MSG_UPDATEUI_SINGLE:
-				mTitleView.setText(mTitle);
+//				mTitleView.setText(mTitle);
 				
 				if (IMAGE == mFileType) {
 					mNameExtView.setText(R.string.info_imagename);
@@ -99,10 +98,10 @@ public class InfoDialog extends ZyAlertDialog {
 				mDateView.setText(Utils.getFormatDate(mDate));
 				break;
 			case MSG_UPDATE_TITLE:
-				mTitleView.setText(mTitle);
+//				mTitleView.setText(mTitle);
 				break;
 			case MSG_SCAN_OVER:
-				mLoadingInfoBar.setVisibility(View.GONE);
+//				mLoadingInfoBar.setVisibility(View.GONE);
 				break;
 			default:
 				break;
@@ -110,35 +109,35 @@ public class InfoDialog extends ZyAlertDialog {
 		};
 	};
 	
-	public InfoDialog(Context context, int type) {
-		super(context);
+	public InfoDialog(Context context) {
+		super(context, R.style.dialog_untran);
 		mContext = context;
+	}
+	
+	public void setType(int type){
 		this.type = type;
 	}
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		View view = getLayoutInflater().inflate(R.layout.dialog_info, null);
+	private void initView(Context context, int type) {
+		View customView = getLayoutInflater().inflate(R.layout.dialog_info, null);
 		
-		mTitleView = (TextView) view.findViewById(R.id.tv_info_title);
-		mNameView = (TextView) view.findViewById(R.id.tv_info_name);
-		mNameExtView = (TextView) view.findViewById(R.id.tv_info_name_ext);
-		mTypeView = (TextView) view.findViewById(R.id.tv_info_type);
-		mLoacationView = (TextView) view.findViewById(R.id.tv_info_location);
-		mSizeView = (TextView) view.findViewById(R.id.tv_info_size);
-		mIncludeView = (TextView) view.findViewById(R.id.tv_info_include);
-		mDateView = (TextView) view.findViewById(R.id.tv_info_date);
+		mNameView = (TextView) customView.findViewById(R.id.tv_info_name);
+		mNameExtView = (TextView) customView.findViewById(R.id.tv_info_name_ext);
+		mTypeView = (TextView) customView.findViewById(R.id.tv_info_type);
+		mLoacationView = (TextView) customView.findViewById(R.id.tv_info_location);
+		mSizeView = (TextView) customView.findViewById(R.id.tv_info_size);
+		mIncludeView = (TextView) customView.findViewById(R.id.tv_info_include);
+		mDateView = (TextView) customView.findViewById(R.id.tv_info_date);
 		
-		mNameLayout = (LinearLayout) view.findViewById(R.id.ll_info_name);
-		mTypeLayout = (LinearLayout) view.findViewById(R.id.ll_info_type);
-		mSizeLayout = (LinearLayout) view.findViewById(R.id.ll_info_size);
-		mLocationLayout = (LinearLayout) view.findViewById(R.id.ll_info_location);
-		mIncludeLayout = (LinearLayout) view.findViewById(R.id.ll_info_include);
-		mDateLayout = (LinearLayout) view.findViewById(R.id.ll_info_date);
+		mNameLayout = (LinearLayout) customView.findViewById(R.id.ll_info_name);
+		mTypeLayout = (LinearLayout) customView.findViewById(R.id.ll_info_type);
+		mSizeLayout = (LinearLayout) customView.findViewById(R.id.ll_info_size);
+		mLocationLayout = (LinearLayout) customView.findViewById(R.id.ll_info_location);
+		mIncludeLayout = (LinearLayout) customView.findViewById(R.id.ll_info_include);
+		mDateLayout = (LinearLayout) customView.findViewById(R.id.ll_info_date);
 		
-		mLoadingInfoBar = (ProgressBar) view.findViewById(R.id.bar_loading_info);
+//		mLoadingInfoBar = (ProgressBar) customView.findViewById(R.id.bar_loading_info);
 		
-		mTitleView.setText(mTitle);
 		if (MULTI == type) {
 			mNameView.setVisibility(View.GONE);
 			mTypeView.setVisibility(View.GONE);
@@ -150,20 +149,16 @@ public class InfoDialog extends ZyAlertDialog {
 			mLocationLayout.setVisibility(View.GONE);
 			mDateLayout.setVisibility(View.GONE);
 			
-			mLoadingInfoBar.setVisibility(View.VISIBLE);
+//			mLoadingInfoBar.setVisibility(View.VISIBLE);
 		}else if (SINGLE_FILE == type) {
 			mIncludeView.setVisibility(View.GONE);
 			mIncludeLayout.setVisibility(View.GONE);
-			mLoadingInfoBar.setVisibility(View.GONE);
+//			mLoadingInfoBar.setVisibility(View.GONE);
 			
 			if (IMAGE == mFileType) {
 				mNameExtView.setText(R.string.info_imagename);
-			}else if (MUSIC == mFileType) {
-				mNameExtView.setText(R.string.info_musicname);
 			}else if (VIDEO == mFileType) {
 				mNameExtView.setText(R.string.info_videoname);
-			}else if (FOLDER == mFileType) {
-				mNameExtView.setText(R.string.info_foldername);
 			}else {
 				mNameExtView.setText(R.string.info_filename);
 			}
@@ -175,11 +170,14 @@ public class InfoDialog extends ZyAlertDialog {
 			mDateView.setText(Utils.getFormatDate(mDate));
 		}
 		
-		setCanceledOnTouchOutside(true);
-		
-		setCustomView(view);
-		
+		setDuration(ZYConstant.DEFAULT_DIALOG_DURATION);
+		setCustomView(customView);
+	}
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		initView(mContext, type);
 	}
 	
 	public void setFileType(int type, String fileType){
@@ -227,28 +225,6 @@ public class InfoDialog extends ZyAlertDialog {
 	
 	public void scanOver(){
 		mHandler.sendMessage(mHandler.obtainMessage(MSG_SCAN_OVER));
-	}
-	
-	@Override
-	public void show() {
-		super.show();
-		WindowManager windowManager = getWindow().getWindowManager();
-		Display display = windowManager.getDefaultDisplay();
-		WindowManager.LayoutParams lp = getWindow().getAttributes();
-		lp.width = (int)display.getWidth() - 60;
-		getWindow().setAttributes(lp);
-	}
-	
-	@Override
-	public void setTitle(CharSequence title) {
-//		mTitleView.setText(title);
-		mTitle = (String) title;
-	}
-	
-	@Override
-	public void setTitle(int titleId) {
-//		mTitleView.setText(titleId);
-		mTitle = mContext.getResources().getString(titleId);
 	}
 
 }

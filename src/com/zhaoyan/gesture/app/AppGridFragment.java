@@ -18,7 +18,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -32,6 +31,7 @@ import android.widget.Toast;
 import com.zhaoyan.common.actionmenu.ActionMenu;
 import com.zhaoyan.common.actionmenu.ActionMenu.ActionMenuItem;
 import com.zhaoyan.common.actionmenu.MenuBarInterface;
+import com.zhaoyan.common.dialog.ZyDialogBuilder.onZyDialogClickListener;
 import com.zhaoyan.common.utils.AppUtil;
 import com.zhaoyan.common.utils.Log;
 import com.zhaoyan.gesture.R;
@@ -375,9 +375,10 @@ public class AppGridFragment extends BaseFragment implements android.view.View.O
 	protected void showUninstallDialog(){
     	mAppDialog = new AppDialog(getActivity(), mUninstallList.size());
 		mAppDialog.setDialogTitle("卸载应用");
-		mAppDialog.setButtonClick(Dialog.BUTTON1, "取消", new OnClickListener() {
+		mAppDialog.setNegativeButton(R.string.cancel, new onZyDialogClickListener() {
+			
 			@Override
-			public void onClick(View v) {
+			public void onClick(Dialog dialog) {
 				if (null != mUninstallList) {
 					mUninstallList.clear();
 					mUninstallList = null;

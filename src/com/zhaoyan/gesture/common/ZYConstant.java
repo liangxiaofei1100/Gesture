@@ -3,6 +3,7 @@ package com.zhaoyan.gesture.common;
 import java.io.File;
 
 
+import android.R.integer;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -115,6 +116,8 @@ public class ZYConstant {
 
 	/** test for yuri,only for yuri */
 	public static final boolean UREY_TEST = true;
+	
+	public static final int DEFAULT_DIALOG_DURATION = 200;//200ms
 	
 	public static final String NEW_FOLDER = "new folder";
 

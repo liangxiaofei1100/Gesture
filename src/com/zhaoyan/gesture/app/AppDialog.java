@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.zhaoyan.common.dialog.Effectstype;
 import com.zhaoyan.common.dialog.ZyDialogBuilder;
 import com.zhaoyan.gesture.R;
+import com.zhaoyan.gesture.common.ZYConstant;
 
 public class AppDialog extends ZyDialogBuilder {
 	
@@ -39,6 +40,12 @@ public class AppDialog extends ZyDialogBuilder {
 	public AppDialog(Context context, int size){
 		super(context, R.style.dialog_untran);
 		max = size;
+	}
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setCancelable(false);
 		
 		View view = getLayoutInflater().inflate(R.layout.app_dialog, null);
 		
@@ -48,16 +55,10 @@ public class AppDialog extends ZyDialogBuilder {
 		mNameView = (TextView) view.findViewById(R.id.name_view);
 		mNumView = (TextView) view.findViewById(R.id.num_view);
 		
-		setDuration(0);
+		setDuration(ZYConstant.DEFAULT_DIALOG_DURATION);
 		setEffect(Effectstype.SlideBottom);
 		setMessage(null);
-		setCustomView(view, context);
-	}
-	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setCancelable(false);
+		setCustomView(view);
 	}
 	
 	public void updateName(String name){

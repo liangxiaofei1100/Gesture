@@ -5,40 +5,6 @@
     android:gravity="center_horizontal"
     android:orientation="vertical" >
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="@dimen/dialog_title_height"
-        android:background="#f0f0f0f0" >
-
-        <ProgressBar
-            android:id="@+id/bar_loading_info"
-            style="@android:style/Widget.ProgressBar.Small.Inverse"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp" />
-
-        <TextView
-            android:id="@+id/tv_info_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dialog_left_margin"
-            android:layout_marginRight="@dimen/dialog_right_margin"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:text="@string/info"
-            android:textColor="@color/holo_blue_light"
-            android:textSize="20sp" />
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="2dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/holo_blue_light" />
-    </RelativeLayout>
-
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -57,17 +23,14 @@
             >
             <TextView 
                 android:id="@+id/tv_info_name_ext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
+                style="@style/info_dialog_text_style"
                 android:text="@string/info_filename"
                 android:layout_marginRight="4dp"
                 />
             
             <TextView
                 android:id="@+id/tv_info_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                 style="@style/info_dialog_text_style"
                 android:ellipsize="marquee"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
@@ -75,7 +38,7 @@
                 android:scrollHorizontally="true"
                 android:singleLine="true"
                 android:text="显示文件名称"
-                android:textSize="16sp" />
+                />
         </LinearLayout>
         
         <LinearLayout 
@@ -88,20 +51,17 @@
             >
             <TextView 
                 android:id="@+id/tv_info_type_ext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
+                 style="@style/info_dialog_text_style"
                 android:text="@string/info_filetype"
                 android:layout_marginRight="4dp"
                 />
             
             <TextView
                 android:id="@+id/tv_info_type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:text="显示文件格式"
-                android:textSize="16sp" />
+                 style="@style/info_dialog_text_style"
+                />
         </LinearLayout>
         
         <LinearLayout 
@@ -114,20 +74,17 @@
             >
             <TextView 
                 android:id="@+id/tv_info_size_ext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
+                 style="@style/info_dialog_text_style"
                 android:text="@string/info_size"
                 android:layout_marginRight="4dp"
                 />
             
             <TextView
                 android:id="@+id/tv_info_size"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                 style="@style/info_dialog_text_style"
                 android:singleLine="true"
                 android:text="显示文件大小"
-                android:textSize="16sp" />
+                />
         </LinearLayout>
         
         <LinearLayout 
@@ -140,19 +97,16 @@
             >
             <TextView 
                 android:id="@+id/tv_info_location_ext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
+                 style="@style/info_dialog_text_style"
                 android:text="@string/info_location"
                 android:layout_marginRight="4dp"
                 />
             
             <TextView
                 android:id="@+id/tv_info_location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                 style="@style/info_dialog_text_style"
                 android:text="显示文件路径"
-                android:textSize="16sp" />
+                />
         </LinearLayout>
         
         <LinearLayout 
@@ -164,19 +118,16 @@
             >
             <TextView 
                 android:id="@+id/tv_info_include_ext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
+                 style="@style/info_dialog_text_style"
                 android:text="@string/info_include"
                 android:layout_marginRight="4dp"
                 />
             
             <TextView
                 android:id="@+id/tv_info_include"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                 style="@style/info_dialog_text_style"
                 android:text="显示包含数目"
-                android:textSize="16sp" />
+                />
         </LinearLayout>
         
         <LinearLayout 
@@ -188,19 +139,16 @@
             >
             <TextView 
                 android:id="@+id/tv_info_date_ext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
+                 style="@style/info_dialog_text_style"
                 android:text="@string/info_date"
                 android:layout_marginRight="4dp"
                 />
             
             <TextView
                 android:id="@+id/tv_info_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+				 style="@style/info_dialog_text_style"
                 android:text="显示日期"
-                android:textSize="16sp" />
+                />
         </LinearLayout>
     </LinearLayout>
 

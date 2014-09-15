@@ -8,7 +8,7 @@
         zhaoyan:title="@string/menu_backup"
         zhaoyan:iconEnable="@drawable/ic_action_backup_enable"
         zhaoyan:iconDisable="@drawable/ic_action_backup_disable"
-        zhaoyan:enable="false"
+        zhaoyan:enable="true"
         />
     <item
         android:title="@string/menu_uninstall"

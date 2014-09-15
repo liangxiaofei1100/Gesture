@@ -14,7 +14,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class ZyEditDialog extends ZyAlertDialog {
+public class ZyEditDialog extends ZyDialogBuilder {
 
 	private TextView mInfoView;
 	private EditText mEditText;
@@ -27,12 +27,14 @@ public class ZyEditDialog extends ZyAlertDialog {
 	private boolean showIME = false;
 	
 	public ZyEditDialog(Context context) {
-		super(context);
+		super(context, R.style.dialog_untran);
 		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
 		View view = getLayoutInflater().inflate(R.layout.dialog_edit, null);
 		
 		mInfoView = (TextView) view.findViewById(R.id.tv_editdialog_info);
@@ -53,7 +55,6 @@ public class ZyEditDialog extends ZyAlertDialog {
 		Utils.onFocusChange(mEditText, showIME);
 		
 		setCustomView(view);
-		super.onCreate(savedInstanceState);
 	}
 	
 	public void setEditDialogMsg(String msg){

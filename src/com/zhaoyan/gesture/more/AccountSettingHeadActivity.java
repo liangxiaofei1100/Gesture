@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import com.zhaoyan.common.actionmenu.ActionMenu;
 import com.zhaoyan.common.actionmenu.ActionMenu.ActionMenuItem;
 import com.zhaoyan.common.actionmenu.ActionMenuInterface.OnMenuItemClickListener;
+import com.zhaoyan.common.dialog.ContextMenuDialog;
 import com.zhaoyan.gesture.R;
 import com.zhaoyan.gesture.activity.BaseActivity;
 import com.zhaoyan.gesture.common.ZYConstant;
@@ -210,7 +211,7 @@ public class AccountSettingHeadActivity extends BaseActivity implements
 		actionMenu.addItem(ActionMenu.ACTION_MENU_PICK_PICTURE, 0,
 				R.string.choose_picture);
 		ContextMenuDialog dialog = new ContextMenuDialog(this, actionMenu);
-		dialog.setTitle(R.string.customize_head);
+		dialog.setDialogTitle(R.string.customize_head);
 		dialog.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 			@Override
 			public void onMenuItemClick(ActionMenuItem actionMenuItem) {
