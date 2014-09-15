@@ -60,10 +60,7 @@ public class MessageSettingActivity extends BaseActivity implements
 		mIntroductionView = mBaseIntroductionView;
 		mIntroductionView.setIntroductionText("画手势，做动作");
 		mIntroductionView.setIntroductionText(getString(R.string.introduction_message));
-		Intent intent = new Intent();
-		intent.setClass(this, GestureShowActivity.class);
-		intent.putExtra("name", "求救");
-		mIntroductionView.setShowGestureIntent(intent);
+		mIntroductionView.setIntentExtraName(getString(R.string.main_sos));
 		mConfirmBtn.setOnClickListener(this);
 		mSelectContactBtn.setOnClickListener(this);
 		mCleanBtn.setOnClickListener(this);

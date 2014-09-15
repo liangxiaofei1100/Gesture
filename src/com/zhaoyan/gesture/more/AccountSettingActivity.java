@@ -69,7 +69,7 @@ public class AccountSettingActivity extends BaseActivity implements
 			if (mHeadBitmap == null) {
 				mHeadImageView.setImageBitmap(mHeadBitmap);
 			} else
-				mHeadImageView.setImageResource(R.drawable.head1);
+				mHeadImageView.setImageResource(R.drawable.def_head1);
 		}
 
 		mNameTextView.setText(accountInfo.getUserName());

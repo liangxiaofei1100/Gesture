@@ -28,21 +28,20 @@ public class QuickCaptureGesture implements GestureHandler {
 		return gestures;
 	}
 
-	private void handleGesture() {
-		Intent intent = new Intent(mContext, QuickCapture.class);
-		mContext.startActivity(intent);
-	}
-
 	@Override
 	public void handleSystemGesture(String gestureName) {
-		handleGesture();
+		Log.d(TAG, "handleSystemGesture");
+		Intent intent = new Intent(mContext, QuickCapture.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+		mContext.startActivity(intent);
 	}
 
 	@Override
 	public void handleGesture(Gesture gesture, Prediction prediction) {
 		Log.d(TAG, "handleGesture name = " + prediction.name + ", score = "
 				+ prediction.score + ", length = " + gesture.getLength());
-		handleGesture();
+		Intent intent = new Intent(mContext, QuickCapture.class);
+		mContext.startActivity(intent);
 	}
 
 	@Override

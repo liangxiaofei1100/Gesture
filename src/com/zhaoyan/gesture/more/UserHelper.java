@@ -14,10 +14,8 @@ import com.zhaoyan.gesture.R;
 public class UserHelper {
 	private static final String TAG = "UserHelper";
 
-	public static final int[] HEAD_IMAGES = { R.drawable.head1,
-			R.drawable.head2, R.drawable.head3, R.drawable.head4,
-			R.drawable.head5, R.drawable.head6, R.drawable.head7,
-			R.drawable.head8, R.drawable.head9 };
+	public static final int[] HEAD_IMAGES = { R.drawable.def_head1,
+			R.drawable.def_head2, R.drawable.def_head3, R.drawable.def_head4, };
 
 	private static final String[] PROJECTION = { JuyouData.User._ID,
 			JuyouData.User.USER_NAME, JuyouData.User.USER_ID,

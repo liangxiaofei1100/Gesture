@@ -19,6 +19,8 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Surface;
@@ -28,6 +30,7 @@ import android.view.View;
 import android.view.WindowManager;
 
 import com.zhaoyan.gesture.R;
+import com.zhaoyan.gesture.util.WakeupUtil;
 
 public class QuickCapture extends Activity implements SurfaceHolder.Callback {
 	private static final String TAG = QuickCapture.class.getSimpleName();
@@ -50,9 +53,13 @@ public class QuickCapture extends Activity implements SurfaceHolder.Callback {
 	private PhotoSaver mPhotoSaver;
 	private HapticFeedback mHapticFeedback;
 
+	private WakeLock mWakeLock;
+
 	private static final int MSG_AUTO_FOCUS = 1;
 
 	private boolean mIsCaptureSuccess = false;
+	
+	private boolean mIsShowPreview = false;
 
 	private Handler mHandler = new Handler() {
 		@Override
@@ -82,7 +89,9 @@ public class QuickCapture extends Activity implements SurfaceHolder.Callback {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
-		getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+		if (mIsShowPreview) {
+			getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		}
 		setContentView(R.layout.quick_capture);
 		initView();
 
@@ -114,6 +123,15 @@ public class QuickCapture extends Activity implements SurfaceHolder.Callback {
 			mCameraId = mCameraFrontId;
 			mCameraOrientation = orientationFront;
 		}
+
+		if (mIsShowPreview) {
+			WakeupUtil.wakeup(this);
+		}
+		
+		PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+		mWakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
+				"zhaoyan_camera");
+		mWakeLock.acquire();
 	}
 
 	private void initView() {
@@ -240,8 +258,7 @@ public class QuickCapture extends Activity implements SurfaceHolder.Callback {
 
 	private void takePicture() {
 		mTakePictureNumber = 3;
-		mCamera.takePicture(null, mRawPictureCallback,
-				mJpegPictureCallback);
+		mCamera.takePicture(null, mRawPictureCallback, mJpegPictureCallback);
 		mIsCaptureSuccess = true;
 	}
 
@@ -271,7 +288,7 @@ public class QuickCapture extends Activity implements SurfaceHolder.Callback {
 					mParameters.getPictureSize().width,
 					mParameters.getPictureSize().height);
 			mHapticFeedback.vibrate();
-			
+
 			mTakePictureNumber--;
 			if (mTakePictureNumber > 0) {
 				mCamera.startPreview();
@@ -314,32 +331,37 @@ public class QuickCapture extends Activity implements SurfaceHolder.Callback {
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		mSurfaceHolder = null;
-		closeCamera();
-		restoreVolume();
-	}
-	
-	@Override
-	protected void onStop() {
-		super.onStop();
 		if (mCamera != null) {
 			closeCamera();
+		}
+		restoreVolume();
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		if (mCamera != null) {
+			closeCamera();
+		}
+		if (mWakeLock != null && mWakeLock.isHeld()) {
+			mWakeLock.release();
 		}
 	}
 
 	private void silenceVolume() {
-		mAudioManager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
-		mVolumn = mAudioManager.getStreamVolume(AudioManager.STREAM_SYSTEM);
-		if (mVolumn != 0) {
-			mAudioManager.setStreamVolume(AudioManager.STREAM_NOTIFICATION, 0,
-					AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
-			mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0,
-					AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
-		}
+		// mAudioManager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
+		// mVolumn = mAudioManager.getStreamVolume(AudioManager.STREAM_SYSTEM);
+		// if (mVolumn != 0) {
+		// mAudioManager.setStreamVolume(AudioManager.STREAM_NOTIFICATION, 0,
+		// AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
+		// mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0,
+		// AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
+		// }
 	}
 
 	private void restoreVolume() {
-		mAudioManager.setStreamVolume(AudioManager.STREAM_SYSTEM, mVolumn,
-				AudioManager.FLAG_ALLOW_RINGER_MODES);
+		// mAudioManager.setStreamVolume(AudioManager.STREAM_SYSTEM, mVolumn,
+		// AudioManager.FLAG_ALLOW_RINGER_MODES);
 	}
 
 	private Comparator<Size> mSizeComparator = new Comparator<Size>() {
