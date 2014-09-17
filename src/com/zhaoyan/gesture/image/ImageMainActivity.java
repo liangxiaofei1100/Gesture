@@ -24,6 +24,8 @@ public class ImageMainActivity extends BaseFragmentActivity {
 	
 	private List<Fragment> mFragmentList = new ArrayList<Fragment>();
 	
+	private int mCurrentPosition;
+	
 	public enum MediaType{
 		Image, Video
 	}
@@ -52,7 +54,6 @@ public class ImageMainActivity extends BaseFragmentActivity {
 		mViewPager.setAdapter(new ImagePagerAdapter(getSupportFragmentManager()));
 		mViewPager.setCurrentItem(0);
 		mViewPager.setOnPageChangeListener(new MyOnPageChangeListener());
-		
 		mTableTitleView.setSelectedPostion(0);
 	}
 	
@@ -129,6 +130,18 @@ public class ImageMainActivity extends BaseFragmentActivity {
 		public void onTableSelect(int position) {
 			mViewPager.setCurrentItem(position);
 		}
+	};
+	
+	public boolean onBackKeyPressed() {
+		switch (mViewPager.getCurrentItem()) {
+		case 0:
+			ImageFragment imageFragment = (ImageFragment) mFragmentList.get(0);
+			return imageFragment.onBackPressed();
+		case 1:
+			VideoFragment videoFragment = (VideoFragment) mFragmentList.get(1);
+			return videoFragment.onBackPressed();
+		}
+		return super.onBackKeyPressed();
 	};
 
 }

@@ -376,6 +376,7 @@ public class ImageFragment extends BaseV4Fragment implements
 	
 	@Override
 	public boolean onBackPressed() {
+		Log.d(TAG, "onBackPressed()");
 		if (mItemAdapter.isMode(ActionMenu.MODE_EDIT)) {
 			destroyMenuBar();
 			return false;

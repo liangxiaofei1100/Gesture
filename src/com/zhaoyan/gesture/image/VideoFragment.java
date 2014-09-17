@@ -257,16 +257,13 @@ public class VideoFragment extends BaseV4Fragment implements OnItemClickListener
     	List<String> deleteNameList = mAdapter.getCheckedNameList();
     	
     	final ZyDeleteDialog deleteDialog = new ZyDeleteDialog(mContext);
-    	deleteDialog.setDialogTitle(getString(R.string.delete_video));
 		String msg = "";
 		if (deleteNameList.size() == 1) {
 			msg = mContext.getString(R.string.delete_file_confirm_msg, deleteNameList.get(0));
 		}else {
 			msg = mContext.getString(R.string.delete_file_confirm_msg_video, deleteNameList.size());
 		}
-		deleteDialog.setMessage(msg);
-		deleteDialog.setCanceledOnTouchOutside(true);
-		deleteDialog.setDuration(ZYConstant.DEFAULT_DIALOG_DURATION);
+		deleteDialog.setDeleteMsg(msg);
 		deleteDialog.setNegativeButton(R.string.cancel, null);
 		deleteDialog.setPositiveButton(R.string.menu_delete, new onZyDialogClickListener() {
 			@Override

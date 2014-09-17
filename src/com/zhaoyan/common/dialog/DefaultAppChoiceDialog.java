@@ -43,8 +43,6 @@ public class DefaultAppChoiceDialog extends ZyDialogBuilder implements OnItemCli
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		
 		View customView = LayoutInflater.from(mContext).inflate(R.layout.dialog_single_choice, null);
 		mListView = (ListView) customView.findViewById(R.id.dlg_listview);
 		
@@ -61,6 +59,8 @@ public class DefaultAppChoiceDialog extends ZyDialogBuilder implements OnItemCli
 		setDuration(ZYConstant.DEFAULT_DIALOG_DURATION);
 		setEffect(Effectstype.SlideBottom);
 		setCustomView(customView);
+		
+		super.onCreate(savedInstanceState);
 	}
 	
 	public DefaultAppInfo getChoiceItem(){

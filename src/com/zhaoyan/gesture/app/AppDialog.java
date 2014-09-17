@@ -44,9 +44,6 @@ public class AppDialog extends ZyDialogBuilder {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setCancelable(false);
-		
 		View view = getLayoutInflater().inflate(R.layout.app_dialog, null);
 		
 		mProgressBar = (ProgressBar) view.findViewById(R.id.bar_move);
@@ -59,6 +56,8 @@ public class AppDialog extends ZyDialogBuilder {
 		setEffect(Effectstype.SlideBottom);
 		setMessage(null);
 		setCustomView(view);
+		super.onCreate(savedInstanceState);
+		setCancelable(false);
 	}
 	
 	public void updateName(String name){

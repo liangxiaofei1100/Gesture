@@ -333,9 +333,8 @@ public class ImagePagerActivity extends Activity implements OnClickListener, OnP
 		String name = url.substring(index + 1, url.length());
 		
     	ZyDeleteDialog deleteDialog = new ZyDeleteDialog(this);
-		deleteDialog.setDialogTitle(R.string.delete_image);
 		String msg = getString(R.string.delete_file_confirm_msg, name);
-		deleteDialog.setMessage(msg);
+		deleteDialog.setDeleteMsg(msg);
 		deleteDialog.setPositiveButton(R.string.menu_delete, new onZyDialogClickListener() {
 			@Override
 			public void onClick(Dialog dialog) {
