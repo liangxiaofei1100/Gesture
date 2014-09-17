@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Dialog;
-import android.app.FragmentManager;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -16,6 +15,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.provider.MediaStore.MediaColumns;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,14 +37,14 @@ import com.zhaoyan.common.file.FileDeleteHelper;
 import com.zhaoyan.common.file.FileDeleteHelper.OnDeleteListener;
 import com.zhaoyan.common.utils.FileManager;
 import com.zhaoyan.common.utils.Utils;
-import com.zhaoyan.common.view.TableTitleView;
-import com.zhaoyan.common.view.TableTitleView.OnTableSelectChangeListener;
+import com.zhaoyan.common.views.TableTitleView;
+import com.zhaoyan.common.views.TableTitleView.OnTableSelectChangeListener;
 import com.zhaoyan.gesture.R;
-import com.zhaoyan.gesture.activity.BaseActivity;
+import com.zhaoyan.gesture.activity.BaseFragmentActivity;
 import com.zhaoyan.gesture.common.ZYConstant;
 import com.zhaoyan.gesture.common.ZYConstant.Extra;
 
-public class ImageActivity extends BaseActivity implements OnScrollListener,
+public class ImageActivity extends BaseFragmentActivity implements OnScrollListener,
 		OnItemClickListener, OnItemLongClickListener, MenuBarInterface {
 	private static final String TAG = "ImageActivity";
 
@@ -159,12 +159,12 @@ public class ImageActivity extends BaseActivity implements OnScrollListener,
 		mMenuBarView.setVisibility(View.GONE);
 		
 		mViewGroup = (ViewGroup) findViewById(R.id.rl_picture_main);
-		mGridView = (GridView) findViewById(R.id.gv_picture_item);
+//		mGridView = (GridView) findViewById(R.id.gv_picture_item);
 		mGridView.setOnScrollListener(this);
 		mGridView.setOnItemClickListener(this);
 		mGridView.setOnItemLongClickListener(this);
 
-		mListView = (ListView) findViewById(R.id.lv_picture_item);
+//		mListView = (ListView) findViewById(R.id.lv_picture_item);
 		mListView.setOnScrollListener(this);
 		mListView.setOnItemClickListener(this);
 		mListView.setOnItemLongClickListener(this);
@@ -185,7 +185,7 @@ public class ImageActivity extends BaseActivity implements OnScrollListener,
 		mGridView.setAdapter(mAdapter);
 		// }
 		mImageLayout = findViewById(R.id.image_grid_layout);
-		mVideoLayout = findViewById(R.id.video_grid_layout);
+//		mVideoLayout = findViewById(R.id.video_grid_layout);
 		mTableTitleView = (TableTitleView) findViewById(R.id.ttv_sc_title);
 		mTableTitleView.initTitles(new String[] { getString(R.string.gallery),
 				getString(R.string.camera), getString(R.string.video) });
@@ -372,7 +372,7 @@ public class ImageActivity extends BaseActivity implements OnScrollListener,
 			return false;
 		} else {
 			if(mVideoLayout.getVisibility()==View.VISIBLE){
-				FragmentManager ft = getFragmentManager();
+				FragmentManager ft = getSupportFragmentManager();
 				VideoFragment video = (VideoFragment) ft
 						.findFragmentByTag(getString(R.string.video));
 			return	video.onBackPressed();
@@ -439,7 +439,6 @@ public class ImageActivity extends BaseActivity implements OnScrollListener,
 
 	/**
 	 * show confrim dialog
-	 * 
 	 * @param path
 	 *            file path
 	 */
@@ -447,20 +446,13 @@ public class ImageActivity extends BaseActivity implements OnScrollListener,
 		List<String> deleteNameList = mAdapter.getCheckedNameList();
 
 		ZyDeleteDialog deleteDialog = new ZyDeleteDialog(this);
-//		deleteDialog.setTitle(R.string.delete_image);
-		deleteDialog.setDialogTitle(getString(R.string.delete_image));
 		String msg = "";
 		if (deleteNameList.size() == 1) {
-//			msg = getString(R.string.delete_file_confirm_msg,
-//					deleteNameList.get(0));
 			msg = getString(R.string.delete_one_image_tip);
 		} else {
-//			msg = getString(R.string.delete_file_confirm_msg_image,
-//					deleteNameList.size());
 			msg = getString(R.string.delete_some_images_tip, deleteNameList.size());
 		}
-		deleteDialog.setMessage(msg);
-		deleteDialog.setDuration(ZYConstant.DEFAULT_DIALOG_DURATION);
+		deleteDialog.setDeleteMsg(msg);
 		deleteDialog.setNegativeButton(R.string.cancel, null);
 		deleteDialog.setPositiveButton(R.string.menu_delete, new onZyDialogClickListener() {
 			@Override
@@ -595,13 +587,13 @@ public class ImageActivity extends BaseActivity implements OnScrollListener,
 					mVideoLayout.setVisibility(View.VISIBLE);
 					mImageLayout.setVisibility(View.GONE);
 				}
-				FragmentManager ft = getFragmentManager();
+				FragmentManager ft = getSupportFragmentManager();
 				VideoFragment video = (VideoFragment) ft
 						.findFragmentByTag(getString(R.string.video));
 				if (video == null) {
 					video = new VideoFragment();
 					ft.beginTransaction()
-							.add(R.id.video_grid_layout, video,
+							.add(R.id.content_layout, video,
 									getString(R.string.video)).commit();
 				} else {
 					video.query();

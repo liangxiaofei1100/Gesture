@@ -401,6 +401,11 @@
         
         <activity android:name="com.zhaoyan.gesture.image.ImageActivity"
             android:theme="@style/SlideTheme"></activity>
+        
+        <activity 
+            android:name="com.zhaoyan.gesture.image.ImageMainActivity"
+            android:theme="@style/SlideTheme"
+            ></activity>
         <activity
             android:name="com.zhaoyan.gesture.image.ImagePagerActivity"
             android:theme="@style/SlideTheme" >

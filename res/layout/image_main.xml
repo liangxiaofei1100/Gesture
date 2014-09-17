@@ -4,79 +4,23 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
-    <com.zhaoyan.common.view.TableTitleView
+    <com.zhaoyan.common.views.TableTitleView
         android:id="@+id/ttv_sc_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <!-- <GridView -->
-    <!-- android:id="@+id/gv_picture_folder" -->
-    <!-- android:layout_width="fill_parent" -->
-    <!-- android:layout_height="fill_parent" -->
-    <!-- android:gravity="center" -->
-    <!-- android:horizontalSpacing="8dip" -->
-    <!-- android:numColumns="2" -->
-    <!-- android:padding="8dip" -->
-    <!-- android:stretchMode="columnWidth" -->
-    <!-- android:verticalSpacing="8dip" /> -->
-
-    <RelativeLayout
-        android:id="@+id/image_grid_layout"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/ttv_sc_title" >
-
-        <GridView
-            android:id="@+id/gv_picture_item"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_above="@+id/bottom"
-            android:fastScrollEnabled="true"
-            android:gravity="center"
-            android:horizontalSpacing="4dip"
-            android:listSelector="@drawable/list_selector"
-            android:numColumns="3"
-            android:padding="4dip"
-            android:stretchMode="columnWidth"
-            android:verticalSpacing="4dip"
-            android:visibility="visible" />
-
-        <ListView
-            android:id="@+id/lv_picture_item"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_above="@+id/bottom"
-            android:fastScrollEnabled="true"
-            android:listSelector="@drawable/list_selector"
-            android:visibility="gone" >
-        </ListView>
-
-        <ProgressBar
-            android:id="@+id/bar_loading_image"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_centerInParent="true"
-            android:indeterminateDrawable="@drawable/loading_progressbar"
-            android:visibility="gone" />
-
-        <RelativeLayout
-            android:id="@+id/bottom"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:visibility="visible" >
-            <include
-                android:id="@+id/menubar_bottom"
-                layout="@layout/menubar_bottom" />
-        </RelativeLayout>
-    </RelativeLayout>
-
+	<com.zhaoyan.common.views.CustomViewPager
+        android:id="@+id/image_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/ttv_sc_title" />
+    
     <FrameLayout
-        android:id="@+id/video_grid_layout"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:id="@+id/content_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@+id/ttv_sc_title"
-        android:visibility="gone" >
+        android:visibility="visible" >
     </FrameLayout>
 
 </RelativeLayout>

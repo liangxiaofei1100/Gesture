@@ -3,13 +3,6 @@ package com.zhaoyan.gesture.image;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.zhaoyan.common.adapter.CheckableBaseAdapter;
-import com.zhaoyan.common.imageloader.ImageLoadAsync;
-import com.zhaoyan.common.imageloader.MediaAsync;
-import com.zhaoyan.common.view.CheckableImageView;
-import com.zhaoyan.gesture.R;
-import com.zhaoyan.gesture.common.ZYConstant.Extra;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
@@ -19,10 +12,16 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.RelativeLayout.LayoutParams;
+import android.widget.TextView;
+
+import com.zhaoyan.common.adapter.CheckableBaseAdapter;
+import com.zhaoyan.common.imageloader.ImageLoadAsync;
+import com.zhaoyan.common.imageloader.MediaAsync;
+import com.zhaoyan.common.views.CheckableImageView;
+import com.zhaoyan.gesture.R;
+import com.zhaoyan.gesture.common.ZYConstant.Extra;
 
 
 public class ImageGridAdapter extends CheckableBaseAdapter{

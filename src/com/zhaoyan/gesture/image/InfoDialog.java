@@ -176,8 +176,8 @@ public class InfoDialog extends ZyDialogBuilder {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
 		initView(mContext, type);
+		super.onCreate(savedInstanceState);
 	}
 	
 	public void setFileType(int type, String fileType){

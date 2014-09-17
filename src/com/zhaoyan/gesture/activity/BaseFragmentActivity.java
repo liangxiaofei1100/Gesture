@@ -17,10 +17,11 @@ import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.zhaoyan.common.activity.LibBaseFragmentActivity;
 import com.zhaoyan.common.view.IntroductionView;
 import com.zhaoyan.gesture.R;
 
-public class BaseFragmentActivity extends FragmentActivity implements OnMenuItemClickListener,
+public class BaseFragmentActivity extends LibBaseFragmentActivity implements OnMenuItemClickListener,
 		OnGestureListener {
 	private static final String TAG = BaseFragmentActivity.class.getSimpleName();
 	// title view

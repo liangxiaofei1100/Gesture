@@ -31,7 +31,7 @@
         <item>com.zhaoyan.gesture.activity.LightActivity</item>
         <item>com.zhaoyan.gesture.activity.MessageSettingActivity</item>
         <item>com.zhaoyan.gesture.GestureBuilderActivity</item>
-        <item>com.zhaoyan.gesture.image.ImageActivity</item>
+        <item>com.zhaoyan.gesture.image.ImageMainActivity</item>
         <item>com.zhaoyan.gesture.app.AppLauncherActivity</item>
         <item>com.zhaoyan.gesture.more.SettingsActivity</item>
     </string-array>

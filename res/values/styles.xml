@@ -153,9 +153,6 @@
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
     </style>
-     <style name="MultiChoiceAdapter_DefaultCheckableImageViewStyle">
-        <item name="android:foreground">@drawable/gallery_selector</item>
-    </style>
     
     <!-- app launcher start-->
     <style name="AppLauncherTheme" parent="AppBaseTheme">

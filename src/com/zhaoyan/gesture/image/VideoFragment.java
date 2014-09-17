@@ -37,10 +37,11 @@ import com.zhaoyan.common.utils.IntentBuilder;
 import com.zhaoyan.common.utils.Utils;
 import com.zhaoyan.gesture.R;
 import com.zhaoyan.gesture.common.ZYConstant;
-import com.zhaoyan.gesture.fragment.BaseFragment;
+import com.zhaoyan.gesture.fragment.BaseV4Fragment;
+import com.zhaoyan.gesture.image.ImageMainActivity.MediaType;
 
 
-public class VideoFragment extends BaseFragment implements OnItemClickListener, OnItemLongClickListener, 
+public class VideoFragment extends BaseV4Fragment implements OnItemClickListener, OnItemLongClickListener, 
 			 OnScrollListener, MenuBarInterface {
 	private static final String TAG = "VideoFragment";
 	private GridView mGridView;
@@ -65,11 +66,11 @@ public class VideoFragment extends BaseFragment implements OnItemClickListener, 
 			case MSG_UPDATE_UI:
 				int size = msg.arg1;
 				count = size;
-				mActivity.updateTitleNum(-1, count);
+				mActivity.updateItemTitle(MediaType.Video, -1, count);
 				break;
 			case MSG_DELETE_OVER:
 				count = mAdapter.getCount();
-				mActivity.updateTitleNum(-1, count);
+				mActivity.updateItemTitle(MediaType.Video, -1, count);
 				break;
 			default:
 				break;
@@ -77,10 +78,10 @@ public class VideoFragment extends BaseFragment implements OnItemClickListener, 
 		};
 	};
 	
-	private ImageActivity mActivity;
+	private ImageMainActivity mActivity;
 	public void onAttach(android.app.Activity activity) {
 		super.onAttach(activity);
-		mActivity = (ImageActivity) activity;
+		mActivity = (ImageMainActivity) activity;
 	};
 	
 	public void onCreate(Bundle savedInstanceState) {
@@ -220,7 +221,7 @@ public class VideoFragment extends BaseFragment implements OnItemClickListener, 
 			mAdapter.notifyDataSetChanged();
 			
 			int selectedCount = mAdapter.getCheckedCount();
-			mActivity.updateTitleNum(selectedCount, count);
+			mActivity.updateItemTitle(MediaType.Video, selectedCount, count);
 			updateMenuBar();
 			mMenuBarManager.refreshMenus(mActionMenu);
 		}
@@ -234,7 +235,7 @@ public class VideoFragment extends BaseFragment implements OnItemClickListener, 
 			return true;
 		} else {
 			mAdapter.changeMode(ActionMenu.MODE_EDIT);
-			mActivity.updateTitleNum(1, count);
+			mActivity.updateItemTitle(MediaType.Video, 1, count);
 		}
 		
 		boolean isChecked = mAdapter.isChecked(position);
@@ -421,7 +422,8 @@ public class VideoFragment extends BaseFragment implements OnItemClickListener, 
 	
 	public void destroyMenuBar() {
 		destroyMenuBar(mMenuBarView);
-		mActivity.updateTitleNum(-1,count);
+//		mActivity.updateTitleNum(-1,count);
+		mActivity.updateItemTitle(MediaType.Video, -1, count);
 		
 		mAdapter.changeMode(ActionMenu.MODE_NORMAL);
 		mAdapter.checkedAll(false);
@@ -431,7 +433,7 @@ public class VideoFragment extends BaseFragment implements OnItemClickListener, 
 	@Override
 	public void updateMenuBar(){
 		int selectCount = mAdapter.getCheckedCount();
-		mActivity.updateTitleNum(selectCount, count);
+		mActivity.updateItemTitle(MediaType.Video, selectCount, count);
 
 		ActionMenuItem selectItem = mActionMenu.findItem(R.id.menu_select);
 		if (mAdapter.getCount() == selectCount) {
