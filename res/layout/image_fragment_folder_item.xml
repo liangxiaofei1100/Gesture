@@ -4,24 +4,47 @@
     android:layout_width="wrap_content"
     android:layout_height="fill_parent"
     android:baselineAligned="false"
-    android:gravity="center" 
-    android:orientation="vertical"
-    >
-    
-    <com.zhaoyan.common.views.CheckableImageView
-    android:id="@+id/image_folder_icon_iv"
-    android:layout_width="fill_parent"
-    android:layout_height="100dp"
-    android:scaleType="centerCrop" 
-    android:adjustViewBounds="true"
-    >
-</com.zhaoyan.common.views.CheckableImageView>
-    
-    <TextView 
-        android:id="@+id/image_folder_info_tv"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        >
+
+        <com.zhaoyan.common.views.CheckableImageView
+            android:id="@+id/image_folder_icon_iv"
+            android:layout_width="fill_parent"
+            android:layout_height="80dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop" >
+        </com.zhaoyan.common.views.CheckableImageView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|right"
+            android:background="@drawable/badge_ifaux"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="2dp" 
+            >
+            <TextView
+                android:id="@+id/image_folder_num_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:text="2"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/image_folder_name_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxLines="2"
-        />
+        android:ellipsize="end"
+        android:singleLine="true" />
 
 </LinearLayout>

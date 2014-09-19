@@ -1,5 +1,6 @@
 package com.zhaoyan.gesture.image;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Dialog;
@@ -12,6 +13,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.provider.MediaStore.MediaColumns;
+import android.provider.MediaStore.Video.VideoColumns;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +24,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.GridView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.zhaoyan.common.actionmenu.ActionMenu;
@@ -44,18 +45,28 @@ import com.zhaoyan.gesture.image.ImageMainActivity.MediaType;
 public class VideoFragment extends BaseV4Fragment implements OnItemClickListener, OnItemLongClickListener, 
 			 OnScrollListener, MenuBarInterface {
 	private static final String TAG = "VideoFragment";
-	private GridView mGridView;
-	private ListView mListView;
+	
+	private GridView mFolderGridView;
+	private GridView mItemGridView;
+	
+	
 	private ProgressBar mLoadingBar;
 	
 	private VideoCursorAdapter mAdapter;
 	private QueryHandler mQueryHandler = null;
+	
+	private List<MediaFolderInfo> mFolderInfosList = new ArrayList<MediaFolderInfo>();
+	private VideoFolderAdapter mFolderAdapter;
+	
+	private static final int QUERY_TOKEN_FOLDER = 0x11;
+	private static final int QUERY_TOKEN_ITEM = 0x12;
 	
 	private Context mContext;
 	
 	private static final String[] PROJECTION = new String[] {MediaStore.Video.Media._ID, 
 		MediaStore.Video.Media.DURATION, MediaStore.Video.Media.SIZE,
 		MediaColumns.DATA, MediaStore.Video.Media.DISPLAY_NAME,
+		MediaStore.Video.Media.BUCKET_DISPLAY_NAME,
 		MediaColumns.DATE_MODIFIED};
 		
 	private static final int MSG_UPDATE_UI = 0;
@@ -104,31 +115,24 @@ public class VideoFragment extends BaseV4Fragment implements OnItemClickListener
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mContext = getActivity();
 		View rootView = inflater.inflate(R.layout.video_main, container, false);
-		mGridView = (GridView) rootView.findViewById(R.id.video_gridview);
-		mGridView.setOnItemClickListener(this);
-		mGridView.setOnItemLongClickListener(this);
-		mGridView.setDrawSelectorOnTop(true);
-		mGridView.setOnScrollListener(this);
 		
-		mListView = (ListView) rootView.findViewById(R.id.lv_video);
-		mListView.setOnItemClickListener(this);
-		mListView.setOnItemLongClickListener(this);
-		mListView.setOnScrollListener(this);
+		mFolderGridView = (GridView) rootView.findViewById(R.id.video_fragment_floder_gv);
+		mFolderGridView.setOnItemClickListener(this);
+		mFolderGridView.setOnScrollListener(this);
 		
-		mLoadingBar = (ProgressBar) rootView.findViewById(R.id.bar_video_loading);
+		mItemGridView = (GridView) rootView.findViewById(R.id.video_gridview);
+		mItemGridView.setOnItemClickListener(this);
+		mItemGridView.setOnItemLongClickListener(this);
+		mItemGridView.setDrawSelectorOnTop(true);
+		mItemGridView.setOnScrollListener(this);
+		
+		
+		mLoadingBar = (ProgressBar) rootView.findViewById(R.id.bar_loading_video);
 		mAdapter = new VideoCursorAdapter(mContext);
-//		mAdapter.setCurrentViewType(mViewType);
-		if (isListView()) {
-			mListView.setVisibility(View.VISIBLE);
-			mGridView.setVisibility(View.GONE);
-			mListView.setAdapter(mAdapter);
-		} else {
-			mListView.setVisibility(View.GONE);
-			mGridView.setVisibility(View.VISIBLE);
-			mGridView.setAdapter(mAdapter);
-		}
 		
-//		initTitle(rootView.findViewById(R.id.rl_video_main), R.string.video);
+		mItemGridView.setVisibility(View.VISIBLE);
+		mItemGridView.setAdapter(mAdapter);
+		
 		mMenuBarView = rootView.findViewById(R.id.bottom);
 		mMenuBarView.setVisibility(View.GONE);
 		initMenuBar(mMenuBarView);
@@ -149,10 +153,32 @@ public class VideoFragment extends BaseV4Fragment implements OnItemClickListener
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		
+		mFolderAdapter = new VideoFolderAdapter(getActivity(), mFolderInfosList);
+		
 		mQueryHandler = new QueryHandler(getActivity().getApplicationContext()
 				.getContentResolver());
 
-		query();
+		queryFolder();
+	}
+	
+	/** query all */
+	public void queryFolder() {
+		Log.d(TAG, "queryFolder()");
+		mFolderInfosList.clear();
+		query(QUERY_TOKEN_FOLDER, null, null);
+	}
+
+	public void queryFolderItem(String bucketName) {
+		String selection = MediaStore.Images.Media.BUCKET_DISPLAY_NAME + "=?";
+		String selectionArgs[] = { bucketName };
+		query(QUERY_TOKEN_ITEM, selection, selectionArgs);
+	}
+
+	public void query(int token, String selection, String[] selectionArgs) {
+		String[] projection = PROJECTION;
+		mQueryHandler.startQuery(token, null,
+				ZYConstant.VIDEO_URI, projection, selection,
+				selectionArgs, MediaStore.Video.Media.DEFAULT_SORT_ORDER);
 	}
 	
 	public void query() {
@@ -174,32 +200,104 @@ public class VideoFragment extends BaseV4Fragment implements OnItemClickListener
 			int num = 0;
 			if (null != cursor) {
 				Log.d(TAG, "onQueryComplete.count=" + cursor.getCount());
-				mAdapter.changeCursor(cursor);
-				mAdapter.checkedAll(false);
-				num = cursor.getCount();
+				switch (token) {
+				case QUERY_TOKEN_FOLDER:
+					if (cursor.moveToFirst()) {
+						MediaFolderInfo imageFolderInfo = null;
+						do {
+							long id = cursor.getLong(cursor
+									.getColumnIndex(MediaColumns._ID));
+							String bucketDisplayName = cursor
+									.getString(cursor
+											.getColumnIndex(VideoColumns.BUCKET_DISPLAY_NAME));
+							String path = cursor.getString(cursor
+									.getColumnIndex(MediaColumns.DATA));
+							imageFolderInfo = getFolderInfo(bucketDisplayName);
+							if (null == imageFolderInfo) {
+								imageFolderInfo = new MediaFolderInfo();
+								imageFolderInfo
+										.setBucketDisplayName(bucketDisplayName);
+								imageFolderInfo.setImagePath(path);
+								System.out.println("path:" + path);
+								imageFolderInfo.addIdToList(id);
+								imageFolderInfo
+										.setDisplayName(bucketDisplayName);
+								mFolderInfosList.add(imageFolderInfo);
+							} else {
+								imageFolderInfo.addIdToList(id);
+							}
+						} while (cursor.moveToNext());
+						cursor.close();
+					}
+					mFolderAdapter.setCheckedPosition(0);
+					mFolderGridView.setAdapter(mFolderAdapter);
+
+					queryFolderItem(mFolderInfosList.get(0).getBucketDisplayName());
+					break;
+				case QUERY_TOKEN_ITEM:
+					mAdapter.changeCursor(cursor);
+					mAdapter.checkedAll(false);
+					num = cursor.getCount();
+					break;
+
+				default:
+					break;
+				}
 			}
 			updateUI(num);
 		}
 
 	}
 	
+	/***
+	 * get {@link MediaFolderInfo} from {@link mFolderInfosList} accord to the
+	 * speciy bucketDisplayName}}
+	 * 
+	 * @param bucketDisplayName
+	 * @return {@link PictureFolderInfo}, null if not find
+	 */
+	public MediaFolderInfo getFolderInfo(String bucketDisplayName) {
+		for (MediaFolderInfo folderInfo : mFolderInfosList) {
+			if (bucketDisplayName.equals(folderInfo.getBucketDisplayName())) {
+				return folderInfo;
+			}
+		}
+		return null;
+	}
+	
 	@Override
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
-		switch (scrollState) {
-		case OnScrollListener.SCROLL_STATE_FLING:
-			mAdapter.setIdleFlag(false);
-			break;
-		case OnScrollListener.SCROLL_STATE_IDLE:
-			mAdapter.setIdleFlag(true);
-			mAdapter.notifyDataSetChanged();
-			break;
-		case OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
-			mAdapter.setIdleFlag(false);
-			break;
+		if (view.getId() == R.id.video_fragment_floder_gv) {
+			switch (scrollState) {
+			case OnScrollListener.SCROLL_STATE_FLING:
+				mFolderAdapter.setIdleFlag(false);
+				break;
+			case OnScrollListener.SCROLL_STATE_IDLE:
+				mFolderAdapter.setIdleFlag(true);
+				mFolderAdapter.notifyDataSetChanged();
+				break;
+			case OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
+				mFolderAdapter.setIdleFlag(false);
+				break;
 
-		default:
-			break;
+			default:
+				break;
+			}
+		} else {
+			switch (scrollState) {
+			case OnScrollListener.SCROLL_STATE_FLING:
+				mAdapter.setIdleFlag(false);
+				break;
+			case OnScrollListener.SCROLL_STATE_IDLE:
+				mAdapter.setIdleFlag(true);
+				mAdapter.notifyDataSetChanged();
+				break;
+			case OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
+				mAdapter.setIdleFlag(false);
+				break;
+			}
 		}
+		
 	}
 	
 	@Override
@@ -209,21 +307,32 @@ public class VideoFragment extends BaseV4Fragment implements OnItemClickListener
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		if (mAdapter.isMode(ActionMenu.MODE_NORMAL)) {
-			
-			Cursor cursor = mAdapter.getCursor();
-			cursor.moveToPosition(position);
-			String url = cursor.getString(cursor
-					.getColumnIndex(MediaStore.Video.Media.DATA)); // 文件路径
-			IntentBuilder.viewFile(getActivity(), url);
-		} else {
-			mAdapter.setChecked(position);
-			mAdapter.notifyDataSetChanged();
-			
-			int selectedCount = mAdapter.getCheckedCount();
-			mActivity.updateItemTitle(MediaType.Video, selectedCount, count);
-			updateMenuBar();
-			mMenuBarManager.refreshMenus(mActionMenu);
+		switch (parent.getId()) {
+		case R.id.video_fragment_floder_gv:
+			mFolderAdapter.setCheckedPosition(position);
+			mFolderAdapter.notifyDataSetChanged();
+			String folder = mFolderInfosList.get(position)
+					.getBucketDisplayName();
+			queryFolderItem(folder);
+			break;
+		default:
+			if (mAdapter.isMode(ActionMenu.MODE_NORMAL)) {
+				
+				Cursor cursor = mAdapter.getCursor();
+				cursor.moveToPosition(position);
+				String url = cursor.getString(cursor
+						.getColumnIndex(MediaStore.Video.Media.DATA)); // 文件路径
+				IntentBuilder.viewFile(getActivity(), url);
+			} else {
+				mAdapter.setChecked(position);
+				mAdapter.notifyDataSetChanged();
+				
+				int selectedCount = mAdapter.getCheckedCount();
+				mActivity.updateItemTitle(MediaType.Video, selectedCount, count);
+				updateMenuBar();
+				mMenuBarManager.refreshMenus(mActionMenu);
+			}
+			break;
 		}
 	}
 	

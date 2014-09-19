@@ -72,7 +72,7 @@ public class ImageFragment extends BaseV4Fragment implements
 
 	private static final String CAMERA = "Camera";
 
-	private List<ImageFolderInfo> mFolderInfosList = new ArrayList<ImageFolderInfo>();
+	private List<MediaFolderInfo> mFolderInfosList = new ArrayList<MediaFolderInfo>();
 	private ImageFolderAdapter mFolderAdapter;
 
 	private ImageGridAdapter mItemAdapter;
@@ -216,7 +216,7 @@ public class ImageFragment extends BaseV4Fragment implements
 				switch (token) {
 				case QUERY_TOKEN_FOLDER:
 					if (cursor.moveToFirst()) {
-						ImageFolderInfo imageFolderInfo = null;
+						MediaFolderInfo imageFolderInfo = null;
 						do {
 							long id = cursor.getLong(cursor
 									.getColumnIndex(MediaColumns._ID));
@@ -227,7 +227,7 @@ public class ImageFragment extends BaseV4Fragment implements
 									.getColumnIndex(ImageColumns.DATA));
 							imageFolderInfo = getFolderInfo(bucketDisplayName);
 							if (null == imageFolderInfo) {
-								imageFolderInfo = new ImageFolderInfo();
+								imageFolderInfo = new MediaFolderInfo();
 								imageFolderInfo
 										.setBucketDisplayName(bucketDisplayName);
 								imageFolderInfo.setImagePath(path);
@@ -292,14 +292,14 @@ public class ImageFragment extends BaseV4Fragment implements
 	}
 
 	/***
-	 * get {@link ImageFolderInfo} from {@link mFolderInfosList} accord to the
+	 * get {@link MediaFolderInfo} from {@link mFolderInfosList} accord to the
 	 * speciy bucketDisplayName}}
 	 * 
 	 * @param bucketDisplayName
 	 * @return {@link PictureFolderInfo}, null if not find
 	 */
-	public ImageFolderInfo getFolderInfo(String bucketDisplayName) {
-		for (ImageFolderInfo folderInfo : mFolderInfosList) {
+	public MediaFolderInfo getFolderInfo(String bucketDisplayName) {
+		for (MediaFolderInfo folderInfo : mFolderInfosList) {
 			if (bucketDisplayName.equals(folderInfo.getBucketDisplayName())) {
 				return folderInfo;
 			}

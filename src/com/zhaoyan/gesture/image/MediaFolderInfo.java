@@ -5,7 +5,7 @@ import java.util.List;
 
 
 //表示一个图片文件夹和文件夹里面的图片信息
-public class ImageFolderInfo {
+public class MediaFolderInfo {
 
 	/**
 	 * image folder name
@@ -20,7 +20,7 @@ public class ImageFolderInfo {
 	 */
 	private List<Long> idList;
 	
-	public ImageFolderInfo(){
+	public MediaFolderInfo(){
 		idList = new ArrayList<Long>();
 	}
 	

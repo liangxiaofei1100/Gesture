@@ -1,61 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhaoyan.common.view.RightSlideLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_image_fragment_main"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" 
+    >
+    <LinearLayout 
+        android:id="@+id/video_fragment_folder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/bottom"
+        android:orientation="horizontal"
+        >
+        
+        <LinearLayout 
+        android:id="@+id/video_fragment_folder_ll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:orientation="vertical"
+        >
+           <GridView
+            android:id="@+id/video_fragment_floder_gv"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:fastScrollEnabled="false"
+            android:scrollbarStyle="outsideOverlay"
+            android:gravity="center"
+            android:horizontalSpacing="4dip"
+            android:listSelector="@android:color/transparent"
+            android:numColumns="1"
+            android:padding="4dip"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="4dip"
+            android:visibility="visible" />
+    </LinearLayout>
 
     <RelativeLayout
-        android:id="@+id/rl_video_main"
+        android:id="@+id/video_grid_layout"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@color/activity_background" >
-
-        <include
-            android:visibility="gone"
-            android:id="@+id/title"
-            layout="@layout/title" />
-
+        android:layout_weight="1"
+        >
         <GridView
             android:id="@+id/video_gridview"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_above="@+id/bottom"
-            android:layout_below="@+id/title"
             android:horizontalSpacing="2dp"
             android:verticalSpacing="2dp"
             android:gravity="center"
-            android:numColumns="3"
+            android:numColumns="2"
             android:stretchMode="columnWidth"
             android:listSelector="@drawable/list_selector"
              />
-        
-        <ListView 
-            android:id="@+id/lv_video"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_below="@+id/title"
-            android:layout_above="@+id/bottom"
-            android:fastScrollEnabled="true"
-            android:listSelector="@drawable/list_selector"
-            android:visibility="gone"
-            ></ListView>
 
         <ProgressBar
-            android:id="@+id/bar_video_loading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/bar_loading_video"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
             android:layout_centerInParent="true"
-            android:indeterminateDrawable="@drawable/loading_progressbar" />
-
-        <RelativeLayout
+            android:indeterminateDrawable="@drawable/loading_progressbar"
+            android:visibility="gone" />
+    </RelativeLayout>
+    
+    </LinearLayout>
+    
+    <RelativeLayout
             android:id="@+id/bottom"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:visibility="visible" >
-
             <include
                 android:id="@+id/menubar_bottom"
-                layout="@layout/layout_actionmenu_bar" />
+                layout="@layout/menubar_bottom" />
         </RelativeLayout>
-    </RelativeLayout>
-</com.zhaoyan.common.view.RightSlideLayout>
+</RelativeLayout>
