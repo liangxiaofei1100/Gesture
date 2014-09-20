@@ -156,6 +156,9 @@ public class ImageFragment extends BaseV4Fragment implements
 		mItemGridView.setOnItemClickListener(this);
 		mItemGridView.setOnItemLongClickListener(this);
 		
+//		View view = rootView.findViewById(R.id.image_grid_layout);
+//		System.out.println("layout.view:" + view.getWidth());
+		
 		mLoadingFolderBar = (ProgressBar) rootView.findViewById(R.id.bar_loading_image_folder);
 		mLoadingItemBar = (ProgressBar) rootView.findViewById(R.id.bar_loading_image_item);
 
@@ -172,7 +175,7 @@ public class ImageFragment extends BaseV4Fragment implements
 
 		mFolderAdapter = new ImageFolderAdapter(getActivity(), mFolderInfosList);
 
-		mItemAdapter = new ImageGridAdapter(getActivity(), 0, mItemInfoList);
+		mItemAdapter = new ImageGridAdapter(getActivity(), 0, mItemInfoList, mItemGridView);
 
 		mQueryHandler = new QueryHandler(getActivity().getContentResolver());
 		queryFolder();
@@ -241,7 +244,7 @@ public class ImageFragment extends BaseV4Fragment implements
 								imageFolderInfo
 										.setBucketDisplayName(bucketDisplayName);
 								imageFolderInfo.setImagePath(path);
-								System.out.println("path:" + path);
+//								System.out.println("path:" + path);
 								imageFolderInfo.addIdToList(id);
 								if (CAMERA.equals(bucketDisplayName)) {
 									imageFolderInfo.setDisplayName("相机");

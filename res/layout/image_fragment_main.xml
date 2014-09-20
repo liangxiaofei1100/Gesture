@@ -25,18 +25,17 @@
                 android:layout_height="fill_parent"
                 android:fastScrollEnabled="false"
                 android:gravity="center"
-                android:horizontalSpacing="4dip"
+                android:horizontalSpacing="1dp"
                 android:listSelector="@android:color/transparent"
                 android:numColumns="1"
-                android:padding="4dip"
+                android:padding="2dp"
                 android:scrollbarStyle="outsideOverlay"
                 android:stretchMode="columnWidth"
-                android:verticalSpacing="4dip"
+                android:verticalSpacing="2dp"
                 android:visibility="visible" />
 
             <ProgressBar
                 android:id="@+id/bar_loading_image_folder"
-                style="@android:style/Widget.Holo.Light.ProgressBar.Inverse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -55,17 +54,16 @@
                 android:layout_height="fill_parent"
                 android:fastScrollEnabled="true"
                 android:gravity="center"
-                android:horizontalSpacing="1dip"
+                android:horizontalSpacing="0dp"
                 android:listSelector="@android:color/transparent"
                 android:numColumns="2"
-                android:padding="4dip"
+                android:padding="0dp"
                 android:stretchMode="columnWidth"
-                android:verticalSpacing="4dip"
+                android:verticalSpacing="1dp"
                 android:visibility="visible" />
 
             <ProgressBar
                 android:id="@+id/bar_loading_image_item"
-                style="@android:style/Widget.Holo.Light.ProgressBar.Inverse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"

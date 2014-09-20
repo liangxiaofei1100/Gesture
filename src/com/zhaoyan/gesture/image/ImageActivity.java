@@ -19,6 +19,7 @@ import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
@@ -131,6 +132,8 @@ public class ImageActivity extends BaseFragmentActivity implements OnScrollListe
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
+			    WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
 		setContentView(R.layout.image_main);
 
 		Bundle bundle = getIntent().getExtras();
@@ -173,7 +176,7 @@ public class ImageActivity extends BaseFragmentActivity implements OnScrollListe
 
 		// mAdapter = new ImageAdapter(getApplicationContext(), mViewType,
 		// mPictureItemInfoList);
-		mAdapter = new ImageGridAdapter(this, 0, mPictureItemInfoList);
+//		mAdapter = new ImageGridAdapter(this, 0, mPictureItemInfoList);
 
 		// if (false) {
 		// mListView.setVisibility(View.VISIBLE);
