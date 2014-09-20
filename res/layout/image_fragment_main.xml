@@ -2,80 +2,87 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rl_image_fragment_main"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" 
-    >
+    android:layout_height="fill_parent" >
 
-    <LinearLayout 
+    <LinearLayout
         android:id="@+id/image_fragment_folder"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
         android:layout_above="@+id/bottom"
-        android:orientation="horizontal"
-        >
-        
-        <LinearLayout 
-        android:id="@+id/image_fragment_folder_ll"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="3"
-        android:orientation="vertical"
-        >
-           <GridView
-            android:id="@+id/image_fragment_floder_gv"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal" >
+
+        <RelativeLayout
+            android:id="@+id/image_fragment_folder_rl"
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:fastScrollEnabled="false"
-            android:scrollbarStyle="outsideOverlay"
-            android:gravity="center"
-            android:horizontalSpacing="4dip"
-            android:listSelector="@android:color/transparent"
-            android:numColumns="1"
-            android:padding="4dip"
-            android:stretchMode="columnWidth"
-            android:verticalSpacing="4dip"
-            android:visibility="visible" />
-    </LinearLayout>
-
-    <RelativeLayout
-        android:id="@+id/image_grid_layout"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
-        >
-        <GridView
-            android:id="@+id/image_fragment_item_gv"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:fastScrollEnabled="true"
-            android:gravity="center"
-            android:horizontalSpacing="4dip"
-            android:listSelector="@drawable/list_selector"
-            android:numColumns="2"
-            android:padding="4dip"
-            android:stretchMode="columnWidth"
-            android:verticalSpacing="4dip"
-            android:visibility="visible" />
-
-        <ProgressBar
-            android:id="@+id/bar_loading_image"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_centerInParent="true"
-            android:indeterminateDrawable="@drawable/loading_progressbar"
-            android:visibility="gone" />
-    </RelativeLayout>
-    
-    </LinearLayout>
-    
-    <RelativeLayout
-            android:id="@+id/bottom"
-            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:visibility="visible" >
-            <include
-                android:id="@+id/menubar_bottom"
-                layout="@layout/menubar_bottom" />
+            android:layout_weight="3"
+            android:orientation="vertical" >
+
+            <GridView
+                android:id="@+id/image_fragment_floder_gv"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:fastScrollEnabled="false"
+                android:gravity="center"
+                android:horizontalSpacing="4dip"
+                android:listSelector="@android:color/transparent"
+                android:numColumns="1"
+                android:padding="4dip"
+                android:scrollbarStyle="outsideOverlay"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="4dip"
+                android:visibility="visible" />
+
+            <ProgressBar
+                android:id="@+id/bar_loading_image_folder"
+                style="@android:style/Widget.Holo.Light.ProgressBar.Inverse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="visible" />
         </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/image_grid_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1" >
+
+            <GridView
+                android:id="@+id/image_fragment_item_gv"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:fastScrollEnabled="true"
+                android:gravity="center"
+                android:horizontalSpacing="1dip"
+                android:listSelector="@android:color/transparent"
+                android:numColumns="2"
+                android:padding="4dip"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="4dip"
+                android:visibility="visible" />
+
+            <ProgressBar
+                android:id="@+id/bar_loading_image_item"
+                style="@android:style/Widget.Holo.Light.ProgressBar.Inverse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="gone" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/bottom"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:visibility="visible" >
+
+        <include
+            android:id="@+id/menubar_bottom"
+            layout="@layout/menubar_bottom" />
+    </RelativeLayout>
+
 </RelativeLayout>

@@ -55,4 +55,21 @@ public class MediaFolderInfo {
 	public List<Long> getIdList(){
 		return idList;
 	}
+	
+	
+	/***
+	 * get {@link MediaFolderInfo} from {@link mFolderInfosList} accord to the
+	 * speciy bucketDisplayName}}
+	 * 
+	 * @param bucketDisplayName
+	 * @return {@link PictureFolderInfo}, null if not find
+	 */
+	public static MediaFolderInfo getFolderInfo(String bucketDisplayName, List<MediaFolderInfo> list) {
+		for (MediaFolderInfo folderInfo : list) {
+			if (bucketDisplayName.equals(folderInfo.getBucketDisplayName())) {
+				return folderInfo;
+			}
+		}
+		return null;
+	}
 }

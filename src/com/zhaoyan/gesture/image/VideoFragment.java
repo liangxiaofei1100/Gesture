@@ -50,9 +50,9 @@ public class VideoFragment extends BaseV4Fragment implements OnItemClickListener
 	private GridView mItemGridView;
 	
 	
-	private ProgressBar mLoadingBar;
+	private ProgressBar mLoadingFolderBar, mLoadingItemBar;
 	
-	private VideoCursorAdapter mAdapter;
+	private VideoCursorAdapter mItemAdapter = null;
 	private QueryHandler mQueryHandler = null;
 	
 	private List<MediaFolderInfo> mFolderInfosList = new ArrayList<MediaFolderInfo>();
@@ -80,7 +80,7 @@ public class VideoFragment extends BaseV4Fragment implements OnItemClickListener
 				mActivity.updateItemTitle(MediaType.Video, -1, count);
 				break;
 			case MSG_DELETE_OVER:
-				count = mAdapter.getCount();
+				count = mItemAdapter.getCount();
 				mActivity.updateItemTitle(MediaType.Video, -1, count);
 				break;
 			default:
@@ -127,11 +127,13 @@ public class VideoFragment extends BaseV4Fragment implements OnItemClickListener
 		mItemGridView.setOnScrollListener(this);
 		
 		
-		mLoadingBar = (ProgressBar) rootView.findViewById(R.id.bar_loading_video);
-		mAdapter = new VideoCursorAdapter(mContext);
+		mLoadingFolderBar = (ProgressBar) rootView.findViewById(R.id.bar_loading_video_folder);
+		mLoadingItemBar = (ProgressBar) rootView.findViewById(R.id.bar_loading_video_item);
+		
+		mItemAdapter = new VideoCursorAdapter(mContext);
 		
 		mItemGridView.setVisibility(View.VISIBLE);
-		mItemGridView.setAdapter(mAdapter);
+		mItemGridView.setAdapter(mItemAdapter);
 		
 		mMenuBarView = rootView.findViewById(R.id.bottom);
 		mMenuBarView.setVisibility(View.GONE);
@@ -142,9 +144,9 @@ public class VideoFragment extends BaseV4Fragment implements OnItemClickListener
 	
 	@Override
 	public void onDestroyView() {
-		if (mAdapter != null && mAdapter.getCursor() != null) {
-			mAdapter.getCursor().close();
-			mAdapter.changeCursor(null);
+		if (mItemAdapter != null && mItemAdapter.getCursor() != null) {
+			mItemAdapter.getCursor().close();
+			mItemAdapter.changeCursor(null);
 		}
 		super.onDestroyView();
 	}
@@ -165,10 +167,15 @@ public class VideoFragment extends BaseV4Fragment implements OnItemClickListener
 	public void queryFolder() {
 		Log.d(TAG, "queryFolder()");
 		mFolderInfosList.clear();
+		
+		mLoadingFolderBar.setVisibility(View.VISIBLE);
+		
 		query(QUERY_TOKEN_FOLDER, null, null);
 	}
 
 	public void queryFolderItem(String bucketName) {
+		mLoadingItemBar.setVisibility(View.VISIBLE);
+		
 		String selection = MediaStore.Images.Media.BUCKET_DISPLAY_NAME + "=?";
 		String selectionArgs[] = { bucketName };
 		query(QUERY_TOKEN_ITEM, selection, selectionArgs);
@@ -196,12 +203,13 @@ public class VideoFragment extends BaseV4Fragment implements OnItemClickListener
 		@Override
 		protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
 			Log.d(TAG, "onQueryComplete");
-			mLoadingBar.setVisibility(View.INVISIBLE);
+			mLoadingFolderBar.setVisibility(View.INVISIBLE);
 			int num = 0;
 			if (null != cursor) {
 				Log.d(TAG, "onQueryComplete.count=" + cursor.getCount());
 				switch (token) {
 				case QUERY_TOKEN_FOLDER:
+					mLoadingFolderBar.setVisibility(View.GONE);
 					if (cursor.moveToFirst()) {
 						MediaFolderInfo imageFolderInfo = null;
 						do {
@@ -212,13 +220,13 @@ public class VideoFragment extends BaseV4Fragment implements OnItemClickListener
 											.getColumnIndex(VideoColumns.BUCKET_DISPLAY_NAME));
 							String path = cursor.getString(cursor
 									.getColumnIndex(MediaColumns.DATA));
-							imageFolderInfo = getFolderInfo(bucketDisplayName);
+							imageFolderInfo = MediaFolderInfo.getFolderInfo(bucketDisplayName, mFolderInfosList);
 							if (null == imageFolderInfo) {
 								imageFolderInfo = new MediaFolderInfo();
 								imageFolderInfo
 										.setBucketDisplayName(bucketDisplayName);
 								imageFolderInfo.setImagePath(path);
-								System.out.println("path:" + path);
+//								System.out.println("path:" + path);
 								imageFolderInfo.addIdToList(id);
 								imageFolderInfo
 										.setDisplayName(bucketDisplayName);
@@ -235,8 +243,9 @@ public class VideoFragment extends BaseV4Fragment implements OnItemClickListener
 					queryFolderItem(mFolderInfosList.get(0).getBucketDisplayName());
 					break;
 				case QUERY_TOKEN_ITEM:
-					mAdapter.changeCursor(cursor);
-					mAdapter.checkedAll(false);
+					mLoadingItemBar.setVisibility(View.GONE);
+					mItemAdapter.changeCursor(cursor);
+					mItemAdapter.checkedAll(false);
 					num = cursor.getCount();
 					break;
 
@@ -247,22 +256,6 @@ public class VideoFragment extends BaseV4Fragment implements OnItemClickListener
 			updateUI(num);
 		}
 
-	}
-	
-	/***
-	 * get {@link MediaFolderInfo} from {@link mFolderInfosList} accord to the
-	 * speciy bucketDisplayName}}
-	 * 
-	 * @param bucketDisplayName
-	 * @return {@link PictureFolderInfo}, null if not find
-	 */
-	public MediaFolderInfo getFolderInfo(String bucketDisplayName) {
-		for (MediaFolderInfo folderInfo : mFolderInfosList) {
-			if (bucketDisplayName.equals(folderInfo.getBucketDisplayName())) {
-				return folderInfo;
-			}
-		}
-		return null;
 	}
 	
 	@Override
@@ -286,14 +279,14 @@ public class VideoFragment extends BaseV4Fragment implements OnItemClickListener
 		} else {
 			switch (scrollState) {
 			case OnScrollListener.SCROLL_STATE_FLING:
-				mAdapter.setIdleFlag(false);
+				mItemAdapter.setIdleFlag(false);
 				break;
 			case OnScrollListener.SCROLL_STATE_IDLE:
-				mAdapter.setIdleFlag(true);
-				mAdapter.notifyDataSetChanged();
+				mItemAdapter.setIdleFlag(true);
+				mItemAdapter.notifyDataSetChanged();
 				break;
 			case OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
-				mAdapter.setIdleFlag(false);
+				mItemAdapter.setIdleFlag(false);
 				break;
 			}
 		}
@@ -309,25 +302,31 @@ public class VideoFragment extends BaseV4Fragment implements OnItemClickListener
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		switch (parent.getId()) {
 		case R.id.video_fragment_floder_gv:
+			if (mItemAdapter.isMode(ActionMenu.MODE_EDIT)) {
+				destroyMenuBar();
+			}
+			
 			mFolderAdapter.setCheckedPosition(position);
 			mFolderAdapter.notifyDataSetChanged();
+			
 			String folder = mFolderInfosList.get(position)
 					.getBucketDisplayName();
 			queryFolderItem(folder);
+			
 			break;
 		default:
-			if (mAdapter.isMode(ActionMenu.MODE_NORMAL)) {
+			if (mItemAdapter.isMode(ActionMenu.MODE_NORMAL)) {
 				
-				Cursor cursor = mAdapter.getCursor();
+				Cursor cursor = mItemAdapter.getCursor();
 				cursor.moveToPosition(position);
 				String url = cursor.getString(cursor
 						.getColumnIndex(MediaStore.Video.Media.DATA)); // 文件路径
 				IntentBuilder.viewFile(getActivity(), url);
 			} else {
-				mAdapter.setChecked(position);
-				mAdapter.notifyDataSetChanged();
+				mItemAdapter.setChecked(position);
+				mItemAdapter.notifyDataSetChanged();
 				
-				int selectedCount = mAdapter.getCheckedCount();
+				int selectedCount = mItemAdapter.getCheckedCount();
 				mActivity.updateItemTitle(MediaType.Video, selectedCount, count);
 				updateMenuBar();
 				mMenuBarManager.refreshMenus(mActionMenu);
@@ -338,18 +337,18 @@ public class VideoFragment extends BaseV4Fragment implements OnItemClickListener
 	
 	@Override
 	public boolean onItemLongClick(AdapterView<?> parent, final View view, final int position, long id) {
-		if (mAdapter.isMode(ActionMenu.MODE_EDIT)) {
+		if (mItemAdapter.isMode(ActionMenu.MODE_EDIT)) {
 			//do nothing
 			doCheckAll();
 			return true;
 		} else {
-			mAdapter.changeMode(ActionMenu.MODE_EDIT);
+			mItemAdapter.changeMode(ActionMenu.MODE_EDIT);
 			mActivity.updateItemTitle(MediaType.Video, 1, count);
 		}
 		
-		boolean isChecked = mAdapter.isChecked(position);
-		mAdapter.setChecked(position, !isChecked);
-		mAdapter.notifyDataSetChanged();
+		boolean isChecked = mItemAdapter.isChecked(position);
+		mItemAdapter.setChecked(position, !isChecked);
+		mItemAdapter.notifyDataSetChanged();
 		
 		mActionMenu = new ActionMenu(getActivity().getApplicationContext());
 		getActionMenuInflater().inflate(R.menu.video_menu, mActionMenu);
@@ -363,7 +362,7 @@ public class VideoFragment extends BaseV4Fragment implements OnItemClickListener
      * @param path file path
      */
     public void showDeleteDialog() {
-    	List<String> deleteNameList = mAdapter.getCheckedNameList();
+    	List<String> deleteNameList = mItemAdapter.getCheckedNameList();
     	
     	final ZyDeleteDialog deleteDialog = new ZyDeleteDialog(mContext);
 		String msg = "";
@@ -377,7 +376,7 @@ public class VideoFragment extends BaseV4Fragment implements OnItemClickListener
 		deleteDialog.setPositiveButton(R.string.menu_delete, new onZyDialogClickListener() {
 			@Override
 			public void onClick(Dialog dialog) {
-				List<String> deleteList = mAdapter.getCheckedPathList();
+				List<String> deleteList = mItemAdapter.getCheckedPathList();
 				
 				FileDeleteHelper mediaDeleteHelper = new FileDeleteHelper(mContext);
 				mediaDeleteHelper.setDeletePathList(deleteList);
@@ -406,7 +405,7 @@ public class VideoFragment extends BaseV4Fragment implements OnItemClickListener
     
     public long getTotalSize(List<Integer> list){
 		long totalSize = 0;
-		Cursor cursor = mAdapter.getCursor();
+		Cursor cursor = mItemAdapter.getCursor();
 		for(int pos : list){
 			cursor.moveToPosition(pos);
 			long size = cursor.getLong(cursor
@@ -419,7 +418,7 @@ public class VideoFragment extends BaseV4Fragment implements OnItemClickListener
 	
 	@Override
 	public boolean onBackPressed() {
-		if (mAdapter.isMode(ActionMenu.MODE_EDIT)) {
+		if (mItemAdapter.isMode(ActionMenu.MODE_EDIT)) {
 			destroyMenuBar();
 			return false;
 		} else {
@@ -467,12 +466,12 @@ public class VideoFragment extends BaseV4Fragment implements OnItemClickListener
 			showDeleteDialog();
 			break;
 		case R.id.menu_info:
-			List<Integer> list = mAdapter.getCheckedPosList();
+			List<Integer> list = mItemAdapter.getCheckedPosList();
 			InfoDialog dialog = new InfoDialog(getActivity());
 			dialog.setDialogTitle(R.string.info_video_info);
 			if (1 == list.size()) {
 				dialog.setType(InfoDialog.SINGLE_FILE);
-				Cursor cursor = mAdapter.getCursor();
+				Cursor cursor = mItemAdapter.getCursor();
 				cursor.moveToPosition(list.get(0));
 				
 				long size = cursor.getLong(cursor
@@ -515,15 +514,15 @@ public class VideoFragment extends BaseV4Fragment implements OnItemClickListener
 	
 	@Override
 	public void doCheckAll(){
-		int selectedCount1 = mAdapter.getCheckedCount();
-		if (mAdapter.getCount() != selectedCount1) {
-			mAdapter.checkedAll(true);
+		int selectedCount1 = mItemAdapter.getCheckedCount();
+		if (mItemAdapter.getCount() != selectedCount1) {
+			mItemAdapter.checkedAll(true);
 		} else {
-			mAdapter.checkedAll(false);
+			mItemAdapter.checkedAll(false);
 		}
 		updateMenuBar();
 		mMenuBarManager.refreshMenus(mActionMenu);
-		mAdapter.notifyDataSetChanged();
+		mItemAdapter.notifyDataSetChanged();
 	}
 	
 	public void destroyMenuBar() {
@@ -531,18 +530,18 @@ public class VideoFragment extends BaseV4Fragment implements OnItemClickListener
 //		mActivity.updateTitleNum(-1,count);
 		mActivity.updateItemTitle(MediaType.Video, -1, count);
 		
-		mAdapter.changeMode(ActionMenu.MODE_NORMAL);
-		mAdapter.checkedAll(false);
-		mAdapter.notifyDataSetChanged();
+		mItemAdapter.changeMode(ActionMenu.MODE_NORMAL);
+		mItemAdapter .checkedAll(false);
+		mItemAdapter .notifyDataSetChanged();
 	}
 	
 	@Override
 	public void updateMenuBar(){
-		int selectCount = mAdapter.getCheckedCount();
+		int selectCount = mItemAdapter .getCheckedCount();
 		mActivity.updateItemTitle(MediaType.Video, selectCount, count);
 
 		ActionMenuItem selectItem = mActionMenu.findItem(R.id.menu_select);
-		if (mAdapter.getCount() == selectCount) {
+		if (mItemAdapter.getCount() == selectCount) {
 			selectItem.setTitle(R.string.unselect_all);
 			selectItem.setEnableIcon(R.drawable.ic_aciton_unselect);
 		}else {

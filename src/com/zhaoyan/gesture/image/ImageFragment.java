@@ -25,6 +25,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.GridView;
+import android.widget.ProgressBar;
 
 import com.zhaoyan.common.actionmenu.ActionMenu;
 import com.zhaoyan.common.actionmenu.ActionMenu.ActionMenuItem;
@@ -46,6 +47,8 @@ public class ImageFragment extends BaseV4Fragment implements
 
 	private GridView mFolderGridView;
 	private GridView mItemGridView;
+	
+	private ProgressBar mLoadingFolderBar, mLoadingItemBar;
 
 	private static final String[] PROJECTION = new String[] { MediaColumns._ID,
 			MediaColumns.DATE_MODIFIED, MediaColumns.SIZE,
@@ -152,6 +155,9 @@ public class ImageFragment extends BaseV4Fragment implements
 				.findViewById(R.id.image_fragment_item_gv);
 		mItemGridView.setOnItemClickListener(this);
 		mItemGridView.setOnItemLongClickListener(this);
+		
+		mLoadingFolderBar = (ProgressBar) rootView.findViewById(R.id.bar_loading_image_folder);
+		mLoadingItemBar = (ProgressBar) rootView.findViewById(R.id.bar_loading_image_item);
 
 		mMenuBarView = rootView.findViewById(R.id.bottom);
 		mMenuBarView.setVisibility(View.GONE);
@@ -160,7 +166,6 @@ public class ImageFragment extends BaseV4Fragment implements
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
 		Log.d(TAG, "onActivityCreated");
 		initMenuBar(mMenuBarView);
@@ -177,12 +182,16 @@ public class ImageFragment extends BaseV4Fragment implements
 	public void queryFolder() {
 		Log.d(TAG, "queryFolder()");
 		mFolderInfosList.clear();
+		
+		mLoadingFolderBar.setVisibility(View.VISIBLE);
 		query(QUERY_TOKEN_FOLDER, null, null, SORT_ORDER_DATE);
 	}
 
 	public void queryFolderItem(String bucketName) {
 		mItemInfoList.clear();
 
+		mLoadingItemBar.setVisibility(View.VISIBLE);
+		
 		String selection = MediaStore.Images.Media.BUCKET_DISPLAY_NAME + "=?";
 		String selectionArgs[] = { bucketName };
 		query(QUERY_TOKEN_ITEM, selection, selectionArgs, SORT_ORDER_DATE);
@@ -215,6 +224,7 @@ public class ImageFragment extends BaseV4Fragment implements
 				Log.d(TAG, "onQueryComplete.count=" + cursor.getCount());
 				switch (token) {
 				case QUERY_TOKEN_FOLDER:
+					mLoadingFolderBar.setVisibility(View.GONE);
 					if (cursor.moveToFirst()) {
 						MediaFolderInfo imageFolderInfo = null;
 						do {
@@ -225,7 +235,7 @@ public class ImageFragment extends BaseV4Fragment implements
 											.getColumnIndex(MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME));
 							String path = cursor.getString(cursor
 									.getColumnIndex(ImageColumns.DATA));
-							imageFolderInfo = getFolderInfo(bucketDisplayName);
+							imageFolderInfo = MediaFolderInfo.getFolderInfo(bucketDisplayName, mFolderInfosList);
 							if (null == imageFolderInfo) {
 								imageFolderInfo = new MediaFolderInfo();
 								imageFolderInfo
@@ -253,6 +263,7 @@ public class ImageFragment extends BaseV4Fragment implements
 					queryFolderItem(CAMERA);
 					break;
 				case QUERY_TOKEN_ITEM:
+					mLoadingItemBar.setVisibility(View.GONE);
 					if (cursor.moveToFirst()) {
 						do {
 							ImageInfo imageInfo = new ImageInfo();
@@ -291,22 +302,6 @@ public class ImageFragment extends BaseV4Fragment implements
 		}
 	}
 
-	/***
-	 * get {@link MediaFolderInfo} from {@link mFolderInfosList} accord to the
-	 * speciy bucketDisplayName}}
-	 * 
-	 * @param bucketDisplayName
-	 * @return {@link PictureFolderInfo}, null if not find
-	 */
-	public MediaFolderInfo getFolderInfo(String bucketDisplayName) {
-		for (MediaFolderInfo folderInfo : mFolderInfosList) {
-			if (bucketDisplayName.equals(folderInfo.getBucketDisplayName())) {
-				return folderInfo;
-			}
-		}
-		return null;
-	}
-	
 	private void startPagerActivityByPosition(int position) {
 		List<String> urlList = new ArrayList<String>();
 		int count = mItemInfoList.size();
@@ -324,11 +319,15 @@ public class ImageFragment extends BaseV4Fragment implements
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		// TODO Auto-generated method stub
 		switch (parent.getId()) {
 		case R.id.image_fragment_floder_gv:
+			if (mItemAdapter.isMode(ActionMenu.MODE_EDIT)) {
+				destroyMenuBar();
+			}
+			
 			mFolderAdapter.setCheckedPosition(position);
 			mFolderAdapter.notifyDataSetChanged();
+			
 			String folder = mFolderInfosList.get(position)
 					.getBucketDisplayName();
 			queryFolderItem(folder);

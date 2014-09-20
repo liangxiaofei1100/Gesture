@@ -34,6 +34,14 @@
             android:stretchMode="columnWidth"
             android:verticalSpacing="4dip"
             android:visibility="visible" />
+           
+           <ProgressBar
+            android:id="@+id/bar_loading_video_folder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            style="@android:style/Widget.Holo.Light.ProgressBar.Inverse"
+            android:visibility="gone" />
     </LinearLayout>
 
     <RelativeLayout
@@ -55,11 +63,11 @@
              />
 
         <ProgressBar
-            android:id="@+id/bar_loading_video"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:id="@+id/bar_loading_video_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:indeterminateDrawable="@drawable/loading_progressbar"
+            style="@android:style/Widget.Holo.Light.ProgressBar.Inverse"
             android:visibility="gone" />
     </RelativeLayout>
     

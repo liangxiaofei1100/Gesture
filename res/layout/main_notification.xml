@@ -19,7 +19,7 @@
         android:layout_height="@dimen/status_bar_album_art"
          android:background= "#1D3741"
         android:scaleType="center"
-        android:src="@drawable/ic_statusbar_icon"
+        android:src="@drawable/main_logo"
         />
 
     <LinearLayout 

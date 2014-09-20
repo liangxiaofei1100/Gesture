@@ -169,7 +169,7 @@ public class ImageActivity extends BaseFragmentActivity implements OnScrollListe
 		mListView.setOnItemClickListener(this);
 		mListView.setOnItemLongClickListener(this);
 
-		mLoadingBar = (ProgressBar) findViewById(R.id.bar_loading_image);
+//		mLoadingBar = (ProgressBar) findViewById(R.id.bar_loading_image);
 
 		// mAdapter = new ImageAdapter(getApplicationContext(), mViewType,
 		// mPictureItemInfoList);
