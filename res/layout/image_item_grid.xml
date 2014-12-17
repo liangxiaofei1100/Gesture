@@ -1,26 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:gravity="center" >
-    
-    <ImageView 
-		android:id="@+id/iv_item_frame"        
-		android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="1.5dp"
-        android:adjustViewBounds="true"
-        android:scaleType="centerCrop" 
-        android:src="@android:color/black"
-        />
-
-    <com.zhaoyan.common.views.CheckableImageView
-        android:id="@+id/iv_image_item"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="1.5dp"
-        android:adjustViewBounds="true"
-        android:scaleType="centerCrop" >
-    </com.zhaoyan.common.views.CheckableImageView>
-
+    android:gravity="center" 
+    >
+<com.zhaoyan.common.views.CheckableImageView
+    android:id="@+id/iv_image_item"
+    android:layout_width="fill_parent"
+    android:layout_height="100dp"
+    android:scaleType="centerCrop" 
+    android:adjustViewBounds="true"
+    >
+</com.zhaoyan.common.views.CheckableImageView>
 </RelativeLayout>

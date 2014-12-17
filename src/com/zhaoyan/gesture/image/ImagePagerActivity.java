@@ -4,9 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
-import uk.co.senab.photoview.PhotoViewAttacher.OnPhotoTapListener;
 import uk.co.senab.photoview.PhotoViewAttacher.OnViewTapListener;
 import android.app.Activity;
 import android.app.Dialog;
@@ -23,7 +21,6 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.AnimationUtils;
@@ -54,7 +51,7 @@ public class ImagePagerActivity extends Activity implements OnClickListener, OnP
 	private static final String STATE_POSITION = "STATE_POSITION";
 	private static ImageLoader imageLoader = ImageLoader.getInstance();
 	private DisplayImageOptions options;
-	private ViewPager mViewPager;
+	private ViewPager pager;
 	private List<String> imageList = new ArrayList<String>();
 	
 	private View mTitleView,mBottomView;
@@ -117,16 +114,16 @@ public class ImagePagerActivity extends Activity implements OnClickListener, OnP
 				.imageScaleType(ImageScaleType.EXACTLY).bitmapConfig(Bitmap.Config.RGB_565).displayer(new FadeInBitmapDisplayer(300))
 				.build();
 
-		mViewPager = (ViewPager) findViewById(R.id.image_viewpager);
+		pager = (ViewPager) findViewById(R.id.image_viewpager);
 		mAdapter = new ImagePagerAdapter(imageList);
-		mViewPager.setAdapter(mAdapter);
-		mViewPager.setCurrentItem(pagerPosition);
-		mViewPager.setOnPageChangeListener(this);
+		pager.setAdapter(mAdapter);
+		pager.setCurrentItem(pagerPosition);
+		pager.setOnPageChangeListener(this);
 	}
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
-		outState.putInt(STATE_POSITION, mViewPager.getCurrentItem());
+		outState.putInt(STATE_POSITION, pager.getCurrentItem());
 	}
 
 	private class ImagePagerAdapter extends PagerAdapter {
@@ -161,22 +158,14 @@ public class ImagePagerActivity extends Activity implements OnClickListener, OnP
 		@Override
 		public Object instantiateItem(ViewGroup view, int position) {
 			View imageLayout = inflater.inflate(R.layout.image_pager_item, view, false);
-			PhotoView imageView = (PhotoView) imageLayout.findViewById(R.id.image_pager);
-			imageView.setOnLongClickListener(new OnLongClickListener() {
+			ImageView imageView = (ImageView) imageLayout.findViewById(R.id.image_pager);
+			mAttacher = new PhotoViewAttacher(imageView);
+			mAttacher.setOnViewTapListener(new OnViewTapListener() {
 				@Override
-				public boolean onLongClick(View v) {
-					// TODO Auto-generated method stub
+				public void onViewTap(View arg0, float arg1, float arg2) {
 					setMenuViewVisible(!mIsMenuViewVisible);
-					return true;
 				}
 			});
-//			mAttacher = new PhotoViewAttacher(imageView);
-//			mAttacher.setOnViewTapListener(new OnViewTapListener() {
-//				@Override
-//				public void onViewTap(View arg0, float arg1, float arg2) {
-//					setMenuViewVisible(!mIsMenuViewVisible);
-//				}
-//			});
 			final ProgressBar loadingBar = (ProgressBar) imageLayout.findViewById(R.id.loading_image);
 
 			String path = "file://" + list.get(position);
@@ -266,7 +255,7 @@ public class ImagePagerActivity extends Activity implements OnClickListener, OnP
 		imageLoader.clearMemoryCache();
 		imageLoader.clearDiscCache();
 		
-//		mAttacher.cleanup();
+		mAttacher.cleanup();
 	}
 	
 	private void setMenuViewVisible(boolean visible){
@@ -311,7 +300,7 @@ public class ImagePagerActivity extends Activity implements OnClickListener, OnP
 		InfoDialog infoDialog = new InfoDialog(this);
 		infoDialog.setType(InfoDialog.SINGLE_FILE);
 		infoDialog.setDialogTitle(R.string.info_image_info);
-		int position = mViewPager.getCurrentItem();
+		int position = pager.getCurrentItem();
 		String url = imageList.get(position);
 		int index = url.lastIndexOf("/");
 		String name = url.substring(index + 1, url.length());
@@ -338,7 +327,7 @@ public class ImagePagerActivity extends Activity implements OnClickListener, OnP
      * @param path file path
      */
     public void showDeleteDialog() {
-    	final int position = mViewPager.getCurrentItem();
+    	final int position = pager.getCurrentItem();
 		final String url = imageList.get(position);
 		int index = url.lastIndexOf("/");
 		String name = url.substring(index + 1, url.length());
@@ -355,7 +344,7 @@ public class ImagePagerActivity extends Activity implements OnClickListener, OnP
 				dialog.dismiss();
 				imageList.remove(position);
 				mAdapter.notifyDataSetChanged();
-				mViewPager.setCurrentItem(position);
+				pager.setCurrentItem(position);
 				mTextView.setText((position + 1) + "/" + imageList.size());
 			}
 		});

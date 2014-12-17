@@ -12,7 +12,6 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
@@ -43,7 +42,7 @@ public class ImageGridAdapter extends CheckableBaseAdapter{
 	private int mWidth;
 	private Context mContext;
 
-	public ImageGridAdapter(Context context, int viewType, List<ImageInfo> itemList, GridView gridView){
+	public ImageGridAdapter(Context context, int viewType, List<ImageInfo> itemList){
 		super(context);
 		mContext = context;
 		
@@ -55,9 +54,7 @@ public class ImageGridAdapter extends CheckableBaseAdapter{
 		
 		Display display = ((Activity)mContext).getWindowManager().getDefaultDisplay(); 
 		mWidth = display.getWidth();  // deprecated
-		Log.d(TAG, "display.mWidth=" + mWidth);
-		
-//		System.out.println("gridView.width:" + gridView.getWidth());
+		Log.d(TAG, "mWidth=" + mWidth);
 	}
 	
 	@Override
@@ -96,24 +93,18 @@ public class ImageGridAdapter extends CheckableBaseAdapter{
 			holder = new ViewHolder();
 			view = mInflater.inflate(R.layout.image_item_grid, null);
 			holder.imageView = (CheckableImageView) view.findViewById(R.id.iv_image_item);
-			holder.frameView = (ImageView) view.findViewById(R.id.iv_item_frame);
 			view.setTag(holder);
 		}
 		
 		LayoutParams imageParams = (LayoutParams) holder.imageView.getLayoutParams();
-//		System.out.println("mWidth1:" + mWidth);
-		int width = mWidth * 3/4;//3/4
-//		System.out.println("mWidth2:" + mWidth);
-		imageParams.width  = width/2;//
-		imageParams.height = width/2;
+		imageParams.width  = mWidth/3;
+		imageParams.height = mWidth/3;
 		holder.imageView.setLayoutParams(imageParams);
-		holder.frameView.setLayoutParams(imageParams);
 
 //		long id = mDataList.get(position).getImageId();
 		String path = mDataList.get(position).getPath();
-//		System.out.println("mWidth3:" + width/2);
 		
-		ImageLoadAsync loadAsync = new ImageLoadAsync(mContext, holder.imageView, width / 2);
+		ImageLoadAsync loadAsync = new ImageLoadAsync(mContext, holder.imageView, mWidth / 3);
 		loadAsync.executeOnExecutor(MediaAsync.THREAD_POOL_EXECUTOR, path);
 //		if (mIdleFlag) {
 //			pictureLoader.loadBitmap(id, holder.imageView);
@@ -189,7 +180,6 @@ public class ImageGridAdapter extends CheckableBaseAdapter{
 	
 	private class ViewHolder{
 		CheckableImageView imageView;//folder icon
-		ImageView frameView;
 		
 		ImageView imageView2;
 		TextView nameView;
